@@ -8,9 +8,17 @@
 +$  hit  [=src =time =app installed=?]
 ::
 +$  state-0
+  ::  XX change state to scores=((mop app (pair @ud (set @da))) <gate>)
+  ::       - mop ordering when a new hit comes in will
+  ::         save us doing it when user scries upon opening the app
+  ::       - prepend the @da from the latest hit to the set;
+  ::         cut off the end of the new set after ~25 @das.
+  ::         could use this for one of several "trending" algorithms.
   $:  scores=(map app @ud)
+      ::  XX change to (set app), purely cosmetic
       local=(set [=ship =desk])
   ==
+::  XX remove $+
 +$  card  $+(card card:agent:gall)
 --
 ::
@@ -29,6 +37,14 @@
     def   ~(. (default-agent this %|) bowl)
 ::
 ++  on-init
+  ::  XX scry clay and gall for our installed apps
+  ::       - add them to our local state
+  ::       - check we have %pals; if so, gossip hits around
+  ::       - @da attached to outgoing hits is just now.bowl
+  ::
+  ::  XX check we have %pals and some ships in there
+  ::       - if so, remote scry their %hits states
+  ::       - combine it all into our local state
   ^-  (quip card _this)
   :_  this
   :~  [%pass /timers %arvo %b %wait now.bowl]
@@ -38,45 +54,9 @@
   !>(state)
 ::
 ++  on-load  on-load:def
-  ::  XX set behn timer for now
-  ::
-  ::  |=  ole=vase
-  ::  |^  ^-  (quip card _this)
-  ::      =/  old=state-any  !<(state-any ole)
-  ::      =^  caz  old
-  ::        ?.  ?=(%0 -.old)  [~ old]
-  ::        (state-0-to-1 old)
-  ::      ?>  ?=(%1 -.old)
-  ::      [caz this(state old)]
-  ::  ::
-  ::  +$  state-any  $%(state-1 state-0)
-  ::  +$  state-0  [%0 faces=(map ship cord)]
-  ::  ++  state-0-to-1
-  ::    |=  old=state-0
-  ::    ^-  (quip card state-1)
-  ::    :-  ::  we nuke all outgoing subs, gossip will take over
-  ::        %+  turn  ~(tap in ~(key by wex.bowl))
-  ::        |=  [w=wire t=[@p @tas]]
-  ::        [%pass w %agent t %leave ~]
-  ::    =/  new=(map ship face)
-  ::      (~(run by faces.old) |=(f=cord `face`[now.bowl `f]))
-  ::    =?  new  !(~(has by new) our.bowl)
-  ::      (~(put by new) our.bowl [now.bowl ~])
-  ::    [%1 new]
-  ::  --
+  ::  XX manage behn timers for refreshing state
 ::
 ++  on-poke  on-poke:def
-::  ++  on-poke
-::    |=  [=mark =vase]
-::    ^-  (quip card _this)
-::    ::  :-  ~  this
-::    ?+  mark  (on-poke:def mark vase)
-::      %handle-http-request
-::        ?>  =(src our):bowl
-::        `this
-::        ::
-::    ==  ::  end of mark branches
-::
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
@@ -94,12 +74,15 @@
           !>  ^-  hit
           [our.bowl now.bowl [ship desk] %.y]
       ==
+    ::  XX add frontend subscription path for new hits
   ==  ::  end of path branches
 ::
 ++  on-agent
   |=  [=wire =sign:agent:gall]
   ^-  (quip card _this)
   ?+  wire  (on-agent:def wire sign)
+    ::
+    ::  XX don't add this app to our state if it's %landscape
     [%~.~ %gossip %gossip ~]
       ?+  -.sign  ~|([%unexpected-gossip-sign -.sign] !!)
         %fact
@@ -173,5 +156,9 @@
 ::
 ++  on-leave  on-leave:def
 ++  on-peek   on-peek:def
+::  XX add frontend scry for local state
+::       - before sending an app to frontend, check the app is compatible with our kelvin version
+::       - if not, don't send it to fe but keep it in app state
+::       - if more than 100 items in the mop, only send the first 100 items in the mop
 ++  on-fail   on-fail:def
 --

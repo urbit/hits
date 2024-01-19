@@ -6,6 +6,7 @@ import { AppTile } from './components/AppTile';
 const api = new Urbit('', '', window.desk);
 api.ship = window.ship;
 
+// TODO check we have %pals installed, display a warning if not
 export function App() {
   const [apps, setApps] = useState();
 
