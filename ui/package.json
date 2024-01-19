@@ -4,10 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview",
-    "test": "tsc --noEmit",
-    "tsc": "tsc --noEmit"
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@urbit/api": "^2.3.0",
@@ -16,8 +14,6 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
     "@urbit/vite-plugin-urbit": "^1.0.0",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.14",

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Urbit from '@urbit/http-api';
-import { Charges, ChargeUpdateInitial, scryCharges } from '@urbit/api';
+import { scryCharges } from '@urbit/api';
 import { AppTile } from './components/AppTile';
 
 const api = new Urbit('', '', window.desk);
 api.ship = window.ship;
 
 export function App() {
-  const [apps, setApps] = useState<Charges>();
+  const [apps, setApps] = useState();
 
   useEffect(() => {
     async function init() {
-      const charges = (await api.scry<ChargeUpdateInitial>(scryCharges)).initial;
+      const charges = (await api.scry(scryCharges)).initial;
       setApps(charges);
     }
 

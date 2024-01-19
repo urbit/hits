@@ -1,14 +1,13 @@
-import { Charge } from '@urbit/api';
 import React, { useState } from 'react';
 
-function normalizeUrbitColor(color: string): string {
+function normalizeUrbitColor(color) {
   if (color.startsWith('#')) {
     return color;
   }
   return `#${color.slice(2).replace('.', '').toUpperCase()}`;
 }
 
-export const AppTile = ({ image, color }: Charge) => {
+export const AppTile = ({ image, color }) => {
   const [imageError, setImageError] = useState(false);
 
   return (
