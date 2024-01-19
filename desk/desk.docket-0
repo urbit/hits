@@ -1,0 +1,9 @@
+:~  title+'Hits'
+    info+'A leaderboard for app installs.'
+    color+0x9e.9191
+    base+'hits'
+    site+/apps/hits
+    version+[0 0 1]
+    website+'https://github.com/bonbud-macryg/hits'
+    license+'MIT'
+==
