@@ -2,21 +2,20 @@
 /$  grab-hit  %noun  %hit
 ::
 |%
-+$  src  ship
-+$  app  [=ship =desk]
++$  score  @ud
++$  src    ship
++$  app    [=ship =desk]
 ::  XX time could be replaced by a @dau to guarantee uniqueness; see %chess
-+$  hit  [=src =time =app installed=?]
++$  hit    [=src =time =app installed=?]
 ::
 +$  state-0
-  ::  XX change state to scores=((mop app (pair @ud (set @da))) <gate>)
-  ::       - mop ordering when a new hit comes in will
-  ::         save us doing it when user scries upon opening the app
-  ::       - prepend the @da from the latest hit to the set;
-  ::         cut off the end of the new set after ~25 @das.
-  ::         could use this for one of several "trending" algorithms.
-  $:  scores=(map app @ud)
-      ::  XX change to (set app), purely cosmetic
-      local=(set [=ship =desk])
+  ::  - ordering map when a new hit comes in will
+  ::    save us doing it when user scries upon opening the app
+  ::  - prepend the @da from the latest hit to the list;
+  ::    cut off the end of the new list after ~25 @das.
+  ::    could use this for one of several "trending" algorithms.
+  $:  scores=(map app (pair score (list time)))
+      local=(set app)
   ==
 ::  XX remove $+
 +$  card  $+(card card:agent:gall)
@@ -92,15 +91,34 @@
             ~&  [dap.bowl %unexpected-mark-fact mark wire=wire]
             `this
           =+  !<(=hit vase)
-          =/  app-score  (~(gut by scores) app.hit 0)
-          ?.  installed.hit
+          ::  XX rename app-score? now has (list time) in the tail
+          =/  app-score
+            (~(gut by scores) app.hit [0 [now.bowl]~])
+          ?:  installed.hit
             :-  ~
             %=  this
-              scores  (~(put by scores) [app.hit (dec (max app-score 1))])
+              scores
+              %-  ~(put by scores)
+              :-  app.hit
+              :-  +((head app-score))
+              ::
+              ::  append new install datetime to list
+              :-  now.bowl
+              (tail (~(gut by scores) app.hit [0 [~]]))
             ==
           :-  ~
           %=  this
-            scores  (~(put by scores) [app.hit +(app-score)])
+            scores
+            %-  ~(put by scores)
+            :-  app.hit
+            :-  (dec (max (head app-score) 1))
+            ::
+            ::  uninstalled apps are penalised by snipping the head off
+            ::  from the list of their install datetimes; this should
+            ::  quickly remove them from the 'trending' feed
+            ?:  =(1 (lent (tail app-score)))
+              (tail app-score)
+            (tail (tail app-score))
           ==
       ==  ::  end of sign branches
   == ::  end of wire branches
