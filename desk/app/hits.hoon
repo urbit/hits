@@ -64,6 +64,13 @@
   |=  =path
   ^-  (quip card _this)
   ?+  path  (on-watch:def path)
+    ::
+    ::  frontend listens to our ship for new hits;
+    ::  will update the chart live on the user device
+    [%hits ~]
+      `this
+    ::
+    ::  neighbours listen for new hits from us
     [%~.~ %gossip %source ~]
       :_  this
       %+  turn
@@ -77,7 +84,6 @@
           !>  ^-  hit
           [our.bowl now.bowl [ship desk] %.y]
       ==
-    ::  XX add frontend subscription path for new hits
   ==  ::  end of path branches
 ::
 ++  on-agent
