@@ -90,8 +90,6 @@
   |=  [=wire =sign:agent:gall]
   ^-  (quip card _this)
   ?+  wire  (on-agent:def wire sign)
-    ::
-    ::  XX don't add this app to our state if it's %landscape
     [%~.~ %gossip %gossip ~]
       ?+  -.sign  ~|([%unexpected-gossip-sign -.sign] !!)
         %fact
@@ -140,8 +138,23 @@
     [%timers ~]
       ?+  sign-arvo  (on-arvo:def wire sign-arvo)
         [%behn %wake ~]
-          =/  desks    .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
-          =/  sources  .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
+          ::  XX remove %landscape (and other banned apps) from these results
+          =/  desks
+            ::  XX remove %dead apps from the results of this scry path?
+            ::       would this count as an uninstall? with penalties that incurs?
+            .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+          ::
+          ::  filter apps and sources on our ship
+          =/  sources
+            %-  malt
+            %+  skim
+              %~  tap  by
+              .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
+            |=  [=desk [ship desk]]
+            ^-  ?
+            ?|  =(desk %kids)
+                =(desk %landscape)
+            ==
           ::
           =/  new-local=_local
             %+  roll
