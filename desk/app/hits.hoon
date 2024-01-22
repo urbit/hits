@@ -5,7 +5,6 @@
 +$  score  @ud
 +$  src    ship
 +$  app    [=ship =desk]
-::  XX time could be replaced by a @dau to guarantee uniqueness; see %chess
 +$  hit    [=src =time =app installed=?]
 ::
 +$  state-0
@@ -19,6 +18,14 @@
   ==
 ::  XX remove $+
 +$  card  $+(card card:agent:gall)
+::
+::  max. number of apps
+::  to list on frontend
+++  chart-limit  40
+::
+::  max. number of installs
+::  to track for each app
+++  date-limit  25
 --
 ::
 =|  state-0
@@ -36,14 +43,11 @@
     def   ~(. (default-agent this %|) bowl)
 ::
 ++  on-init
-  ::  XX scry clay and gall for our installed apps
-  ::       - add them to our local state
-  ::       - check we have %pals; if so, gossip hits around
-  ::       - @da attached to outgoing hits is just now.bowl
-  ::
   ::  XX check we have %pals and some ships in there
   ::       - if so, remote scry their %hits states
   ::       - combine it all into our local state
+  ::
+  ::  immediately populate our local state and gossip around
   ^-  (quip card _this)
   :_  this
   :~  [%pass /timers %arvo %b %wait now.bowl]
@@ -173,10 +177,15 @@
   ==
 ::
 ++  on-leave  on-leave:def
-++  on-peek   on-peek:def
-::  XX add frontend scry for local state
-::       - before sending an app to frontend, check the app is compatible with our kelvin version
-::       - if not, don't send it to fe but keep it in app state
-::       - if more than 100 items in the mop, only send the first 100 items in the mop
+++  on-peek
+  |=  =path
+  ^-  (unit (unit cage))
+  ?+  path  (on-peek:def path)
+    [%x %scores ~]
+    ::  XX  before sending an app to frontend, check the app is compatible with our kelvin version
+    ::        if not, don't send it to fe but keep it in app state
+    ``[%scores !>((scag chart-limit ~(tap by scores)))]
+  ==  ::  end of path branches
+::
 ++  on-fail   on-fail:def
 --
