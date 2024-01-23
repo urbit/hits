@@ -100,10 +100,19 @@
             ~&  [dap.bowl %unexpected-mark-fact mark wire=wire]
             `this
           =+  !<(=hit vase)
-          ::  XX rename app-status? now has (list time) in the tail
           =/  app-status
             (~(gut by scores) app.hit [0 [now.bowl]~])
           ?:  installed.hit
+            ::
+            ::  XX should we |hi new app devs who aren't
+            ::     already discovered peers?
+            ::     - maybe even scry what apps they're
+            ::       publishing now if it helps performance
+            ::       when user clicks through to Landscape
+            ::     - does Landscape cache that list of published
+            ::       apps? could it be outdated if app dev unpublishes
+            ::       an app?
+            ::
             ::  increment app score
             :-  ~
             %=  this
@@ -213,18 +222,34 @@
   |=  =path
   ^-  (unit (unit cage))
   ?+  path  (on-peek:def path)
+    ::
+    ::  scry top-scoring <chart-limit> apps
     [%x %scores ~]
     %-  some
     %-  some
     :-  %scores
     !>  ^-  (list (pair app (pair score (list time))))
+    =/  desks
+      %-  malt
+      %+  skip
+        %~  tap  by
+        .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+      |=  [=desk [@tas (set [@tas @ud])]]
+      ^-  ?
+      =(desk ?(%kids %landscape))
     %+  scag
       chart-limit
     %+  sort
-      ::  XX before sending an app to frontend, check the app is compatible
-      ::     with our kelvin version if not, don't send it to fe but keep
-      ::     it in app state
-      ~(tap by scores)
+      ::
+      ::  prevent outdated desks
+      ::  from reaching frontend
+      %+  skip
+        ~(tap by scores)
+      |=  [=app [score (list time)]]
+      ^-  ?
+      ?~  (~(get by desks) desk.app)
+        %.y
+      =(%held -:(need (~(get by desks) desk.app)))
     |=  [a=[app [=score (list time)]] b=[app [=score (list time)]]]
     ^-  ?
     (gth score.a score.b)
