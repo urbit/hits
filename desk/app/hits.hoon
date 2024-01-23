@@ -121,7 +121,7 @@
               :-  app.hit
               :-  +((head app-status))
               ::
-              ::  append new install datetime to list
+              ::  prepend new install datetime to list
               :-  now.bowl
               (tail (~(gut by scores) app.hit [0 [~]]))
             ==
