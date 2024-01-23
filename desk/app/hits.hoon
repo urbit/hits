@@ -138,33 +138,37 @@
     [%timers ~]
       ?+  sign-arvo  (on-arvo:def wire sign-arvo)
         [%behn %wake ~]
-          ::  XX remove %landscape (and other banned apps) from these results
+          ::
+          ::  filter desks on our ship
           =/  desks
-            ::  XX remove %dead apps from the results of this scry path?
-            ::       would this count as an uninstall? with penalties that incurs?
-            .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+            %-  malt
+            %+  skip
+              %~  tap  by
+              .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+            |=  [=desk [@tas (set [@tas @ud])]]
+            ^-  ?
+            =(desk ?(%kids %landscape))
           ::
           ::  filter apps and sources on our ship
           =/  sources
             %-  malt
-            %+  skim
+            %+  skip
               %~  tap  by
               .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
             |=  [=desk [ship desk]]
             ^-  ?
-            ?|  =(desk %kids)
-                =(desk %landscape)
-            ==
+            =(desk %landscape)
           ::
           =/  new-local=_local
             %+  roll
               ~(tap by desks)
-            |=  [[=desk [state=?(%dead %live %held) *]] local=(set (pair ship desk))]
+            |=  [[=desk [state=?(%dead %live %held) *]] local=(set app)]
             ^+  local
             ?:  =(state %live)
               ?~  res=(~(get by sources) desk)
                 local
               (~(put in local) u.res)
+            ::  XX remove %held from local
             local
           ::
           ::  both empty if there's no difference
