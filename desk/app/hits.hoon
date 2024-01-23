@@ -103,6 +103,7 @@
           =/  app-score
             (~(gut by scores) app.hit [0 [now.bowl]~])
           ?:  installed.hit
+            ::  increment app score
             :-  ~
             %=  this
               scores
@@ -114,6 +115,7 @@
               :-  now.bowl
               (tail (~(gut by scores) app.hit [0 [~]]))
             ==
+          ::  decrement app score
           :-  ~
           %=  this
             scores
@@ -164,12 +166,18 @@
               ~(tap by desks)
             |=  [[=desk [state=?(%dead %live %held) *]] local=(set app)]
             ^+  local
+            =/  res
+              (~(get by sources) desk)
             ?:  =(state %live)
-              ?~  res=(~(get by sources) desk)
+              ?~  res
                 local
               (~(put in local) u.res)
-            ::  XX remove %held from local
-            local
+            ::  remove outdated / abandoned app from local state
+            ?.  =(state %held)
+              local
+            ?~  res
+              local
+            (~(del in local) u.res)
           ::
           ::  both empty if there's no difference
           =/  added    (~(dif in new-local) local)
