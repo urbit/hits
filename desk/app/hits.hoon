@@ -99,8 +99,8 @@
             ~&  [dap.bowl %unexpected-mark-fact mark wire=wire]
             `this
           =+  !<(=hit vase)
-          ::  XX rename app-score? now has (list time) in the tail
-          =/  app-score
+          ::  XX rename app-status? now has (list time) in the tail
+          =/  app-status
             (~(gut by scores) app.hit [0 [now.bowl]~])
           ?:  installed.hit
             ::  increment app score
@@ -109,7 +109,7 @@
               scores
               %-  ~(put by scores)
               :-  app.hit
-              :-  +((head app-score))
+              :-  +((head app-status))
               ::
               ::  append new install datetime to list
               :-  now.bowl
@@ -121,14 +121,14 @@
             scores
             %-  ~(put by scores)
             :-  app.hit
-            :-  (dec (max (head app-score) 1))
+            :-  (dec (max (head app-status) 1))
             ::
             ::  uninstalled apps are penalised by snipping the head off
             ::  from the list of their install datetimes; this should
             ::  quickly remove them from the 'trending' feed
-            ?:  =(1 (lent (tail app-score)))
-              (tail app-score)
-            (tail (tail app-score))
+            ?:  =(1 (lent (tail app-status)))
+              (tail app-status)
+            (tail (tail app-status))
           ==
       ==  ::  end of sign branches
   == ::  end of wire branches
