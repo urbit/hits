@@ -8,8 +8,9 @@
 +$  hit    [=src =time =app installed=?]
 ::
 +$  state-0
-  ::  - ordering map when a new hit comes in will
-  ::    save us doing it when user scries upon opening the app
+  ::  XX test to see if frontend performance is okay
+  ::     with $scores as a map; could change it to
+  ::     an ordered list
   ::  - prepend the @da from the latest hit to the list;
   ::    cut off the end of the new list after ~25 @das.
   ::    could use this for one of several "trending" algorithms.
@@ -213,9 +214,20 @@
   ^-  (unit (unit cage))
   ?+  path  (on-peek:def path)
     [%x %scores ~]
-    ::  XX  before sending an app to frontend, check the app is compatible with our kelvin version
-    ::        if not, don't send it to fe but keep it in app state
-    ``[%scores !>((scag chart-limit ~(tap by scores)))]
+    %-  some
+    %-  some
+    :-  %scores
+    !>  ^-  (list (pair app (pair score (list time))))
+    %+  scag
+      chart-limit
+    %+  sort
+      ::  XX before sending an app to frontend, check the app is compatible
+      ::     with our kelvin version if not, don't send it to fe but keep
+      ::     it in app state
+      ~(tap by scores)
+    |=  [a=[app [=score (list time)]] b=[app [=score (list time)]]]
+    ^-  ?
+    (gth score.a score.b)
   ==  ::  end of path branches
 ::
 ++  on-fail   on-fail:def
