@@ -2,20 +2,25 @@
 /$  grab-hit  %noun  %hit
 ::
 |%
-+$  score  @ud
-+$  src    ship
-+$  app    [=ship =desk]
-+$  hit    [=src =time =app installed=?]
++$  score   @ud
++$  kelvin  @tas
++$  src     ship
++$  app     [=ship =desk]
++$  hit     [=src =time =app =kelvin installed=?]
 ::
 +$  state-0
+  ::
   ::  XX test to see if frontend performance is okay
   ::     with $scores as a map; could change it to
   ::     an ordered list
-  ::  - prepend the @da from the latest hit to the list;
-  ::    cut off the end of the new list after ~25 @das.
-  ::    could use this for one of several "trending" algorithms.
-  $:  scores=(map app (pair score (list time)))
-      local=(set app)
+  ::  XX prepend the @da from the latest hit to the list;
+  ::     cut off the end of the new list after ~25 @das.
+  ::     could use this for one of several "trending" algorithms.
+  ::
+  $:  local=(set app)
+      scores=(map app score)
+      versions=(map app kelvin)
+      installs=(map app (list time))
   ==
 ::  XX remove $+
 +$  card  $+(card card:agent:gall)
