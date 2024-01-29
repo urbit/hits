@@ -2,11 +2,14 @@
 /$  grab-hit  %noun  %hit
 ::
 |%
-+$  score   @ud
-+$  kelvin  @tas
-+$  src     ship
-+$  app     [=ship =desk]
-+$  hit     [=src =time =app =kelvin installed=?]
++$  installed  ?
++$  kelvin     @ud
++$  score      @ud
++$  src        ship
++$  app        [=ship =desk]
+::
+::  hit: message sent between ships on each app (un)install
++$  hit        [=src =time =app =kelvin =installed]
 ::
 +$  state-0
   ::
@@ -44,6 +47,7 @@
     |=(n=* !>((grab-hit n)))
 ^-  agent:gall
 ::
+=<
 |_  =bowl:gall
 +*  this  .
     def   ~(. (default-agent this %|) bowl)
@@ -88,7 +92,7 @@
           ~
           :-  %hit
           !>  ^-  hit
-          [our.bowl now.bowl [ship desk] %.y]
+          [our.bowl now.bowl [ship desk] (scry-kelvin desk) %.y]
       ==
   ==  ::  end of path branches
 ::
@@ -105,8 +109,8 @@
             ~&  [dap.bowl %unexpected-mark-fact mark wire=wire]
             `this
           =+  !<(=hit vase)
-          =/  app-status
-            (~(gut by scores) app.hit [0 [now.bowl]~])
+          =/  app-score
+            (~(gut by scores) app.hit 0)
           ?:  installed.hit
             ::
             ::  XX should we |hi new app devs who aren't
@@ -118,32 +122,27 @@
             ::       apps? could it be outdated if app dev unpublishes
             ::       an app?
             ::
-            ::  increment app score
+            ::  update app info on install
             :-  ~
             %=  this
-              scores
-              %-  ~(put by scores)
-              :-  app.hit
-              :-  +((head app-status))
-              ::
-              ::  prepend new install datetime to list
-              :-  now.bowl
-              (tail (~(gut by scores) app.hit [0 [~]]))
+              scores    (~(put by scores) [app.hit +(app-score)])
+              versions  (~(put by versions) [app.hit kelvin.hit])
+              installs  (~(put by installs) [app.hit :-(time.hit (~(gut by installs) app.hit ~[now.bowl]))])
             ==
-          ::  decrement app score
+          ::  update app info on uninstall
           :-  ~
           %=  this
-            scores
-            %-  ~(put by scores)
-            :-  app.hit
-            :-  (dec (max (head app-status) 1))
+            scores  (~(put by scores) [app.hit (dec (max app-score 1))])
             ::
             ::  uninstalled apps are penalised by snipping the head off
             ::  from the list of their install datetimes; this should
             ::  quickly remove them from the 'trending' feed
-            ?:  =(1 (lent (tail app-status)))
-              (tail app-status)
-            (tail (tail app-status))
+            installs
+            ?.  =(1 (lent (~(gut by installs) app.hit ~[now.bowl])))
+              (~(put by installs) [app.hit (tail (~(got by installs) app.hit))])
+            ?~  (~(get by installs) app.hit)
+              installs
+            (~(del by installs) app.hit)
           ==
       ==  ::  end of sign branches
   == ::  end of wire branches
@@ -187,7 +186,7 @@
               ?~  res
                 local
               (~(put in local) u.res)
-            ::  remove outdated / abandoned app from local state
+            ::  remove outdated app from local state
             ?.  =(state %held)
               local
             ?~  res
@@ -209,7 +208,12 @@
             %+  invent:gossip
               %hit
             !>  ^-  hit
-            [our.bowl now.bowl [ship desk] %.y]
+            :*  our.bowl
+                now.bowl
+                [ship desk]
+                (scry-kelvin desk)
+                %.y
+            ==
           ::  apps we've removed
           %+  turn
             ~(tap in removed)
@@ -218,7 +222,12 @@
           %+  invent:gossip
             %hit
           !>  ^-  hit
-          [our.bowl now.bowl [ship desk] %.n]
+          :*  our.bowl
+              now.bowl
+              [ship desk]
+              (scry-kelvin desk)
+              %.n
+          ==
       ==
   ==
 ::
@@ -233,7 +242,7 @@
     %-  some
     %-  some
     :-  %scores
-    !>  ^-  (list (pair app (pair score (list time))))
+    !>  ^-  (list (pair app score))
     =/  desks
       %-  malt
       %+  skip
@@ -250,15 +259,35 @@
       ::  from reaching frontend
       %+  skip
         ~(tap by scores)
-      |=  [=app [score (list time)]]
+      |=  [=app =score]
       ^-  ?
       ?~  (~(get by desks) desk.app)
         %.y
       =(%held -:(need (~(get by desks) desk.app)))
-    |=  [a=[app [=score (list time)]] b=[app [=score (list time)]]]
+    |=  [a=[app =score] b=[app =score]]
     ^-  ?
     (gth score.a score.b)
   ==  ::  end of path branches
 ::
 ++  on-fail   on-fail:def
+--
+::
+::  helper door
+|_  =bowl:gall
+++  scry-kelvin
+  |=  =desk
+  ::  XX scry output could be a weft or a [[%1 ~] p=(set weft)]
+  ::     assumes a weft for now
+  ::     assumes we only care about %zuse compat for now
+  ::     should get this squared away before release
+  ^-  @ud
+  %-  tail
+  ::  +$  weft  [lal=@tas num=@ud]
+  .^  (pair @tas @ud)
+      %cx
+      (scot %p our.bowl)
+      (scot %tas desk)
+      (scot %da now.bowl)
+      /sys/kelvin
+  ==
 --
