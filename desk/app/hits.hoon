@@ -160,29 +160,32 @@
             %-  malt
             %+  skip
               %~  tap  by
-              .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+              .^  rock:tire:clay
+                  %cx
+                  /(scot %p our.bowl)//(scot %da now.bowl)/tire
+              ==
             |=  [=desk [@tas (set [@tas @ud])]]
             ^-  ?
             ?|  =(desk %kids)
                 =(desk %landscape)
             ==
-          ~&  >>  desks
           ::
           ::  filter apps and sources on our ship
           =/  sources
             %-  malt
             %+  skip
               %~  tap  by
-              .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
+              .^  (map desk [ship desk])
+                  %gx
+                  /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun
+              ==
             |=  [=desk [ship desk]]
             ^-  ?
             =(desk %landscape)
-          ~&  >>  sources
           ::
           =/  new-local=_local
             %+  roll
               ~(tap by desks)
-            ::  XX check how zests affect whether app is logged in local
             |=  [[=desk [state=?(%dead %live %held) *]] result=(set app)]
             ^+  result
             =/  source
@@ -198,12 +201,9 @@
               result
             (~(del in result) u.source)
           ::
-          ~&  >>  new-local
           ::  both empty if there's no difference
           =/  added    (~(dif in new-local) local)
-          ~&  >>  added
           =/  removed  (~(dif in local) new-local)
-          ~&  >>  removed
           :_  this(local new-local)
           ::  notify via gossip about stuff we've (un)installed recently
           :-  [%pass /timers %arvo %b %wait (add now.bowl ~m5)]
