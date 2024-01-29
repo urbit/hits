@@ -255,7 +255,10 @@
         %-  malt
         %+  skip
           %~  tap  by
-          .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+          .^  rock:tire:clay
+              %cx
+              /(scot %p our.bowl)//(scot %da now.bowl)/tire
+          ==
         |=  [=desk [@tas (set [@tas @ud])]]
         ^-  ?
         =(desk ?(%kids %landscape))
