@@ -1,4 +1,4 @@
-/+  gossip, default-agent
+/+  *hits, gossip, default-agent
 /$  grab-hit  %noun  %hit
 ::
 |%
@@ -16,17 +16,13 @@
   ::  XX test to see if frontend performance is okay
   ::     with $scores as a map; could change it to
   ::     an ordered list
-  ::  XX prepend the @da from the latest hit to the list;
-  ::     cut off the end of the new list after ~25 @das.
-  ::     could use this for one of several "trending" algorithms.
   ::
   $:  local=(set app)
       scores=(map app score)
       versions=(map app kelvin)
       installs=(map app (list time))
   ==
-::  XX remove $+
-+$  card  $+(card card:agent:gall)
++$  card  card:agent:gall
 ::
 ::  max. number of apps
 ::  to list on frontend
@@ -47,7 +43,6 @@
     |=(n=* !>((grab-hit n)))
 ^-  agent:gall
 ::
-=<
 |_  =bowl:gall
 +*  this  .
     def   ~(. (default-agent this %|) bowl)
@@ -92,7 +87,12 @@
           ~
           :-  %hit
           !>  ^-  hit
-          [our.bowl now.bowl [ship desk] (scry-kelvin desk) %.y]
+          :*  our.bowl
+              now.bowl
+              [ship desk]
+              (scry-kelvin our.bowl desk now.bowl)
+              %.y
+          ==
       ==
   ==  ::  end of path branches
 ::
@@ -163,7 +163,10 @@
               .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
             |=  [=desk [@tas (set [@tas @ud])]]
             ^-  ?
-            =(desk ?(%kids %landscape))
+            ?|  =(desk %kids)
+                =(desk %landscape)
+            ==
+          ~&  >>  desks
           ::
           ::  filter apps and sources on our ship
           =/  sources
@@ -174,28 +177,33 @@
             |=  [=desk [ship desk]]
             ^-  ?
             =(desk %landscape)
+          ~&  >>  sources
           ::
           =/  new-local=_local
             %+  roll
               ~(tap by desks)
-            |=  [[=desk [state=?(%dead %live %held) *]] local=(set app)]
-            ^+  local
-            =/  res
+            ::  XX check how zests affect whether app is logged in local
+            |=  [[=desk [state=?(%dead %live %held) *]] result=(set app)]
+            ^+  result
+            =/  source
               (~(get by sources) desk)
             ?:  =(state %live)
-              ?~  res
-                local
-              (~(put in local) u.res)
+              ?~  source
+                result
+              (~(put in result) u.source)
             ::  remove outdated app from local state
             ?.  =(state %held)
-              local
-            ?~  res
-              local
-            (~(del in local) u.res)
+              result
+            ?~  source
+              result
+            (~(del in result) u.source)
           ::
+          ~&  >>  new-local
           ::  both empty if there's no difference
           =/  added    (~(dif in new-local) local)
+          ~&  >>  added
           =/  removed  (~(dif in local) new-local)
+          ~&  >>  removed
           :_  this(local new-local)
           ::  notify via gossip about stuff we've (un)installed recently
           :-  [%pass /timers %arvo %b %wait (add now.bowl ~m5)]
@@ -211,7 +219,7 @@
             :*  our.bowl
                 now.bowl
                 [ship desk]
-                (scry-kelvin desk)
+                (scry-kelvin our.bowl desk now.bowl)
                 %.y
             ==
           ::  apps we've removed
@@ -225,7 +233,7 @@
           :*  our.bowl
               now.bowl
               [ship desk]
-              (scry-kelvin desk)
+              (scry-kelvin our.bowl desk now.bowl)
               %.n
           ==
       ==
@@ -239,55 +247,35 @@
     ::
     ::  scry top-scoring <chart-limit> apps
     [%x %scores ~]
-    %-  some
-    %-  some
-    :-  %scores
-    !>  ^-  (list (pair app score))
-    =/  desks
-      %-  malt
-      %+  skip
-        %~  tap  by
-        .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
-      |=  [=desk [@tas (set [@tas @ud])]]
+      %-  some
+      %-  some
+      :-  %scores
+      !>  ^-  (list (pair app score))
+      =/  desks
+        %-  malt
+        %+  skip
+          %~  tap  by
+          .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+        |=  [=desk [@tas (set [@tas @ud])]]
+        ^-  ?
+        =(desk ?(%kids %landscape))
+      %+  scag
+        chart-limit
+      %+  sort
+        ::
+        ::  prevent outdated desks
+        ::  from reaching frontend
+        %+  skip
+          ~(tap by scores)
+        |=  [=app =score]
+        ^-  ?
+        ?~  (~(get by desks) desk.app)
+          %.y
+        =(%held -:(need (~(get by desks) desk.app)))
+      |=  [a=[app =score] b=[app =score]]
       ^-  ?
-      =(desk ?(%kids %landscape))
-    %+  scag
-      chart-limit
-    %+  sort
-      ::
-      ::  prevent outdated desks
-      ::  from reaching frontend
-      %+  skip
-        ~(tap by scores)
-      |=  [=app =score]
-      ^-  ?
-      ?~  (~(get by desks) desk.app)
-        %.y
-      =(%held -:(need (~(get by desks) desk.app)))
-    |=  [a=[app =score] b=[app =score]]
-    ^-  ?
-    (gth score.a score.b)
+      (gth score.a score.b)
   ==  ::  end of path branches
 ::
 ++  on-fail   on-fail:def
---
-::
-::  helper door
-|_  =bowl:gall
-++  scry-kelvin
-  |=  =desk
-  ::  XX scry output could be a weft or a [[%1 ~] p=(set weft)]
-  ::     assumes a weft for now
-  ::     assumes we only care about %zuse compat for now
-  ::     should get this squared away before release
-  ^-  @ud
-  %-  tail
-  ::  +$  weft  [lal=@tas num=@ud]
-  .^  (pair @tas @ud)
-      %cx
-      (scot %p our.bowl)
-      (scot %tas desk)
-      (scot %da now.bowl)
-      /sys/kelvin
-  ==
 --
