@@ -1,9 +1,9 @@
+/-  *hits
 =,  format
-::  XX get types in /sur so we can name these properly
-|_  update=(list [[ship desk] [@ud (list @da)]])
+|_  update=(list app score)
 ++  grab
   |%
-  ++  noun  (list [[ship desk] [@ud (list @da)]])
+  ++  noun  (list app score)
   --
 ++  grow
   |%
@@ -12,12 +12,11 @@
     :- 'scores'
     %+  turn
       update
-    |=  [app=[=ship =desk] score=@ud installs=(list @da)]
+    |=  [[=ship =desk] =score]
     %-  pairs:enjs
     :~  ['app' [%s (scot %tas desk)]]
         ['source' [%s (scot %p ship)]]
-        ['installs' [%s (scot %ud score)]]
-        ['dates' [%a (turn installs |=(install=@da [%s (scot %da install)]))]]
+        ['score' [%n score]]
     ==
   --
 ++  grad  %noun

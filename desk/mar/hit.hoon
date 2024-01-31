@@ -1,5 +1,5 @@
-::  XX get types in /sur so we can name these properly
-|_  hit=[src=@p =time app=[ship desk] kelvin=@ud installed=?]
+/-  *hits
+|_  hit=[=src =time =app =kelvin =installed]
 ++  grad  %noun
 ++  grow
   |%
@@ -7,6 +7,6 @@
   --
 ++  grab
   |%
-  ++  noun  ,[src=@p =time app=[ship desk] kelvin=@ud installed=?]
+  ++  noun  ,[=src =time =app =kelvin =installed]
   --
 --
