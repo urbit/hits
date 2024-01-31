@@ -68,32 +68,35 @@
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
-  ?+  path  (on-watch:def path)
+  ?+  path
+    (on-watch:def path)
+  ::
+      [%hits ~]
     ::
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device
-    [%hits ~]
-      `this
+    `this
+  ::
+      [%~.~ %gossip %source ~]
     ::
     ::  neighbours listen for new hits from us
-    [%~.~ %gossip %source ~]
-      :_  this
-      %+  turn
-        ~(tap in local)
-      |=  [=ship =desk]
-      ^-  card
-      :*  %give
-          %fact
-          ~
-          :-  %hit
-          !>  ^-  hit
-          :*  our.bowl
-              now.bowl
-              [ship desk]
-              (scry-kelvin our.bowl desk now.bowl)
-              %.y
-          ==
-      ==
+    :_  this
+    %+  turn
+      ~(tap in local)
+    |=  [=ship =desk]
+    ^-  card
+    :*  %give
+        %fact
+        ~
+        :-  %hit
+        !>  ^-  hit
+        :*  our.bowl
+            now.bowl
+            [ship desk]
+            (scry-kelvin our.bowl desk now.bowl)
+            %.y
+        ==
+    ==
   ==  ::  end of path branches
 ::
 ++  on-agent
@@ -110,7 +113,11 @@
       =*  mark  p.cage.sign
       =*  vase  q.cage.sign
       ?.  =(%hit mark)
-        ~&  [dap.bowl %unexpected-mark-fact mark wire=wire]
+        ~&  :*  dap.bowl
+                %unexpected-mark-fact
+                mark
+                wire=wire
+            ==
         `this
       =+  !<(=hit vase)
       =/  app-score
@@ -129,24 +136,49 @@
         ::  update app info on install
         :-  ~
         %=  this
-          scores    (~(put by scores) [app.hit +(app-score)])
-          versions  (~(put by versions) [app.hit kelvin.hit])
-          installs  (~(put by installs) [app.hit :-(time.hit (~(gut by installs) app.hit ~[now.bowl]))])
+          scores    %-  ~(put by scores)
+                    :-  app.hit
+                    +(app-score)
+          versions  %-  ~(put by versions)
+                    :-  app.hit
+                    kelvin.hit
+          installs  %-  ~(put by installs)
+                    :-  app.hit
+                    :-  time.hit
+                    %-  ~(gut by installs)
+                    :-  app.hit
+                    ~[now.bowl]
         ==
       ::  update app info on uninstall
       :-  ~
       %=  this
-        scores  (~(put by scores) [app.hit (dec (max app-score 1))])
+        scores  %-  ~(put by scores)
+                :-  app.hit
+                (dec (max app-score 1))
         ::
         ::  uninstalled apps are penalised by snipping the head off
         ::  from the list of their install datetimes; this should
         ::  quickly remove them from the 'trending' feed
-        installs
-        ?.  =(1 (lent (~(gut by installs) app.hit ~[now.bowl])))
-          (~(put by installs) [app.hit (tail (~(got by installs) app.hit))])
-        ?~  (~(get by installs) app.hit)
-          installs
-        (~(del by installs) app.hit)
+        ::
+        ::  XX reconsider this
+        installs  ?.  .=  1
+                      %-  lent
+                      %-  ~(gut by installs)
+                      :-  app.hit
+                      ~[now.bowl]
+                    ::  if app has >1 installs,
+                    ::  remove the most recent
+                    %-  ~(put by installs)
+                    :-  app.hit
+                    (tail (~(got by installs) app.hit))
+                  ::  if not, check app exists
+                  ?~  (~(get by installs) app.hit)
+                    ::  if app doesn't exist,
+                    ::  return installs
+                    installs
+                  ::  if app does exist and has
+                  ::  1 install, remove app
+                  (~(del by installs) app.hit)
       ==
     ==  ::  end of sign branches
   == ::  end of wire branches
@@ -163,14 +195,18 @@
     ::
         [%behn %wake ~]
       ::
-      ::  filter desks on our ship
+      ::  check our locally-installed
+      ::  apps every five minutes
+      ::
       =/  desks
         %-  malt
         %+  skip
           %~  tap  by
           .^  rock:tire:clay
               %cx
-              /(scot %p our.bowl)//(scot %da now.bowl)/tire
+              /(scot %p our.bowl)
+              /(scot %da now.bowl)
+              /tire
           ==
         |=  [=desk [@tas (set [@tas @ud])]]
         ^-  ?
@@ -178,14 +214,18 @@
             =(desk %landscape)
         ==
       ::
-      ::  filter apps and sources on our ship
       =/  sources
         %-  malt
         %+  skip
           %~  tap  by
           .^  (map desk [ship desk])
               %gx
-              /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun
+              /(scot %p our.bowl)
+              /hood
+              /(scot %da now.bowl)
+              /kiln
+              /sources
+              /noun
           ==
         |=  [=desk [ship desk]]
         ^-  ?
@@ -212,9 +252,18 @@
       ::  both empty if there's no difference
       =/  added    (~(dif in new-local) local)
       =/  removed  (~(dif in local) new-local)
+      ::
       :_  this(local new-local)
-      ::  notify via gossip about stuff we've (un)installed recently
-      :-  [%pass /timers %arvo %b %wait (add now.bowl ~m5)]
+      ::
+      ::  notify via gossip about stuff
+      ::  we've (un)installed recently
+      :-  :*  %pass
+              /timers
+              %arvo
+              %b
+              %wait
+              (add now.bowl ~m5)
+          ==
       %+  weld
         ::  apps we've added
         %+  turn
@@ -254,9 +303,9 @@
   ?+  path
     (on-peek:def path)
   ::
+      [%x %scores ~]
     ::
     ::  scry top-scoring <chart-limit> apps
-      [%x %scores ~]
     %-  some
     %-  some
     :-  %scores
