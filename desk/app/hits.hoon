@@ -178,7 +178,7 @@
                     ::  remove the most recent
                     %-  ~(put by installs)
                     :-  app.hit
-                    (tail (~(got by installs) app.hit))
+                    (tail (sort (~(got by installs) app.hit) gth))
                   ::  if not, check app exists
                   ?~  (~(get by installs) app.hit)
                     ::  if app doesn't exist,
