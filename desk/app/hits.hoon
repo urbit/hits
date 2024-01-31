@@ -210,7 +210,8 @@
           ==
         |=  [=desk [@tas (set [@tas @ud])]]
         ^-  ?
-        ?|  =(desk %kids)
+        ?|  =(desk %hits)
+            =(desk %kids)
             =(desk %landscape)
         ==
       ::
@@ -229,7 +230,9 @@
           ==
         |=  [=desk [ship desk]]
         ^-  ?
-        =(desk %landscape)
+        ?|  =(desk %hits)
+            =(desk %landscape)
+        ==
       ::
       =/  new-local=_local
         %+  roll
