@@ -146,10 +146,16 @@
                     kelvin.hit
           installs  %-  ~(put by installs)
                     :-  app.hit
-                    :-  time.hit
-                    %-  ~(gut by installs)
-                    :-  app.hit
-                    ~[now.bowl]
+                    %+  scag
+                      date-limit
+                    %+  sort
+                      :-  time.hit
+                      %-  ~(gut by installs)
+                      :-  app.hit
+                      ~[now.bowl]
+                    |=  [a=time b=time]
+                    ^-  ?
+                    (gth a b)
         ==
       ::  update app info on uninstall
       :-  ~
