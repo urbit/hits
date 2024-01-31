@@ -1,15 +1,17 @@
+/-  *hits
 /+  *hits, gossip, default-agent
 /$  grab-hit  %noun  %hit
 ::
 |%
-+$  installed  ?
-+$  kelvin     @ud
-+$  score      @ud
-+$  src        ship
-+$  app        [=ship =desk]
 ::
 ::  hit: message sent between ships on each app (un)install
-+$  hit        [=src =time =app =kelvin =installed]
++$  hit
+  $:  =src        ::  source of this message
+      =time       ::  when this message was generated
+      =app        ::  app's publisher and name
+      =kelvin     ::  app's kelvin compatibility
+      =installed  ::  installed or uninstalled?
+  ==
 ::
 +$  state-0
   ::
