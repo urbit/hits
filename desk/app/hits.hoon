@@ -158,6 +158,8 @@
                     (gth a b)
         ==
       ::  update app info on uninstall
+      ::  XX send info to frontend
+      ::  XX update %hit mark to include json
       :-  ~
       %=  this
         scores  %-  ~(put by scores)
@@ -165,15 +167,11 @@
                 (dec (max app-score 1))
         ::
         ::  uninstalled apps are penalised by snipping the head off
-        ::  from the list of their install datetimes; this should
-        ::  quickly remove them from the 'trending' feed
+        ::  from the sorted list of their install datetimes; this
+        ::  should quickly move them down the 'trending' feed
         ::
         ::  XX reconsider this
-        installs  ?.  .=  1
-                      %-  lent
-                      %-  ~(gut by installs)
-                      :-  app.hit
-                      ~[now.bowl]
+        installs  ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
                     ::  if app has >1 installs,
                     ::  remove the most recent
                     %-  ~(put by installs)
@@ -327,7 +325,9 @@
         %~  tap  by
         .^  rock:tire:clay
             %cx
-            /(scot %p our.bowl)//(scot %da now.bowl)/tire
+            /(scot %p our.bowl)
+            /(scot %da now.bowl)
+            /tire
         ==
       |=  [=desk [@tas (set [@tas @ud])]]
       ^-  ?
