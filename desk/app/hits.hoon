@@ -196,10 +196,16 @@
       ::  update app info on uninstall
       ::  XX send info to frontend
       ::  XX update %hit mark to include json
-      ::  XX unsubscribe from app publisher's docketfile
-      ::     by sending an empty %warp
-      :-  ~
-      ::  XX remove docket info from state on uninstall
+      :-  :~  :*  %pass
+                  ~
+                  %arvo
+                  %c
+                  %warp
+                  ship.app.hit
+                  desk.app.hit
+                  ~
+              ==
+          ==
       %=  this
         scores  %-  ~(put by scores)
                 :-  app.hit
@@ -209,6 +215,7 @@
         ::  from the sorted list of their install datetimes; this
         ::  should quickly move them down the 'trending' feed
         ::
+        dockets  (~(del by dockets) app.hit)
         ::  XX reconsider this
         installs  ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
                     ::  if app has >1 installs,
