@@ -5,10 +5,7 @@
 |=  arg=vase
 =/  m  (strand ,vase)
 ^-  form:m
-=+  !<([~ =ship =desk] arg)
-;<    =bowl:spider
-    bind:m
-  get-bowl:strandio
+=+  !<([=ship =desk] arg)
 ;<    =riot:clay
     bind:m
   %:  warp:strandio
@@ -20,6 +17,4 @@
       [%da (get-time:strandio)]
       /desk/docket-0
   ==
-?~  riot
-  (pure:m !>('nothing'))
-(pure:m q.r.u.riot)
+(pure:m ~)

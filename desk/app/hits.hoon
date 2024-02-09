@@ -135,8 +135,38 @@
         ::       apps? could it be outdated if app dev unpublishes
         ::       an app?
         ::
-        ::  update app info on install
-        :-  ~
+        ::  add app info to state on install
+        ::  XX send installed app info to frontend
+        =/  tid
+          `@ta`(cat 3 'thread_' (scot %uv (sham eny.bowl)))
+        =/  ta-now
+          `@ta`(scot %da now.bowl)
+        :-  :~  :*  %pass
+                    /thread/read/[ta-now]
+                    %agent
+                    [our.bowl %spider]
+                    %poke
+                    %spider-start
+                    !>  ::  XX add ^- on this line
+                    :*  `tid
+                        byk.bowl(r [%da now.bowl])
+                        %read-docket
+                        !>([ship.app.hit desk.app.hit])
+                    ==
+                ==
+                :*  %pass
+                    /thread/next/[ta-now]
+                    %agent
+                    [our.bowl %spider]
+                    %poke
+                    %spider-start
+                    !>  ::  XX add ^- on this line
+                    :*  `tid
+                        byk.bowl(r [%da now.bowl])
+                        %next-docket
+                        !>([ship.app.hit desk.app.hit])
+                    ==
+            ==
         %=  this
           scores    %-  ~(put by scores)
                     :-  app.hit
@@ -161,6 +191,7 @@
       ::  XX send info to frontend
       ::  XX update %hit mark to include json
       :-  ~
+      ::  XX remove docket info from state on uninstall
       %=  this
         scores  %-  ~(put by scores)
                 :-  app.hit
@@ -183,13 +214,37 @@
                     ::  return installs
                     installs
                   ::  if app does exist and has
-                  ::  1 install, remove app
+                  ::  exactly 1 install, remove app
                   (~(del by installs) app.hit)
       ==
-    ==  ::  end of sign branches
+    == ::  end of sign branches
+  ::
+      [%thread %read ~]
+    !!
+    ::  ?+    -.sign  (on-agent:def wire sign)
+    ::       %poke-ack
+    ::     ?~  p.sign
+    ::       %-  (slog leaf+"Thread started successfully" ~)
+    ::       `this
+    ::     %-  (slog leaf+"Thread failed to start" u.p.sign)
+    ::     `this
+    ::   ==
+  ::
+      [%thread %next ~]
+    !!
+    ::  ?+    -.sign  (on-agent:def wire sign)
+    ::       %poke-ack
+    ::     ?~  p.sign
+    ::       %-  (slog leaf+"Thread started successfully" ~)
+    ::       `this
+    ::     %-  (slog leaf+"Thread failed to start" u.p.sign)
+    ::     `this
+    ::   ==
   == ::  end of wire branches
 ::
 ++  on-arvo
+  ::
+  ::  XX deal with gifts from clay in re: -next-docket
   |=  [=wire =sign-arvo]
   ^-  (quip card _this)
   ?+  wire
