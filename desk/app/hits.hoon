@@ -23,6 +23,8 @@
       scores=(map app score)
       versions=(map app kelvin)
       installs=(map app (list time))
+      ::  XX fill in value type for dockets
+      dockets=(map app *)
   ==
 +$  card  card:agent:gall
 ::
@@ -57,7 +59,13 @@
   ::  immediately populate our local state and gossip around
   ^-  (quip card _this)
   :_  this
-  :~  [%pass /timers %arvo %b %wait now.bowl]
+  :~  :*  %pass
+          /timers
+          %arvo
+          %b
+          %wait
+          now.bowl
+      ==
   ==
 ::
 ++  on-save
@@ -137,35 +145,33 @@
         ::
         ::  add app info to state on install
         ::  XX send installed app info to frontend
-        =/  tid
-          `@ta`(cat 3 'thread_' (scot %uv (sham eny.bowl)))
-        =/  ta-now
-          `@ta`(scot %da now.bowl)
+        ::  XX refuse to show app in frontend if there's no docket info
         :-  :~  :*  %pass
-                    /thread/read/[ta-now]
-                    %agent
-                    [our.bowl %spider]
-                    %poke
-                    %spider-start
-                    !>  ::  XX add ^- on this line
-                    :*  `tid
-                        byk.bowl(r [%da now.bowl])
-                        %read-docket
-                        !>([ship.app.hit desk.app.hit])
-                    ==
+                    /docket/init
+                    %arvo
+                    %c
+                    %warp
+                    ship.app.hit
+                    desk.app.hit
+                    ~
+                    %sing
+                    %x
+                    [%da now.bowl]
+                    /desk/docket-0
                 ==
                 :*  %pass
-                    /thread/next/[ta-now]
-                    %agent
-                    [our.bowl %spider]
-                    %poke
-                    %spider-start
-                    !>  ::  XX add ^- on this line
-                    :*  `tid
-                        byk.bowl(r [%da now.bowl])
-                        %next-docket
-                        !>([ship.app.hit desk.app.hit])
-                    ==
+                    /docket/update
+                    %arvo
+                    %c
+                    %warp
+                    ship.app.hit
+                    desk.app.hit
+                    ~
+                    %next
+                    %x
+                    [%da now.bowl]
+                    /desk/docket-0
+                ==
             ==
         %=  this
           scores    %-  ~(put by scores)
@@ -190,6 +196,8 @@
       ::  update app info on uninstall
       ::  XX send info to frontend
       ::  XX update %hit mark to include json
+      ::  XX unsubscribe from app publisher's docketfile
+      ::     by sending an empty %warp
       :-  ~
       ::  XX remove docket info from state on uninstall
       %=  this
@@ -218,33 +226,9 @@
                   (~(del by installs) app.hit)
       ==
     == ::  end of sign branches
-  ::
-      [%thread %read ~]
-    !!
-    ::  ?+    -.sign  (on-agent:def wire sign)
-    ::       %poke-ack
-    ::     ?~  p.sign
-    ::       %-  (slog leaf+"Thread started successfully" ~)
-    ::       `this
-    ::     %-  (slog leaf+"Thread failed to start" u.p.sign)
-    ::     `this
-    ::   ==
-  ::
-      [%thread %next ~]
-    !!
-    ::  ?+    -.sign  (on-agent:def wire sign)
-    ::       %poke-ack
-    ::     ?~  p.sign
-    ::       %-  (slog leaf+"Thread started successfully" ~)
-    ::       `this
-    ::     %-  (slog leaf+"Thread failed to start" u.p.sign)
-    ::     `this
-    ::   ==
   == ::  end of wire branches
 ::
 ++  on-arvo
-  ::
-  ::  XX deal with gifts from clay in re: -next-docket
   |=  [=wire =sign-arvo]
   ^-  (quip card _this)
   ?+  wire
@@ -358,6 +342,46 @@
           %.n
       ==
     ==  ::  end of sign-arvo branches
+  ::
+      [%docket %init ship desk ~]
+    =*  ship  (slav %p i.t.t.wire)
+    =*  desk  (slav %tas i.t.t.t.wire)
+    ?+    sign-arvo
+        (on-arvo:def wire sign-arvo)
+    ::
+        [%clay %writ ~]
+      =/  =riot:clay  p.sign-arvo
+      ?~  riot
+        ((slog (crip "hits: failed to read docket file from {<ship>}'s {<desk>}") ~) `this)
+      ::  XX send new docket info to frontend
+      :-  ~
+      ::  XX update docket info in state
+      ~&  >>  "riot: {<riot>}"
+      ~&  >>  "u.riot:  {<u.riot>}"
+      ~&  >>  "r.u.riot {<r.u.riot>}"
+      ~&  >>  "q.r.u.riot: {<q.r.u.riot>}"
+      %=  this
+         dockets  (~(put by dockets) [[ship desk] q.r.u.riot])
+      ==
+    ==
+  ::
+      [%docket %update ship desk ~]
+    =*  ship  (slav %p i.t.t.wire)
+    =*  desk  (slav %tas i.t.t.t.wire)
+    ?+    sign-arvo
+        (on-arvo:def wire sign-arvo)
+    ::
+        [%clay %writ ~]
+      =/  =riot:clay  p.sign-arvo
+      ?~  riot
+        ((slog (crip "hits: failed to read docket file from {<ship>}'s {<desk>}") ~) `this)
+      ::  XX send new docket info to frontend
+      :-  ~
+      ::  XX update docket info in state
+      %=  this
+         dockets  (~(put by dockets) [[ship desk] q.r.u.riot])
+      ==
+    ==
   ==  ::  end of wire branches
 ::
 ++  on-leave  on-leave:def
