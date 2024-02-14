@@ -57,6 +57,7 @@
   ::       - combine it all into our local state
   ::
   ::  immediately populate our local state and gossip around
+  ~&  >>  "hits: initialising state"
   ^-  (quip card _this)
   :_  this
   :~  :*  %pass
@@ -146,8 +147,9 @@
         ::  add app info to state on install
         ::  XX send installed app info to frontend
         ::  XX refuse to show app in frontend if there's no docket info
+        ~&  >>  "requesting data for /docket/init/(scot %p ship.app.hit)/(scot %tas desk.app.hit)"
         :-  :~  :*  %pass
-                    /docket/init
+                    /docket/init/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
                     %arvo
                     %c
                     %warp
@@ -160,7 +162,7 @@
                     /desk/docket-0
                 ==
                 :*  %pass
-                    /docket/update
+                    /docket/update/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
                     %arvo
                     %c
                     %warp
@@ -207,15 +209,15 @@
               ==
           ==
       %=  this
-        scores  %-  ~(put by scores)
-                :-  app.hit
-                (dec (max app-score 1))
+        scores   %-  ~(put by scores)
+                 :-  app.hit
+                 (dec (max app-score 1))
+        dockets  (~(del by dockets) app.hit)
         ::
         ::  uninstalled apps are penalised by snipping the head off
         ::  from the sorted list of their install datetimes; this
         ::  should quickly move them down the 'trending' feed
         ::
-        dockets  (~(del by dockets) app.hit)
         ::  XX reconsider this
         installs  ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
                     ::  if app has >1 installs,
@@ -312,12 +314,14 @@
       ::
       ::  notify via gossip about stuff
       ::  we've (un)installed recently
+      ~&  >>  "hits: woken up by behn"
       :-  :*  %pass
               /timers
               %arvo
               %b
               %wait
-              (add now.bowl ~m5)
+              ::  XX move back to 5m
+              (add now.bowl ~s10)
           ==
       %+  weld
         ::  apps we've added
@@ -350,7 +354,8 @@
       ==
     ==  ::  end of sign-arvo branches
   ::
-      [%docket %init ship desk ~]
+      [%docket %init =ship =desk ~]
+    ~&  >>  "hits: received initial info about {<ship>}'s' {<desk>}"
     =*  ship  (slav %p i.t.t.wire)
     =*  desk  (slav %tas i.t.t.t.wire)
     ?+    sign-arvo
@@ -362,7 +367,6 @@
         ((slog (crip "hits: failed to read docket file from {<ship>}'s {<desk>}") ~) `this)
       ::  XX send new docket info to frontend
       :-  ~
-      ::  XX update docket info in state
       ~&  >>  "riot: {<riot>}"
       ~&  >>  "u.riot:  {<u.riot>}"
       ~&  >>  "r.u.riot {<r.u.riot>}"
@@ -372,7 +376,8 @@
       ==
     ==
   ::
-      [%docket %update ship desk ~]
+      [%docket %update =ship =desk ~]
+    ~&  >>  "hits: received updated docket info about {<ship>}'s {<desk>} "
     =*  ship  (slav %p i.t.t.wire)
     =*  desk  (slav %tas i.t.t.t.wire)
     ?+    sign-arvo
@@ -384,7 +389,6 @@
         ((slog (crip "hits: failed to read docket file from {<ship>}'s {<desk>}") ~) `this)
       ::  XX send new docket info to frontend
       :-  ~
-      ::  XX update docket info in state
       %=  this
          dockets  (~(put by dockets) [[ship desk] q.r.u.riot])
       ==
