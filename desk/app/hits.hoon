@@ -250,7 +250,118 @@
     ::
         [%behn %wake *]
       ~&  >  "[%behn %wake]"
-      `this
+      ::  `this
+      ::
+      ::  check our locally-installed
+      ::  apps every five minutes
+      ::
+      ::  =/  desks
+      ::    %-  malt
+      ::    %+  skip
+      ::      %~  tap  by
+      ::      .^  rock:tire:clay
+      ::          %cx
+      ::          /(scot %p our.bowl)
+      ::          /(scot %da now.bowl)
+      ::          /tire
+      ::      ==
+      ::    |=  [=desk [@tas (set [@tas @ud])]]
+      ::    ^-  ?
+      ::    ?|  =(desk %hits)
+      ::        =(desk %kids)
+      ::        =(desk %landscape)
+      ::    ==
+      ::  =/  sources
+      ::    %-  malt
+      ::    %+  skip
+      ::      %~  tap  by
+      ::      .^  (map desk [ship desk])
+      ::          %gx
+      ::          /(scot %p our.bowl)
+      ::          /hood
+      ::          /(scot %da now.bowl)
+      ::          /kiln
+      ::          /sources
+      ::          /noun
+      ::      ==
+      ::    |=  [=desk [ship desk]]
+      ::    ^-  ?
+      ::    ?|  =(desk %hits)
+      ::        =(desk %landscape)
+      ::    ==
+      =/  desks
+        *(map desk [?(%dead %live %held) (set (pair term @ud))])
+      =/  sources
+        *(map desk [ship desk])
+      =/  new-local=_local
+        %+  roll
+          ~(tap by desks)
+        |=  [[=desk [state=?(%dead %live %held) *]] result=(set app)]
+        ^+  result
+        =/  source
+          (~(get by sources) desk)
+        ?:  =(state %live)
+          ?~  source
+            result
+          (~(put in result) u.source)
+        ::  remove outdated app from local state
+        ?.  =(state %held)
+          result
+        ?~  source
+          result
+        (~(del in result) u.source)
+      ~&  >  "hits: new-local: {<new-local>}"
+      ::
+      ::  both empty if there's no difference
+      =/  added
+        (~(dif in new-local) local)
+      ~&  >  "hits: added {<added>}"
+      =/  removed
+        (~(dif in local) new-local)
+      ~&  >  "hits: removed {<removed>}"
+      ::
+      :_  this(local new-local)
+      ::
+      ::  notify via gossip about stuff
+      ::  we've (un)installed recently
+      ~&  >>  "hits: woken up by behn"
+      :-  :*  %pass
+              /timers
+              %arvo
+              %b
+              %wait
+              ::  XX move back to 5m
+              (add now.bowl ~s10)
+          ==
+      %+  weld
+        ::  apps we've added
+        %+  turn
+          ~(tap in added)
+        |=  [=ship =desk]
+        ^-  card
+        %+  invent:gossip
+          %hit
+        !>  ^-  hit
+        :*  our.bowl
+            now.bowl
+            [ship desk]
+            (scry-kelvin our.bowl desk now.bowl)
+            %.y
+        ==
+      ::  apps we've removed
+      %+  turn
+        ~(tap in removed)
+      |=  [=ship =desk]
+      ^-  card
+      %+  invent:gossip
+        %hit
+      !>  ^-  hit
+      :*  our.bowl
+          now.bowl
+          [ship desk]
+          (scry-kelvin our.bowl desk now.bowl)
+          %.n
+      ==
     ==
   ::
     ::  ?+  sign-arvo
