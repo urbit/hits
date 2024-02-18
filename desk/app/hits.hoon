@@ -26,7 +26,7 @@
       ::  XX fill in value type for dockets
       dockets=(map app *)
   ==
-+$  card  card:agent:gall
++$  card  $+(card card:agent:gall)
 ::
 ::  max. number of apps
 ::  to list on frontend
@@ -245,7 +245,14 @@
   ::
       [%timers ~]
       ~&  >  "/timers"
+    ?+  sign-arvo
+      (on-arvo:def `wire`pole sign-arvo)
+    ::
+        [%behn %wake *]
+      ~&  >  "[%behn %wake]"
       `this
+    ==
+  ::
     ::  ?+  sign-arvo
     ::    ~&  >  "hits: default response on /timers wire to {<sign-arvo>}"
     ::    (on-arvo:def `wire`pole sign-arvo)
@@ -257,66 +264,73 @@
     ::    ::  apps every five minutes
     ::    ::
     ::    =/  desks
-    ::      %-  malt
-    ::      %+  skip
-    ::        %~  tap  by
-    ::        .^  rock:tire:clay
-    ::            %cx
-    ::            /(scot %p our.bowl)
-    ::            /(scot %da now.bowl)
-    ::            /tire
-    ::        ==
-    ::      |=  [=desk [@tas (set [@tas @ud])]]
-    ::      ^-  ?
-    ::      ?|  =(desk %hits)
-    ::          =(desk %kids)
-    ::          =(desk %landscape)
-    ::      ==
+    ::      ::  %-  malt
+    ::      ::  %+  skip
+    ::      ::    %~  tap  by
+    ::      ::    .^  rock:tire:clay
+    ::      ::        %cx
+    ::      ::        /(scot %p our.bowl)
+    ::      ::        /(scot %da now.bowl)
+    ::      ::        /tire
+    ::      ::    ==
+    ::      ::  |=  [=desk [@tas (set [@tas @ud])]]
+    ::      ::  ^-  ?
+    ::      ::  ?|  =(desk %hits)
+    ::      ::      =(desk %kids)
+    ::      ::      =(desk %landscape)
+    ::      ::  ==
     ::    ~&  >  "hits: desks {<desks>}"
+    ::    *desks
     ::    ::
     ::    =/  sources
-    ::      %-  malt
-    ::      %+  skip
-    ::        %~  tap  by
-    ::        .^  (map desk [ship desk])
-    ::            %gx
-    ::            /(scot %p our.bowl)
-    ::            /hood
-    ::            /(scot %da now.bowl)
-    ::            /kiln
-    ::            /sources
-    ::            /noun
-    ::        ==
-    ::      |=  [=desk [ship desk]]
-    ::      ^-  ?
-    ::      ?|  =(desk %hits)
-    ::          =(desk %landscape)
-    ::      ==
-    ::    ~&  >  "hits: sources {<sources>}"
+    ::      ::  %-  malt
+    ::      ::  %+  skip
+    ::      ::    %~  tap  by
+    ::      ::    .^  (map desk [ship desk])
+    ::      ::        %gx
+    ::      ::        /(scot %p our.bowl)
+    ::      ::        /hood
+    ::      ::        /(scot %da now.bowl)
+    ::      ::        /kiln
+    ::      ::        /sources
+    ::      ::        /noun
+    ::      ::    ==
+    ::      ::  |=  [=desk [ship desk]]
+    ::      ::  ^-  ?
+    ::      ::  ?|  =(desk %hits)
+    ::      ::      =(desk %landscape)
+    ::      ::  ==
+    ::      ~&  >  "hits: sources {<sources>}"
+    ::      *sources
     ::    ::
     ::    =/  new-local=_local
-    ::      %+  roll
-    ::        ~(tap by desks)
-    ::      |=  [[=desk [state=?(%dead %live %held) *]] result=(set app)]
-    ::      ^+  result
-    ::      =/  source
-    ::        (~(get by sources) desk)
-    ::      ?:  =(state %live)
-    ::        ?~  source
-    ::          result
-    ::        (~(put in result) u.source)
-    ::      ::  remove outdated app from local state
-    ::      ?.  =(state %held)
-    ::        result
-    ::      ?~  source
-    ::        result
-    ::      (~(del in result) u.source)
+    ::      *local
+    ::      ::  %+  roll
+    ::      ::    ~(tap by desks)
+    ::      ::  |=  [[=desk [state=?(%dead %live %held) *]] result=(set app)]
+    ::      ::  ^+  result
+    ::      ::  =/  source
+    ::      ::    (~(get by sources) desk)
+    ::      ::  ?:  =(state %live)
+    ::      ::    ?~  source
+    ::      ::      result
+    ::      ::    (~(put in result) u.source)
+    ::      ::  ::  remove outdated app from local state
+    ::      ::  ?.  =(state %held)
+    ::      ::    result
+    ::      ::  ?~  source
+    ::      ::    result
+    ::      ::  (~(del in result) u.source)
     ::    ~&  >  "hits: new-local: {<new-local>}"
     ::    ::
     ::    ::  both empty if there's no difference
-    ::    =/  added    (~(dif in new-local) local)
+    ::    =/  added
+    ::      *added
+    ::      ::  (~(dif in new-local) local)
     ::    ~&  >  "hits: added {<added>}"
-    ::    =/  removed  (~(dif in local) new-local)
+    ::    =/  removed
+    ::      *removed
+    ::      ::  (~(dif in local) new-local)
     ::    ~&  >  "hits: removed {<removed>}"
     ::    ::
     ::    :_  this(local new-local)
@@ -324,43 +338,44 @@
     ::    ::  notify via gossip about stuff
     ::    ::  we've (un)installed recently
     ::    ~&  >>  "hits: woken up by behn"
-    ::    :-  :*  %pass
-    ::            /timers
-    ::            %arvo
-    ::            %b
-    ::            %wait
-    ::            ::  XX move back to 5m
-    ::            (add now.bowl ~s10)
-    ::        ==
-    ::    %+  weld
-    ::      ::  apps we've added
-    ::      %+  turn
-    ::        ~(tap in added)
-    ::      |=  [=ship =desk]
-    ::      ^-  card
-    ::      %+  invent:gossip
-    ::        %hit
-    ::      !>  ^-  hit
-    ::      :*  our.bowl
-    ::          now.bowl
-    ::          [ship desk]
-    ::          (scry-kelvin our.bowl desk now.bowl)
-    ::          %.y
-    ::      ==
-    ::    ::  apps we've removed
-    ::    %+  turn
-    ::      ~(tap in removed)
-    ::    |=  [=ship =desk]
-    ::    ^-  card
-    ::    %+  invent:gossip
-    ::      %hit
-    ::    !>  ^-  hit
-    ::    :*  our.bowl
-    ::        now.bowl
-    ::        [ship desk]
-    ::        (scry-kelvin our.bowl desk now.bowl)
-    ::        %.n
-    ::    ==
+    ::    ~
+    ::    ::  :-  :*  %pass
+    ::    ::          /timers
+    ::    ::          %arvo
+    ::    ::          %b
+    ::    ::          %wait
+    ::    ::          ::  XX move back to 5m
+    ::    ::          (add now.bowl ~s10)
+    ::    ::      ==
+    ::    ::  %+  weld
+    ::    ::    ::  apps we've added
+    ::    ::    %+  turn
+    ::    ::      ~(tap in added)
+    ::    ::    |=  [=ship =desk]
+    ::    ::    ^-  card
+    ::    ::    %+  invent:gossip
+    ::    ::      %hit
+    ::    ::    !>  ^-  hit
+    ::    ::    :*  our.bowl
+    ::    ::        now.bowl
+    ::    ::        [ship desk]
+    ::    ::        (scry-kelvin our.bowl desk now.bowl)
+    ::    ::        %.y
+    ::    ::    ==
+    ::    ::  ::  apps we've removed
+    ::    ::  %+  turn
+    ::    ::    ~(tap in removed)
+    ::    ::  |=  [=ship =desk]
+    ::    ::  ^-  card
+    ::    ::  %+  invent:gossip
+    ::    ::    %hit
+    ::    ::  !>  ^-  hit
+    ::    ::  :*  our.bowl
+    ::    ::      now.bowl
+    ::    ::      [ship desk]
+    ::    ::      (scry-kelvin our.bowl desk now.bowl)
+    ::    ::      %.n
+    ::    ::  ==
     ::  ==  ::  end of sign-arvo branches
   ::
       [%docket %init =ship =desk ~]
