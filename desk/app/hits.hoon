@@ -250,7 +250,13 @@
     ::
         [%behn %wake *]
       ~&  >  "[%behn %wake]"
-      ::  `this
+      ?^  `*`error.sign-arvo
+        ((slog (crip "hits: timer failure {<sign-arvo>}") ~) `this)
+      ~&  >  "%behn %wake with no error"
+      =/  desks
+        *(map desk [?(%dead %live %held) (set (pair term @ud))])
+      =/  sources
+        *(map desk [ship desk])
       ::
       ::  check our locally-installed
       ::  apps every five minutes
@@ -262,6 +268,7 @@
       ::      .^  rock:tire:clay
       ::          %cx
       ::          /(scot %p our.bowl)
+      ::          /  ::  XX this might fix the scry path?
       ::          /(scot %da now.bowl)
       ::          /tire
       ::      ==
@@ -289,10 +296,6 @@
       ::    ?|  =(desk %hits)
       ::        =(desk %landscape)
       ::    ==
-      =/  desks
-        *(map desk [?(%dead %live %held) (set (pair term @ud))])
-      =/  sources
-        *(map desk [ship desk])
       =/  new-local=_local
         %+  roll
           ~(tap by desks)
