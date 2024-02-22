@@ -253,49 +253,49 @@
       ?^  `*`error.sign-arvo
         ((slog (crip "hits: timer failure {<sign-arvo>}") ~) `this)
       ~&  >  "%behn %wake with no error"
-      =/  desks
-        *(map desk [?(%dead %live %held) (set (pair term @ud))])
-      =/  sources
-        *(map desk [ship desk])
       ::
       ::  check our locally-installed
       ::  apps every five minutes
       ::
-      ::  =/  desks
-      ::    %-  malt
-      ::    %+  skip
-      ::      %~  tap  by
-      ::      .^  rock:tire:clay
-      ::          %cx
-      ::          /(scot %p our.bowl)
-      ::          /  ::  XX this might fix the scry path?
-      ::          /(scot %da now.bowl)
-      ::          /tire
-      ::      ==
-      ::    |=  [=desk [@tas (set [@tas @ud])]]
-      ::    ^-  ?
-      ::    ?|  =(desk %hits)
-      ::        =(desk %kids)
-      ::        =(desk %landscape)
-      ::    ==
-      ::  =/  sources
-      ::    %-  malt
-      ::    %+  skip
-      ::      %~  tap  by
-      ::      .^  (map desk [ship desk])
-      ::          %gx
-      ::          /(scot %p our.bowl)
-      ::          /hood
-      ::          /(scot %da now.bowl)
-      ::          /kiln
-      ::          /sources
-      ::          /noun
-      ::      ==
-      ::    |=  [=desk [ship desk]]
-      ::    ^-  ?
-      ::    ?|  =(desk %hits)
-      ::        =(desk %landscape)
-      ::    ==
+      =/  desks
+        %-  malt
+        %+  skip
+          %~  tap  by
+          ::  XX tall-form scry causes an error
+          ::  .^  rock:tire:clay
+          ::      %cx
+          ::      /(scot %p our.bowl)
+          ::      /
+          ::      /(scot %da now.bowl)
+          ::      /tire
+          ::  ==
+          .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
+        |=  [=desk [@tas (set [@tas @ud])]]
+        ^-  ?
+        ?|  =(desk %hits)
+            =(desk %kids)
+            =(desk %landscape)
+        ==
+      =/  sources
+        %-  malt
+        %+  skip
+          %~  tap  by
+          ::  XX tall-form scry causes an error
+          ::      .^  (map desk [ship desk])
+          ::          %gx
+          ::          /(scot %p our.bowl)
+          ::          /hood
+          ::          /(scot %da now.bowl)
+          ::          /kiln
+          ::          /sources
+          ::          /noun
+          ::      ==
+          .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
+        |=  [=desk [ship desk]]
+        ^-  ?
+        ?|  =(desk %hits)
+            =(desk %landscape)
+        ==
       =/  new-local=_local
         %+  roll
           ~(tap by desks)
