@@ -1,6 +1,7 @@
 /-  *hits
 /+  *hits, gossip, default-agent
 /$  grab-hit  %noun  %hit
+/$  grab-update-docket  %noun  %update-docket
 ::
 |%
 ::
@@ -42,9 +43,10 @@
 ::
 %-  %+  agent:gossip
       [2 %anybody %anybody |]
-    %+  ~(put by *(map mark $-(* vase)))
-      %hit
-    |=(n=* !>((grab-hit n)))
+    %-  %~  put  by
+      %-  ~(put by *(map mark $-(* vase)))
+      [%hit |=(n=* !>((grab-hit n)))]
+    [%update-docket |=(n=* !>((grab-update-docket n)))]
 ^-  agent:gall
 ::
 |_  =bowl:gall
@@ -147,15 +149,15 @@
         ::  add app info to state on install
         ::  XX send installed app info to frontend
         ::  XX refuse to show app in frontend if there's no docket info
-        ::  ~&  >>  "requesting data for /docket/init/{<(scot %p ship.app.hit)>}/{<(scot %tas desk.app.hit)>}"
+        ::  ~&  >>  "requesting data for /docket/read/{<(scot %p ship.app.hit)>}/{<(scot %tas desk.app.hit)>}"
         :-  :~  :*  %pass
-                    /docket/init/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
+                    /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
                     %arvo
                     %k
                     %fard
                     %base
                     %read
-                    %docket-0
+                    %noun
                     !>  ::  XX add ^-
                     :*  ~
                         %q
@@ -165,32 +167,6 @@
                         /desk/docket-0
                     ==
                 ==
-                ::  :*  %pass
-                ::      /docket/init/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
-                ::      %arvo
-                ::      %c
-                ::      %warp
-                ::      ship.app.hit
-                ::      desk.app.hit
-                ::      ~
-                ::      %sing
-                ::      %x
-                ::      [%da now.bowl]
-                ::      /desk/docket-0
-                ::  ==
-                ::  :*  %pass
-                ::      /docket/update/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
-                ::      %arvo
-                ::      %c
-                ::      %warp
-                ::      ship.app.hit
-                ::      desk.app.hit
-                ::      ~
-                ::      %next
-                ::      %x
-                ::      [%da now.bowl]
-                ::      /desk/docket-0
-                ::  ==
             ==
         %=  this
           scores    %-  ~(put by scores)
@@ -215,16 +191,7 @@
       ::  update app info on uninstall
       ::  XX send info to frontend
       ::  XX update %hit mark to include json
-      :-  :~  :*  %pass
-                  ~
-                  %arvo
-                  %c
-                  %warp
-                  ship.app.hit
-                  desk.app.hit
-                  ~
-              ==
-          ==
+      :-  ~
       %=  this
         scores   %-  ~(put by scores)
                  :-  app.hit
@@ -344,17 +311,41 @@
       ::
       ::  notify via gossip about stuff
       ::  we've (un)installed recently
+      ::  and update our own state
       ::  ~&  >  "hits: woken up by behn"
-      :-  :*  %pass
-              /timers
-              %arvo
-              %b
-              %wait
-              ::  XX move back to 5m
-              (add now.bowl ~s10)
-          ==
+      %+  welp
+        ::
+        :: cards for our arvo
+        :-
+        :*  %pass
+            /timers
+            %arvo
+            %b
+            %wait
+            ::  XX move back to 5m
+            (add now.bowl ~s10)
+        ==
+        %+  turn
+          ~(tap in added)
+        |=  [=ship =desk]
+        ^-  card
+        :*  %pass
+            /docket/update/(scot %p ship)/(scot %tas desk)
+            %arvo
+            %c
+            %warp
+            our.bowl
+            desk
+            ~
+            %next
+            %x
+            [%da now.bowl]
+            /desk/docket-0
+        ==
+      ::
+      ::  cards for our peers
       %+  weld
-        ::  apps we've added
+        ::  gossip apps we've added
         %+  turn
           ~(tap in added)
         |=  [=ship =desk]
@@ -368,7 +359,7 @@
             (scry-kelvin our.bowl desk now.bowl)
             %.y
         ==
-      ::  apps we've removed
+      ::  gossip apps we've removed
       %+  turn
         ~(tap in removed)
       |=  [=ship =desk]
@@ -384,7 +375,7 @@
       ==
     ==
   ::
-      [%docket %init =ship =desk ~]
+      [%docket %read =ship =desk ~]
     ::  ~&  >  "hits: received initial docket info"
     ::  ~&  >  "hits: app is {<desk.pole>}"
     ::  ~&  >  "hits: publisher is {<`@p`(slav %p ship.pole)>}"
@@ -399,37 +390,40 @@
       %=  this
         dockets  (~(put by dockets) [[`@p`(slav %p ship.pole) desk.pole] (docket-0 (tail (tail +.p.sign-arvo)))])
       ==
-      ::
-      ::    [%clay %writ *]
-      ::    ::  `this
-      ::  =/  =riot:clay  p.sign-arvo
-      ::  ?~  riot
-      ::    ((slog (crip "hits: failed to read docket file from {<`@p`(slav %p ship.pole)>}'s {<desk.pole>}") ~) `this)
-      ::  ::  XX send new docket info to frontend
-      ::  :-  ~
-      ::  ::  ~&  >>  "riot: {<riot>}"
-      ::  ::  ~&  >>  "u.riot:  {<u.riot>}"
-      ::  ::  ~&  >>  "r.u.riot {<r.u.riot>}"
-      ::  ::  ~&  >>  "q.r.u.riot: {<q.r.u.riot>}"
-      ::  ::  XX fix
-      ::  this
-      ::  ::  %=  this
-      ::  ::     dockets  (~(put by dockets) [[ship desk] q.r.u.riot])
-      ::  ::  ==
     ==
   ::
       [%docket %update =ship =desk ~]
-    ::  ~&  >  "hits: received updated docket info"
+    ~&  >  "/docket/update for {<desk.pole>}"
     ?+    sign-arvo
         (on-arvo:def `wire`pole sign-arvo)
     ::
-        [%khan %arow *]
-      ?.  -.p.sign-arvo
-        ((slog (crip "hits: failed to read docket file from {<desk.pole>}") ~) `this)
-      ::  success
-      ::  ~&  >  "hits: received docket file info from {<desk.pole>}"
-      ::  XX send new docket info to frontend
-      `this
+        [%clay %writ *]
+      ::  XX update peers about new docket
+      ::  XX don't actually send new docket;
+      ::     tell peers to update from publisher
+      :_  this
+      :~  %+  invent:gossip
+            %update-docket
+          !>  ^-  app
+          [`@p`(slav %p ship.pole) desk.pole]
+          :*  %pass
+              /docket/read/[ship.pole]/[desk.pole]
+              %arvo
+              %k
+              %fard
+              %base
+              %read
+              %noun
+              !>  ::  XX add ^-
+              :*  ~
+                  %q
+                  our.bowl
+                  (slav %tas desk.pole)
+                  [%da now.bowl]
+                  /desk/docket-0
+              ==
+          ==
+      ==
     ==
   ==  ::  end of wire branches
 ::
