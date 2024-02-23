@@ -17,14 +17,13 @@
 +$  state-0
   ::
   ::  XX test to see if frontend performance is okay
-  ::     with $scores as a map; could change it to
-  ::     an ordered list
+  ::     with $scores as a map; could add an ordered list
+  ::     of top n most popular apps to the state
   ::
   $:  local=(set app)
       scores=(map app score)
       versions=(map app kelvin)
       installs=(map app (list time))
-      ::  XX fill in value type for dockets
       dockets=(map app docket-0)
   ==
 +$  card  $+(card card:agent:gall)
@@ -54,12 +53,8 @@
     def   ~(. (default-agent this %|) bowl)
 ::
 ++  on-init
-  ::  XX check we have %pals and some ships in there
-  ::       - if so, remote scry their %hits states
-  ::       - combine it all into our local state
   ::
   ::  immediately populate our local state and gossip around
-  ::  ~&  >>  "hits: initialising state"
   ^-  (quip card _this)
   :_  this
   :~  :*  %pass
@@ -169,7 +164,6 @@
           ::  add app info to state on install
           ::  XX send installed app info to frontend
           ::  XX refuse to show app in frontend if there's no docket info
-          ::  ~&  >>  "requesting data for /docket/read/{<(scot %p ship.app.hit)>}/{<(scot %tas desk.app.hit)>}"
           :-  :~  :*  %pass
                       /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
                       %arvo
@@ -249,15 +243,12 @@
     (on-arvo:def `wire`pole sign-arvo)
   ::
       [%timers ~]
-      ::  ~&  >  "/timers"
     ?+  sign-arvo
       (on-arvo:def `wire`pole sign-arvo)
     ::
         [%behn %wake *]
-      ::  ~&  >  "[%behn %wake]"
       ?^  `*`error.sign-arvo
         ((slog (crip "hits: timer failure {<sign-arvo>}") ~) `this)
-      ::  ~&  >  "%behn %wake with no error"
       ::
       ::  check our locally-installed
       ::  apps every five minutes
@@ -318,22 +309,18 @@
         ?~  source
           result
         (~(del in result) u.source)
-      ::  ~&  >  "hits: new-local: {<new-local>}"
       ::
       ::  both empty if there's no difference
       =/  added
         (~(dif in new-local) local)
-      ::  ~&  >  "hits: added {<added>}"
       =/  removed
         (~(dif in local) new-local)
-      ::  ~&  >  "hits: removed {<removed>}"
       ::
       :_  this(local new-local)
       ::
       ::  notify via gossip about stuff
       ::  we've (un)installed recently
       ::  and update our own state
-      ::  ~&  >  "hits: woken up by behn"
       %+  welp
         ::
         :: cards for our arvo
@@ -397,9 +384,6 @@
     ==
   ::
       [%docket %read =ship =desk ~]
-    ::  ~&  >  "hits: received initial docket info"
-    ::  ~&  >  "hits: app is {<desk.pole>}"
-    ::  ~&  >  "hits: publisher is {<`@p`(slav %p ship.pole)>}"
     ?+    sign-arvo
         (on-arvo:def `wire`pole sign-arvo)
     ::
