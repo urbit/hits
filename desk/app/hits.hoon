@@ -1,5 +1,7 @@
 /-  *hits
 /+  *hits, gossip, default-agent
+::  XX get marks in a /mar/hits folder and improve the
+::     names; something like %hits-install and %hits-refresh
 /$  grab-hit  %noun  %hit
 /$  grab-update-docket  %noun  %update-docket
 ::
@@ -79,7 +81,7 @@
   ?+  path
     (on-watch:def path)
   ::
-      [%hits ~]
+      [%ui-updates ~]
     ::
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device

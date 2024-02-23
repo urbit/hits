@@ -5,6 +5,12 @@
 +$  src        ship
 +$  app        [=ship =desk]
 ::
++$  ui-update
+  $%  [%app-installed =app installs=(list time)]
+      [%app-uninstalled =app installs=(list time)]
+      [%app-refreshed =app docket=docket-0]
+  ==
+::
 +$  version
   $+  version-hits
   [major=@ud minor=@ud patch=@ud]
