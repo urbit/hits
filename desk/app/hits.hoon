@@ -125,99 +125,120 @@
         %fact
       =*  mark  p.cage.sign
       =*  vase  q.cage.sign
-      ?.  =(%hit mark)
-        ~&  :*  dap.bowl
-                %unexpected-mark-fact
-                mark
-                wire=wire
-            ==
-        `this
-      =+  !<(=hit vase)
-      =/  app-score
-        (~(gut by scores) app.hit 0)
-      ?:  installed.hit
-        ::
-        ::  XX should we |hi new app devs who aren't
-        ::     already discovered peers?
-        ::     - maybe even scry what apps they're
-        ::       publishing now if it helps performance
-        ::       when user clicks through to Landscape
-        ::     - does Landscape cache that list of published
-        ::       apps? could it be outdated if app dev unpublishes
-        ::       an app?
-        ::
-        ::  add app info to state on install
-        ::  XX send installed app info to frontend
-        ::  XX refuse to show app in frontend if there's no docket info
-        ::  ~&  >>  "requesting data for /docket/read/{<(scot %p ship.app.hit)>}/{<(scot %tas desk.app.hit)>}"
-        :-  :~  :*  %pass
-                    /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
-                    %arvo
-                    %k
-                    %fard
-                    %base
-                    %read
-                    %noun
-                    !>  ::  XX add ^-
-                    :*  ~
-                        %q
-                        ship.app.hit
-                        desk.app.hit
-                        [%da now.bowl]
-                        /desk/docket-0
-                    ==
+      ?+  mark
+        ~|([%unexepected-mark-fact mark wire] !!)
+      ::
+          %update-docket
+        ~&  >  "hits: got %update-docket message"
+        =+  !<(updated-app=app vase)
+        :_  this
+        :~  :*  %pass
+                /docket/read/(scot %p ship.updated-app)/(scot %tas desk.updated-app)
+                %arvo
+                %k
+                %fard
+                %base
+                %read
+                %noun
+                !>  ::  XX add ^-
+                :*  ~
+                    %q
+                    ship.updated-app
+                    desk.updated-app
+                    [%da now.bowl]
+                    /desk/docket-0
                 ==
             ==
-        %=  this
-          scores    %-  ~(put by scores)
-                    :-  app.hit
-                    +(app-score)
-          versions  %-  ~(put by versions)
-                    :-  app.hit
-                    kelvin.hit
-          installs  %-  ~(put by installs)
-                    :-  app.hit
-                    %+  scag
-                      date-limit
-                    %+  sort
-                      :-  time.hit
-                      %-  ~(gut by installs)
-                      :-  app.hit
-                      ~[now.bowl]
-                    |=  [a=time b=time]
-                    ^-  ?
-                    (gth a b)
         ==
-      ::  update app info on uninstall
-      ::  XX send info to frontend
-      ::  XX update %hit mark to include json
-      :-  ~
-      %=  this
-        scores   %-  ~(put by scores)
-                 :-  app.hit
-                 (dec (max app-score 1))
-        dockets  (~(del by dockets) app.hit)
-        ::
-        ::  uninstalled apps are penalised by snipping the head off
-        ::  from the sorted list of their install datetimes; this
-        ::  should quickly move them down the 'trending' feed
-        ::
-        ::  XX reconsider this
-        installs  ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
-                    ::  if app has >1 installs,
-                    ::  remove the most recent
-                    %-  ~(put by installs)
-                    :-  app.hit
-                    (tail (sort (~(got by installs) app.hit) gth))
-                  ::  if not, check app exists
-                  ?~  (~(get by installs) app.hit)
-                    ::  if app doesn't exist,
-                    ::  return installs
-                    installs
-                  ::  if app does exist and has
-                  ::  exactly 1 install, remove app
-                  (~(del by installs) app.hit)
-      ==
+      ::
+          %hit
+        =+  !<(=hit vase)
+        =/  app-score
+          (~(gut by scores) app.hit 0)
+        ?:  installed.hit
+          ::
+          ::  XX should we |hi new app devs who aren't
+          ::     already discovered peers?
+          ::     - maybe even scry what apps they're
+          ::       publishing now if it helps performance
+          ::       when user clicks through to Landscape
+          ::     - does Landscape cache that list of published
+          ::       apps? could it be outdated if app dev unpublishes
+          ::       an app?
+          ::
+          ::  add app info to state on install
+          ::  XX send installed app info to frontend
+          ::  XX refuse to show app in frontend if there's no docket info
+          ::  ~&  >>  "requesting data for /docket/read/{<(scot %p ship.app.hit)>}/{<(scot %tas desk.app.hit)>}"
+          :-  :~  :*  %pass
+                      /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
+                      %arvo
+                      %k
+                      %fard
+                      %base
+                      %read
+                      %noun
+                      !>  ::  XX add ^-
+                      :*  ~
+                          %q
+                          ship.app.hit
+                          desk.app.hit
+                          [%da now.bowl]
+                          /desk/docket-0
+                      ==
+                  ==
+              ==
+          %=  this
+            scores    %-  ~(put by scores)
+                      :-  app.hit
+                      +(app-score)
+            versions  %-  ~(put by versions)
+                      :-  app.hit
+                      kelvin.hit
+            installs  %-  ~(put by installs)
+                      :-  app.hit
+                      %+  scag
+                        date-limit
+                      %+  sort
+                        :-  time.hit
+                        %-  ~(gut by installs)
+                        :-  app.hit
+                        ~[now.bowl]
+                      |=  [a=time b=time]
+                      ^-  ?
+                      (gth a b)
+          ==
+        ::  update app info on uninstall
+        ::  XX send info to frontend
+        ::  XX update %hit mark to include json
+        :-  ~
+        %=  this
+          scores   %-  ~(put by scores)
+                  :-  app.hit
+                  (dec (max app-score 1))
+          dockets  (~(del by dockets) app.hit)
+          ::
+          ::  uninstalled apps are penalised by snipping the head off
+          ::  from the sorted list of their install datetimes; this
+          ::  should quickly move them down the 'trending' feed
+          ::
+          ::  XX reconsider this
+          installs  ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
+                      ::  if app has >1 installs,
+                      ::  remove the most recent
+                      %-  ~(put by installs)
+                      :-  app.hit
+                      (tail (sort (~(got by installs) app.hit) gth))
+                    ::  if not, check app exists
+                    ?~  (~(get by installs) app.hit)
+                      ::  if app doesn't exist,
+                      ::  return installs
+                      installs
+                    ::  if app does exist and has
+                    ::  exactly 1 install, remove app
+                    (~(del by installs) app.hit)
+        ==
+      ==  ::  end of mark branches
     == ::  end of sign branches
   == ::  end of wire branches
 ::
