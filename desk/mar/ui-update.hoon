@@ -18,9 +18,9 @@
         ==
       %version-updated
         %-  paris:enjs
-        :~  ['uiUpdate' [%s 'kelvin-updated']]
+        :~  ['uiUpdate' [%s 'version-updated']]
             ['app' [%s (scot %tas app.upd)]]
-            ['kelvin' [%n (scot %ud kelvin.upd)]]
+            ['version' [%n (scot %ud kelvin.upd)]]
         ==
       %installs-updated
         %-  pairs:enjs
