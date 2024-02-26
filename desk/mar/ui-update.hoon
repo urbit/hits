@@ -30,7 +30,8 @@
             :-  %a
             %+  turn
               installs.upd
-            |=(=time [%n (scot %ud (unt:chrono:userlib time))])
+
+            |=(=time [%n (time:enjs time)])
         ==
       %docket-updated
         =,  docket.upd

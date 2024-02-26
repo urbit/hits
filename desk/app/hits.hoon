@@ -2,7 +2,7 @@
 /+  *hits, gossip, default-agent
 ::  XX get marks in a /mar/hits folder and improve the
 ::     names; something like %hits-install and %hits-refresh
-/$  grab-hit  %noun  %hit
+/$  grab-hit            %noun  %hit
 /$  grab-update-docket  %noun  %update-docket
 ::
 |%
@@ -17,39 +17,35 @@
   ==
 ::
 +$  state-0
-  ::
-  ::  XX test to see if frontend performance is okay
-  ::     with $scores as a map; could add an ordered list
-  ::     of top n most popular apps to the state
-  ::
-  $:  local=(set app)
-      scores=(map app score)
-      versions=(map app kelvin)
-      installs=(map app (list time))
-      dockets=(map app docket-0)
+  $:  local=(set app)                 ::  our locally-installed apps
+      rankings=(list app)             ::  ordered list of most-installed apps
+      scores=(map app score)          ::  app scores
+      versions=(map app kelvin)       ::  app versions
+      installs=(map app (list time))  ::  most recent installs
+      dockets=(map app docket-0)      ::  docket info for each app
   ==
 +$  card  $+(card card:agent:gall)
 ::
-::  max. number of apps
-::  to list on frontend
-++  chart-limit  40
-::
 ::  max. number of installs
 ::  to track for each app
+::  XX arguably remove this: cheap to store @das, can
+::     let frontend dev decide what algorithm they want
 ++  date-limit  25
 --
 ::
 =|  state-0
 =*  state  -
 ::
+::  /lib/gossip.hoon config
 %-  %+  agent:gossip
       [2 %anybody %anybody |]
     %-  %~  put  by
-      %-  ~(put by *(map mark $-(* vase)))
+      %-  %~  put  by
+        *(map mark $-(* vase)))
       [%hit |=(n=* !>((grab-hit n)))]
     [%update-docket |=(n=* !>((grab-update-docket n)))]
-^-  agent:gall
 ::
+^-  agent:gall
 |_  =bowl:gall
 +*  this  .
     def   ~(. (default-agent this %|) bowl)
@@ -72,7 +68,6 @@
   !>(state)
 ::
 ++  on-load  on-load:def
-::
 ++  on-poke  on-poke:def
 ++  on-watch
   |=  =path
@@ -190,6 +185,7 @@
                 scores    (~(put by scores) [app.hit new-score])
                 versions  (~(put by versions) [app.hit new-version])
                 installs  (~(put by installs) [app.hit new-installs])
+                rankings  (rank-apps (~(put by scores) [app.hit new-score]))
               ==
           :~  :*  %pass
                   /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
@@ -269,6 +265,7 @@
               installs  new-installs
               versions  new-versions
               scores    (~(put by scores) [app.hit new-score])
+              rankings  (rank-apps (~(put by scores) [app.hit new-score]))
             ==
         :~  :*  %give
                 %fact
@@ -497,50 +494,55 @@
     ==
   ==  ::  end of wire branches
 ::
-++  on-leave  on-leave:def
 ++  on-peek
   |=  =path
   ^-  (unit (unit cage))
   ?+  path
     (on-peek:def path)
   ::
-      [%x %scores ~]
+      [%x %rankings ~]
     ::
-    ::  scry top-scoring <chart-limit> apps
+    ::  initial rankings, used to popular frontend state
+    ::  XX example scries
+    ``[%hits-rankings !>(rankings)]
+  ::
+      [%x app %score ~]
+    ::
+    ::  app's score
+    ::  XX example scries
+    =*  app    i.t.path
+    ``[%hits-score !>((~(got by scores) app))]
+  ::
+      [%x app %version ~]
+    ::
+    ::  app's current %zuse kelvin version
+    ::  compatibility (e.g. 412, 411)
+    ::  XX example scries
+    =*  app    i.t.path
+    ``[%hits-version !>((~(got by versions) app))]
+  ::
+      [%x app %docket ~]
+    ::
+    ::  app's docket info
+    ::  XX example scries
+    =*  app    i.t.path
+    ``[%hits-docket !>((~(got by dockets) app))]
+  ::
+      [%x app %installs @ud ~]
+    ::
+    ::  date of app's most recent n installs
+    ::  XX example scries
+    =*  app    i.t.path
+    =*  limit  i.t.t.t.path
     %-  some
     %-  some
-    :-  %scores
-    !>  ^-  (list (pair app score))
-    =/  desks
-      %-  malt
-      %+  skip
-        %~  tap  by
-        .^  rock:tire:clay
-            %cx
-            /(scot %p our.bowl)
-            /(scot %da now.bowl)
-            /tire
-        ==
-      |=  [=desk [@tas (set [@tas @ud])]]
-      ^-  ?
-      =(desk ?(%kids %landscape))
+    :-  %hits-installs
+    !>  ^-  (list time)
     %+  scag
-      chart-limit
-    %+  sort
-      ::
-      ::  prevent outdated desks
-      ::  from reaching frontend
-      %+  skip
-        ~(tap by scores)
-      |=  [=app =score]
-      ^-  ?
-      ?~  (~(get by desks) desk.app)
-        %.y
-      =(%held -:(need (~(get by desks) desk.app)))
-    |=  [a=[app =score] b=[app =score]]
-    ^-  ?
-    (gth score.a score.b)
-  ==  ::  end of path branches
+      ~(tap by (~(got by installs) app))
+    limit
+  ==
 ::
 ++  on-fail   on-fail:def
+++  on-leave  on-leave:def
 --

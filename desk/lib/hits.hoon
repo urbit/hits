@@ -1,4 +1,18 @@
+/-  *hits
 |%
+++  rank-apps
+  |=  scores=(map app score)
+  ^-  (list app)
+  %+  turn
+    %+  sort
+      ~(tap by scores)
+    |=  [a=[app score] b=[app score]]
+    ^-  ?
+    (gte +.a +.b)
+  |=  [=app score]
+  ^-  app
+  app
+::
 ++  scry-kelvin
   |=  [our=@p =desk now=@da]
   ^-  @ud
