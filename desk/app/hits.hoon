@@ -227,7 +227,7 @@
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  [%kelvin-updated [app.hit new-version]]
+                  [%version-updated [app.hit new-version]]
               ==
           ==
         ::

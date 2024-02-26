@@ -16,7 +16,7 @@
             ['app' [%s (scot %tas app.upd)]]
             ['score' [%n (scot %ud score.upd)]]
         ==
-      %kelvin-updated
+      %version-updated
         %-  paris:enjs
         :~  ['uiUpdate' [%s 'kelvin-updated']]
             ['app' [%s (scot %tas app.upd)]]

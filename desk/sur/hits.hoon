@@ -8,7 +8,7 @@
 +$  ui-update
   $+  ui-update-hits
   $%  [%score-updated =app =score]
-      [%kelvin-updated =app =kelvin]
+      [%version-updated =app =kelvin]
       [%docket-updated =app docket=docket-0]
       [%installs-updated =app installs=(list time)]
   ==
