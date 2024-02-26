@@ -72,7 +72,6 @@
   !>(state)
 ::
 ++  on-load  on-load:def
-  ::  XX manage behn timers for refreshing state
 ::
 ++  on-poke  on-poke:def
 ++  on-watch
@@ -85,6 +84,7 @@
     ::
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device
+    ?>  =(our.bowl src.bowl)
     `this
   ::
       [%~.~ %gossip %source ~]
@@ -137,7 +137,7 @@
                 %base
                 %read
                 %noun
-                !>  ::  XX add ^-
+                !>  ^-  [~ care:clay ship desk case path]
                 :*  ~
                     %q
                     ship.updated-app
@@ -153,6 +153,27 @@
         =/  app-score
           (~(gut by scores) app.hit 0)
         ?:  installed.hit
+          =/  new-score
+            +(app-score)
+          =/  new-version
+          ?~  (~(get by versions) app.hit)
+            kelvin.hit
+          %+  min
+            kelvin.hit
+          (~(got by versions) app.hit)
+          =/  new-installs
+            %-  ~(put by installs)
+            :-  app.hit
+            %+  scag
+              date-limit
+            %+  sort
+              :-  time.hit
+              %-  ~(gut by installs)
+              :-  app.hit
+              ~[now.bowl]
+            |=  [a=time b=time]
+            ^-  ?
+            (gth a b)
           ::
           ::  XX should we |hi new app devs who aren't
           ::     already discovered peers?
@@ -163,76 +184,106 @@
           ::       apps? could it be outdated if app dev unpublishes
           ::       an app?
           ::
-          ::  add app info to state on install
-          ::  XX send installed app info to frontend
-          ::  XX refuse to show app in frontend if there's no docket info
-          :-  :~  :*  %pass
-                      /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
-                      %arvo
-                      %k
-                      %fard
-                      %base
-                      %read
-                      %noun
-                      !>  ::  XX add ^-
-                      :*  ~
-                          %q
-                          ship.app.hit
-                          desk.app.hit
-                          [%da now.bowl]
-                          /desk/docket-0
-                      ==
+          ::  update app info on install, ask for docket
+          ::  info from the app's publisher
+          :_  %=  this
+                scores    (~(put by scores) [app.hit new-score])
+                versions  (~(put by versions) [app.hit new-version])
+                installs  (~(put by installs) [app.hit new-installs])
+              ==
+          :~  :*  %pass
+                  /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
+                  %arvo
+                  %k
+                  %fard
+                  %base
+                  %read
+                  %noun
+                  !>  ^-  [~ care:clay ship desk case path]
+                  :*  ~
+                      %q
+                      ship.app.hit
+                      desk.app.hit
+                      [%da now.bowl]
+                      /desk/docket-0
                   ==
               ==
-          %=  this
-            scores    %-  ~(put by scores)
-                      :-  app.hit
-                      +(app-score)
-            versions  %-  ~(put by versions)
-                      :-  app.hit
-                      kelvin.hit
-            installs  %-  ~(put by installs)
-                      :-  app.hit
-                      %+  scag
-                        date-limit
-                      %+  sort
-                        :-  time.hit
-                        %-  ~(gut by installs)
-                        :-  app.hit
-                        ~[now.bowl]
-                      |=  [a=time b=time]
-                      ^-  ?
-                      (gth a b)
+              :*  %give
+                  %fact
+                  ~[/ui-updates]
+                  %ui-update
+                  !>  ^-  ui-update
+                  [%score-updated [app.hit new-score]]
+              ==
+              :*  %give
+                  %fact
+                  ~[/ui-updates]
+                  %ui-update
+                  !>  ^-  ui-update
+                  [%installs-updated [app.hit new-installs]]
+              ==
+              :*  %give
+                  %fact
+                  ~[/ui-updates]
+                  %ui-update
+                  !>  ^-  ui-update
+                  [%kelvin-updated [app.hit new-version]]
+              ==
           ==
+        ::
         ::  update app info on uninstall
-        ::  XX send info to frontend
-        ::  XX update %hit mark to include json
-        :-  ~
-        %=  this
-          scores   %-  ~(put by scores)
-                  :-  app.hit
-                  (dec (max app-score 1))
-          dockets  (~(del by dockets) app.hit)
+        =/  new-score
+          (dec (max app-score 1))
+        =/  new-dockets
+          ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
+            dockets
+          (~(del by dockets) app.hit)
+        =/  new-versions
+          ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
+            installs
+          (~(del by versions) app.hit)
+        =/  new-installs
           ::
           ::  uninstalled apps are penalised by snipping the head off
           ::  from the sorted list of their install datetimes; this
           ::  should quickly move them down the 'trending' feed
           ::
-          ::  XX reconsider this
-          installs  ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
-                      ::  if app has >1 installs,
-                      ::  remove the most recent
-                      %-  ~(put by installs)
-                      :-  app.hit
-                      (tail (sort (~(got by installs) app.hit) gth))
-                    ::  if not, check app exists
-                    ?~  (~(get by installs) app.hit)
-                      ::  if app doesn't exist,
-                      ::  return installs
-                      installs
-                    ::  if app does exist and has
-                    ::  exactly 1 install, remove app
-                    (~(del by installs) app.hit)
+          ::  XX could this be better?
+          ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
+            ::  if app has >1 installs,
+            ::  remove the most recent
+            %-  ~(put by installs)
+            :-  app.hit
+            (tail (sort (~(got by installs) app.hit) gth))
+          ::  if not, check app exists
+          ?~  (~(get by installs) app.hit)
+            ::  if app doesn't exist,
+            ::  return installs
+            installs
+          ::  if app does exist and has
+          ::  exactly 1 install, remove app
+          (~(del by installs) app.hit)
+        ::
+        :_  %=  this
+              dockets   new-dockets
+              installs  new-installs
+              versions  new-versions
+              scores    (~(put by scores) [app.hit new-score])
+            ==
+        :~  :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                [%score-updated [app.hit new-score]]
+            ==
+            :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                [%installs-updated [app.hit new-installs]]
+            ==
         ==
       ==  ::  end of mark branches
     == ::  end of sign branches
@@ -391,11 +442,26 @@
     ::
         [%khan %arow *]
       ?.  -.p.sign-arvo
-        ((slog (crip "hits: failed to read docket file from {<desk.pole>}") ~) `this)
-      ::  XX send new docket info to frontend
-      :-  ~
+        :-  %-  slog
+              %-  crip
+              "hits: failed to read docket file from {<desk.pole>}"
+            ~
+        `this
+      :-  :~  :*  %give
+                  %fact
+                  ~[/ui-updates]
+                  %ui-update
+                  !>  ^-  ui-update
+                  :-  %docket-updated
+                  :-  [ship.pole desk.pole]
+                  (docket-0 (tail (tail +.p.sign-arvo)))
+              ==
+          ==
       %=  this
-        dockets  (~(put by dockets) [[`@p`(slav %p ship.pole) desk.pole] (docket-0 (tail (tail +.p.sign-arvo)))])
+        dockets  %-  %~  put by
+                   dockets
+                 :-  [`@p`(slav %p ship.pole) desk.pole]
+                 (docket-0 (tail (tail +.p.sign-arvo)))
       ==
     ==
   ::
@@ -405,9 +471,6 @@
         (on-arvo:def `wire`pole sign-arvo)
     ::
         [%clay %writ *]
-      ::  XX update peers about new docket
-      ::  XX don't actually send new docket;
-      ::     tell peers to update from publisher
       :_  this
       :~  %+  invent:gossip
             %update-docket
@@ -421,7 +484,7 @@
               %base
               %read
               %noun
-              !>  ::  XX add ^-
+              !>  ^-  [~ care:clay ship desk case path]
               :*  ~
                   %q
                   our.bowl
