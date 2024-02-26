@@ -12,17 +12,20 @@
     ?-  -.upd
       %score-updated
         %-  pairs:enjs
-        :~  ['app' [%s (scot %tas app.upd)]]
+        :~  ['uiUpdate' [%s 'score-updated']]
+            ['app' [%s (scot %tas app.upd)]]
             ['score' [%n (scot %ud score.upd)]]
         ==
       %kelvin-updated
         %-  paris:enjs
-        :~  ['app' [%s (scot %tas app.upd)]]
+        :~  ['uiUpdate' [%s 'kelvin-updated']]
+            ['app' [%s (scot %tas app.upd)]]
             ['kelvin' [%n (scot %ud kelvin.upd)]]
         ==
       %installs-updated
         %-  pairs:enjs
-        :~  ['app' [%s (scot %tas app.upd)]]
+        :~  ['uiUpdate' [%s 'installs-updated']]
+            ['app' [%s (scot %tas app.upd)]]
             :-  'installs'
             :-  %a
             %+  turn
@@ -32,7 +35,8 @@
       %docket-updated
         =,  docket.upd
         %-  pairs:enjs
-        :~  ['app' [%s (scot %tas app.upd)]]
+        :~  ['uiUpdate' [%s 'docket-updated']]
+            ['app' [%s (scot %tas app.upd)]]
             :-  'docket'
             :-  %o
             %-  molt
