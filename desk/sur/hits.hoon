@@ -6,9 +6,11 @@
 +$  app        [=ship =desk]
 ::
 +$  ui-update
-  $%  [%app-installed =app installs=(list time)]
-      [%app-uninstalled =app installs=(list time)]
-      [%app-refreshed =app docket=docket-0]
+  $+  ui-update-hits
+  $%  [%score-updated =app =score]
+      [%kelvin-updated =app =kelvin]
+      [%docket-updated =app docket=docket-0]
+      [%installs-updated =app installs=(list time)]
   ==
 ::
 +$  version

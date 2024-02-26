@@ -10,31 +10,41 @@
   ++  noun  upd
   ++  json
     ?-  -.upd
-      %app-installed
+      %score-updated
         %-  pairs:enjs
         :~  ['app' [%s (scot %tas app.upd)]]
-            ['installs' [%a (turn installs.upd |=(=time [%n (scot %ta (unt:chrono:userlib time))]))]]
+            ['score' [%n (scot %ud score.upd)]]
         ==
-      %app-uninstalled
+      %kelvin-updated
+        %-  paris:enjs
+        :~  ['app' [%s (scot %tas app.upd)]]
+            ['kelvin' [%n (scot %ud kelvin.upd)]]
+        ==
+      %installs-updated
         %-  pairs:enjs
         :~  ['app' [%s (scot %tas app.upd)]]
-            ['installs' [%a (turn installs.upd |=(=time [%n (scot %ta (unt:chrono:userlib time))]))]]
+            :-  'installs'
+            :-  %a
+            %+  turn
+              installs.upd
+            |=(=time [%n (scot %ud (unt:chrono:userlib time))])
         ==
-      %app-refreshed
+      %docket-updated
+        =,  docket.upd
         %-  pairs:enjs
         :~  ['app' [%s (scot %tas app.upd)]]
             :-  'docket'
             :-  %o
             %-  molt
-            :~  ['title' [%s title.docket.upd]]
-                ['info' [%s info.docket.upd]]
-                ['color' [%s (scot %ux color.docket.upd)]]
-                ::  XX have to join href path into a url
-                ['href' [%s ?.(=(%site -.href.docket.upd) [%s ''] [%s ''])]]
-                ['image' [%s ?~(image.docket.upd '' u.image.docket.cord)]]
-                ['version' [%s (crip "{<major.version.docket.upd>}.{<minor.version.docket.upd>}.{<patch.version.docket.upd>}")]]
-                ['website' [%s website.docket.upd]]
-                ['license' [%s license.docket.upd]]
+            :~  ['title' [%s title]]
+                ['info' [%s info]]
+                ['color' [%s (scot %ux color)]]
+                ['image' [%s ?~(image '' u.image)]]
+                ['website' [%s website]]
+                ['license' [%s license]]
+                :-  'version'
+                :-  %s
+                (crip "{<major.version>}.{<minor.version>}.{<patch.version>}")
             ==
         ==
   --
