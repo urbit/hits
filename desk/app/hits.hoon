@@ -499,41 +499,48 @@
       [%x %rankings ~]
     ::
     ::  initial rankings, used to popular frontend state
-    ::  XX example scries
+    ::  .^((list (pair ship desk)) %gx /=hits=/rankings/noun)
     ``[%hits-rankings !>(rankings)]
   ::
+  ::  XX reformat paths to be e.g. /score/~sampel/hits?
+  ::     more readable in that you know what you're
+  ::     looking at faster
+  ::
+  ::  XX reformat to do !> before conditional logic
       [%x ship desk %score ~]
     ::
     ::  app's score
-    ::  XX example scries
+    ::  .^(@ud %gx /=hits=/~sampel/hits/score/noun)
     =/  =app    [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by scores) app)
-      ~
+      ::  XX arguably should be ~
+      ::     would have to change mark to take unit
+      ``[%hits-score !>(0)]
     ``[%hits-score !>((~(got by scores) app))]
   ::
       [%x ship desk %version ~]
     ::
     ::  app's current %zuse kelvin version
     ::  compatibility (e.g. 412, 411)
-    ::  XX example scries
+    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/version/noun)
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by versions) app)
-      ~
+      ``[%hits-version !>(~)]
     ``[%hits-version !>((~(got by versions) app))]
   ::
       [%x ship desk %docket ~]
     ::
     ::  app's docket info
-    ::  XX example scries
+    ::  .^((unit noun) %gx /=hits=/~sampel/hits/docket/noun)
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by dockets) app)
-      ~
+      ``[%hits-docket !>(~)]
     ``[%hits-docket !>((~(got by dockets) app))]
   ::
       [%x ship desk %installs @ud ~]
     ::
-    ::  date of app's most recent n installs
-    ::  XX example scries
+    ::  dates of app's most recent n installs
+    ::  .^((list @da) %gx /=hits=/~sampel/hits/installs/25/noun)
     =*  limit  i.t.t.t.t.path
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     %-  some
@@ -542,7 +549,6 @@
     !>  ^-  (list time)
     ?~  (~(get by installs) app)
       ~
-    ::  XX handle case where limit is > no. of installs
     %+  scag
       limit
     (~(got by installs) app)

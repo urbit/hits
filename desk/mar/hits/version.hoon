@@ -1,17 +1,17 @@
 /-  *hits
-|_  version=kelvin
+|_  version=(unit kelvin)
 ++  grab
   |%
-  ++  noun  kelvin
+  ++  noun  (unit kelvin)
   --
 ++  grow
   |%
   ++  noun  version
-  ++  json
-    %-  frond:enjs:format
-    :-  'version'
-    :-  %n
-    (numb:enjs:format version)
+  ::  ++  json
+  ::    %-  frond:enjs:format
+  ::    :-  'version'
+  ::    :-  %n
+  ::    (numb:enjs:format version)
   --
 ++  grad  %noun
 --

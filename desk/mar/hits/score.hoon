@@ -7,11 +7,11 @@
 ++  grow
   |%
   ++  noun  score
-  ++  json
-    %-  frond:enjs:format
-    :-  'score'
-    :-  %n
-    (numb:enjs:format score)
+  ::  ++  json
+  ::    %-  frond:enjs:format
+  ::    :-  'score'
+  ::    :-  %n
+  ::    (numb:enjs:format score)
   --
 ++  grad  %noun
 --
