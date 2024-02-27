@@ -506,8 +506,9 @@
     ::
     ::  app's score
     ::  XX example scries
-    ::  XX null cases for all
     =/  =app    [(slav %p i.t.path) i.t.t.path]
+    ?~  (~(get by scores) app)
+      ~
     ``[%hits-score !>((~(got by scores) app))]
   ::
       [%x ship desk %version ~]
@@ -516,6 +517,8 @@
     ::  compatibility (e.g. 412, 411)
     ::  XX example scries
     =/  =app  [(slav %p i.t.path) i.t.t.path]
+    ?~  (~(get by versions) app)
+      ~
     ``[%hits-version !>((~(got by versions) app))]
   ::
       [%x ship desk %docket ~]
@@ -523,6 +526,8 @@
     ::  app's docket info
     ::  XX example scries
     =/  =app  [(slav %p i.t.path) i.t.t.path]
+    ?~  (~(get by dockets) app)
+      ~
     ``[%hits-docket !>((~(got by dockets) app))]
   ::
       [%x ship desk %installs @ud ~]
