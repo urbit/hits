@@ -7,11 +7,12 @@
 ++  grow
   |%
   ++  noun  version
-  ::  ++  json
-  ::    %-  frond:enjs:format
-  ::    :-  'version'
-  ::    :-  %n
-  ::    (numb:enjs:format version)
+  ++  json
+    %-  frond:enjs:format
+    :-  'version'
+    ?~  version
+      ~
+    (numb:enjs:format u.version)
   --
 ++  grad  %noun
 --

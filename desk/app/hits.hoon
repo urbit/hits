@@ -500,6 +500,7 @@
     ::
     ::  initial rankings, used to popular frontend state
     ::  .^((list (pair ship desk)) %gx /=hits=/rankings/noun)
+    ::  .^(json %gx /=hits=/rankings/json)
     ``[%hits-rankings !>(rankings)]
   ::
   ::  XX reformat paths to be e.g. /score/~sampel/hits?
@@ -511,6 +512,7 @@
     ::
     ::  app's score
     ::  .^((unit @ud) %gx /=hits=/~sampel/hits/score/noun)
+    ::  .^(json %gx /=hits=/~sampel/hits/score/json)
     =/  =app    [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by scores) app)
       ``[%hits-score !>(~)]
@@ -521,6 +523,7 @@
     ::  app's current %zuse kelvin version
     ::  compatibility (e.g. 412, 411)
     ::  .^((unit @ud) %gx /=hits=/~sampel/hits/version/noun)
+    ::  .^(json %gx /=hits=/~sampel/hits/version/json)
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by versions) app)
       ``[%hits-version !>(~)]
@@ -530,6 +533,7 @@
     ::
     ::  app's docket info
     ::  .^((unit noun) %gx /=hits=/~sampel/hits/docket/noun)
+    ::  .^(json %gx /=hits=/~sampel/hits/docket/json)
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by dockets) app)
       ``[%hits-docket !>(~)]
@@ -539,6 +543,7 @@
     ::
     ::  dates of app's most recent n installs
     ::  .^((list @da) %gx /=hits=/~sampel/hits/installs/25/noun)
+    ::  .^(json %gx /=hits=/~sampel/hits/installs/25/json)
     =*  limit  i.t.t.t.t.path
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     %-  some
