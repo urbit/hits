@@ -41,7 +41,7 @@
       [2 %anybody %anybody |]
     %-  %~  put  by
       %-  %~  put  by
-        *(map mark $-(* vase)))
+        *(map mark $-(* vase))
       [%hit |=(n=* !>((grab-hit n)))]
     [%update-docket |=(n=* !>((grab-update-docket n)))]
 ::
@@ -184,7 +184,7 @@
           :_  %=  this
                 scores    (~(put by scores) [app.hit new-score])
                 versions  (~(put by versions) [app.hit new-version])
-                installs  (~(put by installs) [app.hit new-installs])
+                installs  (~(put by installs) [app.hit (~(got by new-installs) app.hit)])
                 rankings  (rank-apps (~(put by scores) [app.hit new-score]))
               ==
           :~  :*  %pass
@@ -216,7 +216,7 @@
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  [%installs-updated [app.hit new-installs]]
+                  [%installs-updated [app.hit (~(got by new-installs) app.hit)]]
               ==
               :*  %give
                   %fact
@@ -236,7 +236,7 @@
           (~(del by dockets) app.hit)
         =/  new-versions
           ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
-            installs
+            versions
           (~(del by versions) app.hit)
         =/  new-installs
           ::
@@ -279,7 +279,7 @@
                 ~[/ui-updates]
                 %ui-update
                 !>  ^-  ui-update
-                [%installs-updated [app.hit new-installs]]
+                [%installs-updated [app.hit (~(got by new-installs) app.hit)]]
             ==
         ==
       ==  ::  end of mark branches
@@ -439,23 +439,19 @@
     ::
         [%khan %arow *]
       ?.  -.p.sign-arvo
-        :-  %-  slog
-              %-  crip
-              "hits: failed to read docket file from {<desk.pole>}"
-            ~
-        `this
+        ((slog (crip "hits: failed to read docket file from {<desk.pole>}") ~) `this)
       :-  :~  :*  %give
                   %fact
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
                   :-  %docket-updated
-                  :-  [ship.pole desk.pole]
+                  :-  [`@p`(slav %p ship.pole) desk.pole]
                   (docket-0 (tail (tail +.p.sign-arvo)))
               ==
           ==
       %=  this
-        dockets  %-  %~  put by
+        dockets  %-  %~  put  by
                    dockets
                  :-  [`@p`(slav %p ship.pole) desk.pole]
                  (docket-0 (tail (tail +.p.sign-arvo)))
@@ -506,41 +502,41 @@
     ::  XX example scries
     ``[%hits-rankings !>(rankings)]
   ::
-      [%x app %score ~]
+      ::  [%x app %score ~]
     ::
     ::  app's score
     ::  XX example scries
-    =*  app    i.t.path
-    ``[%hits-score !>((~(got by scores) app))]
+    ::  =*  app    i.t.path
+    ::  ``[%hits-score !>((~(got by scores) app))]
   ::
-      [%x app %version ~]
+      ::  [%x app %version ~]
     ::
     ::  app's current %zuse kelvin version
     ::  compatibility (e.g. 412, 411)
     ::  XX example scries
-    =*  app    i.t.path
-    ``[%hits-version !>((~(got by versions) app))]
+    ::  =*  app    i.t.path
+    ::  ``[%hits-version !>((~(got by versions) app))]
   ::
-      [%x app %docket ~]
+      ::  [%x app %docket ~]
     ::
     ::  app's docket info
     ::  XX example scries
-    =*  app    i.t.path
-    ``[%hits-docket !>((~(got by dockets) app))]
+    ::  =*  app    i.t.path
+    ::  ``[%hits-docket !>((~(got by dockets) app))]
   ::
-      [%x app %installs @ud ~]
+      ::  [%x app %installs @ud ~]
     ::
     ::  date of app's most recent n installs
     ::  XX example scries
-    =*  app    i.t.path
-    =*  limit  i.t.t.t.path
-    %-  some
-    %-  some
-    :-  %hits-installs
-    !>  ^-  (list time)
-    %+  scag
-      ~(tap by (~(got by installs) app))
-    limit
+    ::  =*  app    i.t.path
+    ::  =*  limit  i.t.t.t.path
+    ::  %-  some
+    ::  %-  some
+    ::  :-  %hits-installs
+    ::  !>  ^-  (list time)
+    ::  %+  scag
+      ::  ~(tap by (~(got by installs) app))
+    ::  limit
   ==
 ::
 ++  on-fail   on-fail:def

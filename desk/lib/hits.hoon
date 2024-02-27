@@ -10,7 +10,7 @@
     ^-  ?
     (gte +.a +.b)
   |=  [=app score]
-  ^-  app
+  ^+  app
   app
 ::
 ++  scry-kelvin
