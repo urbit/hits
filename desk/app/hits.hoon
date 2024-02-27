@@ -502,41 +502,45 @@
     ::  XX example scries
     ``[%hits-rankings !>(rankings)]
   ::
-      ::  [%x app %score ~]
+      [%x ship desk %score ~]
     ::
     ::  app's score
     ::  XX example scries
-    ::  =*  app    i.t.path
-    ::  ``[%hits-score !>((~(got by scores) app))]
+    ::  XX null cases for all
+    =/  =app    [(slav %p i.t.path) i.t.t.path]
+    ``[%hits-score !>((~(got by scores) app))]
   ::
-      ::  [%x app %version ~]
+      [%x ship desk %version ~]
     ::
     ::  app's current %zuse kelvin version
     ::  compatibility (e.g. 412, 411)
     ::  XX example scries
-    ::  =*  app    i.t.path
-    ::  ``[%hits-version !>((~(got by versions) app))]
+    =/  =app  [(slav %p i.t.path) i.t.t.path]
+    ``[%hits-version !>((~(got by versions) app))]
   ::
-      ::  [%x app %docket ~]
+      [%x ship desk %docket ~]
     ::
     ::  app's docket info
     ::  XX example scries
-    ::  =*  app    i.t.path
-    ::  ``[%hits-docket !>((~(got by dockets) app))]
+    =/  =app  [(slav %p i.t.path) i.t.t.path]
+    ``[%hits-docket !>((~(got by dockets) app))]
   ::
-      ::  [%x app %installs @ud ~]
+      [%x ship desk %installs @ud ~]
     ::
     ::  date of app's most recent n installs
     ::  XX example scries
-    ::  =*  app    i.t.path
-    ::  =*  limit  i.t.t.t.path
-    ::  %-  some
-    ::  %-  some
-    ::  :-  %hits-installs
-    ::  !>  ^-  (list time)
-    ::  %+  scag
-      ::  ~(tap by (~(got by installs) app))
-    ::  limit
+    =*  limit  i.t.t.t.t.path
+    =/  =app  [(slav %p i.t.path) i.t.t.path]
+    %-  some
+    %-  some
+    :-  %hits-installs
+    !>  ^-  (list time)
+    ?~  (~(get by installs) app)
+      ~
+    ::  XX handle case where limit is > no. of installs
+    %+  scag
+      limit
+    (~(got by installs) app)
   ==
 ::
 ++  on-fail   on-fail:def
