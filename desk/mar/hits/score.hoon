@@ -1,12 +1,12 @@
 /-  *hits
-|_  =score
+|_  app-score=(unit score)
 ++  grab
   |%
-  ++  noun  score
+  ++  noun  app-score=(unit score)
   --
 ++  grow
   |%
-  ++  noun  score
+  ++  noun  app-score
   ::  ++  json
   ::    %-  frond:enjs:format
   ::    :-  'score'

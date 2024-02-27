@@ -510,12 +510,10 @@
       [%x ship desk %score ~]
     ::
     ::  app's score
-    ::  .^(@ud %gx /=hits=/~sampel/hits/score/noun)
+    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/score/noun)
     =/  =app    [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by scores) app)
-      ::  XX arguably should be ~
-      ::     would have to change mark to take unit
-      ``[%hits-score !>(0)]
+      ``[%hits-score !>(~)]
     ``[%hits-score !>((~(got by scores) app))]
   ::
       [%x ship desk %version ~]
