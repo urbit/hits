@@ -711,6 +711,7 @@
       |=  [=wire sign=sign-arvo:agent:gall]
       ^-  (quip card _this)
       ?.  ?=([%~.~ %gossip *] wire)
+        ~&  >>  "gossip: wire {<wire>}, sign {<sign>}"
         =^  cards  inner  (on-arvo:og wire sign)
         =^  cards  state  (play-cards:up cards)
         [cards this]
