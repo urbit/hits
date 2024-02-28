@@ -23,8 +23,7 @@ export function App() {
         app: 'hits',
         path: '/ui-updates',
         err: () => {console.error('Failed subscription to /ui-updates')},
-        event: () => {},
-        // event: (uiUpdate) => {receiveUiUpdate(uiUpdate)},
+        event: (uiUpdate) => {receiveUiUpdate(uiUpdate)},
         quit: () => {console.log('Kicked from /ui-updates')}
       })
     }
