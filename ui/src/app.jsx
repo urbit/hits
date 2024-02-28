@@ -1,45 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import Urbit from '@urbit/http-api';
-import { scryCharges } from '@urbit/api';
-import { AppTile } from './components/AppTile';
+import useHitsHelper from './helpers/useHitsHelper.js'
+import Header from './components/Header'
+import AppTable from './components/AppTable'
 
 const api = new Urbit('', '', window.desk);
 api.ship = window.ship;
 
 // TODO check we have %pals installed, display a warning if not
 export function App() {
-  const [apps, setApps] = useState();
+  const [list, setList] = useState('allTime')
+  // const {initRankings, receiveUiUpdate} = useHitsHelper()
 
   useEffect(() => {
     async function init() {
-      const charges = (await api.scry(scryCharges)).initial;
-      setApps(charges);
+  //     initRankings(await api.scry({
+  //       app: 'hits',
+  //       path: '/rankings'
+  //     }))
+
+      await api.subscribe({
+        app: 'hits',
+        path: '/ui-updates',
+        err: () => {console.error('Failed subscription to /ui-updates')},
+        event: () => {},
+        // event: (uiUpdate) => {receiveUiUpdate(uiUpdate)},
+        quit: () => {console.log('Kicked from /ui-updates')}
+      })
     }
 
     init();
   }, []);
 
   return (
-    <main className="flex items-center justify-center min-h-screen">
-      <div className="max-w-md space-y-6 py-20">
-        <h1 className="text-3xl font-bold">Welcome to Hits</h1>
-        <p>Here&apos;s your urbit&apos;s installed apps:</p>
-        {apps && (
-          <ul className="space-y-4">
-            {Object.entries(apps).map(([desk, app]) => (
-              <li key={desk} className="flex items-center space-x-3 text-sm leading-tight">
-                <AppTile {...app} />
-                <div className="flex-1 text-black">
-                  <p>
-                    <strong>{app.title || desk}</strong>
-                  </p>
-                  {app.info && <p>{app.info}</p>}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </main>
+    <div class='app-container bg-background'>
+    <Header />
+    <div class='m-3'>
+      <h1 class='font-sans text-main'>%hits</h1>
+    </div>
+    <AppTable />
+    </div>
   );
 }
