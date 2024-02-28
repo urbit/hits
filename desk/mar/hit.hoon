@@ -1,4 +1,5 @@
-|_  hit=[[@ *] (cask *)]
+/-  *hits
+|_  hit=[=src =time =app =kelvin =installed]
 ++  grad  %noun
 ++  grow
   |%
@@ -6,6 +7,6 @@
   --
 ++  grab
   |%
-  ++  noun  ,[[@ *] (cask *)]
+  ++  noun  ,[=src =time =app =kelvin =installed]
   --
 --
