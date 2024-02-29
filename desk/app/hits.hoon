@@ -93,7 +93,8 @@
     ::
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device
-    ?>  =(our.bowl src.bowl)
+    ::  XX removed this check for vite, should uncomment
+    ::  ?>  =(our.bowl src.bowl)
     `this
   ::
       [%~.~ %gossip %source ~]
