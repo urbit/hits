@@ -493,6 +493,7 @@
 ++  on-peek
   |=  =path
   ^-  (unit (unit cage))
+  ~&  >>  "received scry request at {<path>}"
   ?+  path
     (on-peek:def path)
   ::
