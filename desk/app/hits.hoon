@@ -6,6 +6,19 @@
 /$  grab-update-docket  %noun  %update-docket
 ::
 |%
++$  state-versions
+  $%  state-0
+  ==
+::
++$  state-0
+  $:  %0
+      local=(set app)                 ::  our locally-installed apps
+      rankings=(list app)             ::  ordered list of most-installed apps
+      scores=(map app score)          ::  app scores
+      versions=(map app kelvin)       ::  app versions
+      installs=(map app (list time))  ::  most recent installs
+      dockets=(map app docket-0)      ::  docket info for each app
+  ==
 ::
 ::  hit: message sent between ships on each app (un)install
 +$  hit
@@ -16,14 +29,6 @@
       =installed  ::  installed or uninstalled?
   ==
 ::
-+$  state-0
-  $:  local=(set app)                 ::  our locally-installed apps
-      rankings=(list app)             ::  ordered list of most-installed apps
-      scores=(map app score)          ::  app scores
-      versions=(map app kelvin)       ::  app versions
-      installs=(map app (list time))  ::  most recent installs
-      dockets=(map app docket-0)      ::  docket info for each app
-  ==
 +$  card  $+(card card:agent:gall)
 ::
 ::  max. number of installs
@@ -67,7 +72,15 @@
 ++  on-save
   !>(state)
 ::
-++  on-load  on-load:def
+++  on-load
+|=  =vase
+  ^-  (quip card _this)
+  =/  saved-state
+    !<(state-versions vase)
+  ?-  -.saved-state
+    %0  [~ this(state saved-state)]
+  ==
+::
 ++  on-poke  on-poke:def
 ++  on-watch
   |=  =path
