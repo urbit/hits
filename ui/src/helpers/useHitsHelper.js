@@ -22,6 +22,9 @@ export default function useHitsHelper() {
     data.rankings.forEach(ranking => {
       if (allTimeRankings.length < chartLimit) {
         let thisApp = {}
+        console.log('ranking: ', ranking)
+        console.log('ranking.desk: ', ranking.desk)
+        console.log('ranking.ship: ', ranking.ship)
         const desk = ranking.desk
         const ship = ranking.ship
 

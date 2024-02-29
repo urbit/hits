@@ -16,8 +16,8 @@
     |=  [=ship =desk]
     :-  %o
     %-  molt
-    :~  :-  (crip "{<ship>}")
-        [%s (scot %tas desk)]
+    :~  ['ship' [%s (crip "{<ship>}")]]
+        ['desk' [%s (scot %tas desk)]]
     ==
   --
 ++  grad  %noun
