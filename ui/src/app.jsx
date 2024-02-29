@@ -17,9 +17,7 @@ export function App() {
   useEffect(() => {
     async function init() {
       await initAllTimeRankings(scryRankings())
-      // subscribeToUiUpdates({
-      //   event: (uiUpdate) => {receiveUiUpdate(uiUpdate)}
-      // })
+      await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate))
     }
 
     init();

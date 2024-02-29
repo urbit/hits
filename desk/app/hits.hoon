@@ -72,6 +72,7 @@
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
+  ~&  >  "hits: received subscription to {<path>}"
   ?+  path
     (on-watch:def path)
   ::
@@ -493,7 +494,7 @@
 ++  on-peek
   |=  =path
   ^-  (unit (unit cage))
-  ~&  >>  "received scry request at {<path>}"
+  ~&  >  "hits: received scry request at {<path>}"
   ?+  path
     (on-peek:def path)
   ::
