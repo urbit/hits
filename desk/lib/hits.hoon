@@ -1,14 +1,18 @@
 /-  *hits
 |%
 ++  rank-apps
-  |=  scores=(map app score)
+  |=  [scores=(map app score) installs=(map app (list time))]
   ^-  (list app)
   %+  turn
     %+  sort
       ~(tap by scores)
-    |=  [a=[app score] b=[app score]]
+    |=  [a=[=app =score] b=[=app =score]]
     ^-  ?
-    (gte +.a +.b)
+    ?.  =(score.a score.b)
+      (gth score.a score.b)
+    %+  gth
+      (rear (flop (~(got by installs) app.a)))
+    (rear (flop (~(got by installs) app.b)))
   |=  [=app score]
   ^+  app
   app

@@ -199,8 +199,12 @@
           :_  %=  this
                 scores    (~(put by scores) [app.hit new-score])
                 versions  (~(put by versions) [app.hit new-version])
-                installs  (~(put by installs) [app.hit (~(got by new-installs) app.hit)])
-                rankings  (rank-apps (~(put by scores) [app.hit new-score]))
+                installs  %-  ~(put by installs)
+                          [app.hit (~(got by new-installs) app.hit)]
+                rankings  %+  rank-apps
+                            (~(put by scores) [app.hit new-score])
+                          %-  ~(put by installs)
+                          [app.hit (~(got by new-installs) app.hit)]
               ==
           :~  :*  %pass
                   /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
@@ -280,7 +284,9 @@
               installs  new-installs
               versions  new-versions
               scores    (~(put by scores) [app.hit new-score])
-              rankings  (rank-apps (~(put by scores) [app.hit new-score]))
+              rankings  %+  rank-apps
+                          (~(put by scores) [app.hit new-score])
+                        new-installs
             ==
         :~  :*  %give
                 %fact
