@@ -7,21 +7,26 @@ import { subscribeToUiUpdates } from './api/subscriptions.js';
 
 // TODO check we have %pals installed, display a warning if not
 export function App() {
-  const [list, setList] = useState('allTime')
+  const [listView, setListView] = useState('allTime')
   const {
-    allTimeRankings,
-    initAllTimeRankings,
+    allTimeApps,
+    initAllTimeApps,
     receiveUiUpdate
   } = useHitsHelper()
 
   useEffect(() => {
     async function init() {
-      await initAllTimeRankings(scryRankings())
+      await initAllTimeApps(scryRankings())
       await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate))
     }
 
     init();
   }, []);
+
+  // TODO remove, this is just for testing
+  useEffect(() => {
+    console.log('new allTimeApps: ', allTimeApps)
+  }, [allTimeApps])
 
   return (
     <div className='app-container bg-background'>

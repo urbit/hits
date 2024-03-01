@@ -7,15 +7,15 @@ import {
 } from '../api/scries'
 
 export default function useHitsHelper() {
-  const [allTimeRankings, setAllTimeRankings] = useState([])
+  const [allTimeApps, setAllTimeApps] = useState([])
 
   const chartLimit = 40
 
-  async function initAllTimeRankings(response) {
+  async function initAllTimeApps(response) {
     let rankings = await response;
 
     // TODO baseVersion: track %base version here and filter
-    //      out apps on initAllTimeRankings / receiveUpdate.
+    //      out apps on initAllTimeApps / receiveUpdate.
     //      Assuming for now we only care about %zuse
     const baseVersionResponse = await scryBaseVersion();
     const localBaseVersion = baseVersionResponse;
@@ -42,10 +42,10 @@ export default function useHitsHelper() {
       }
     }));
 
-    setAllTimeRankings(validApps);
+    setAllTimeApps(validApps);
   }
 
   function receiveUiUpdate() {}
 
-  return { allTimeRankings, initAllTimeRankings, receiveUiUpdate }
+  return { allTimeApps, initAllTimeApps, receiveUiUpdate }
 }
