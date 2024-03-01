@@ -532,7 +532,7 @@
     =/  =app    [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by scores) app)
       ``[%hits-score !>(~)]
-    ``[%hits-score !>((~(got by scores) app))]
+    ``[%hits-score !>((~(get by scores) app))]
   ::
       [%x ship desk %version ~]
     ::
@@ -543,7 +543,7 @@
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by versions) app)
       ``[%hits-version !>(~)]
-    ``[%hits-version !>((~(got by versions) app))]
+    ``[%hits-version !>((~(get by versions) app))]
   ::
       [%x ship desk %docket ~]
     ::
@@ -553,7 +553,7 @@
     =/  =app  [(slav %p i.t.path) i.t.t.path]
     ?~  (~(get by dockets) app)
       ``[%hits-docket !>(~)]
-    ``[%hits-docket !>((~(got by dockets) app))]
+    ``[%hits-docket !>((~(get by dockets) app))]
   ::
       [%x ship desk %installs @ud ~]
     ::
