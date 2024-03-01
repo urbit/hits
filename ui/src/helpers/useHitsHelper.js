@@ -1,46 +1,48 @@
 import { useState } from 'react'
 import {
   scryAppDocket,
-  scryAppInstalls,
   scryAppScore,
-  scryAppVersion
+  scryAppVersion,
+  scryBaseVersion
 } from '../api/scries'
 
 export default function useHitsHelper() {
   const [allTimeRankings, setAllTimeRankings] = useState([])
-  // TODO baseVersion: track %base version here and filter
-  //      out apps on initAllTimeRankings / receiveUpdate.
-  //      Assuming for now we only care about %zuse
-  const [baseVersion, setBaseVersion] = useState()
 
   const chartLimit = 40
 
   async function initAllTimeRankings(response) {
-    let data = await response
-    console.log('initAllTimeRankings response: ', data)
+    let rankings = await response;
 
-    data.rankings.forEach(ranking => {
-      if (allTimeRankings.length < chartLimit) {
-        let thisApp = {}
-        console.log('ranking: ', ranking)
-        console.log('ranking.desk: ', ranking.desk)
-        console.log('ranking.ship: ', ranking.ship)
-        const desk = ranking.desk
-        const ship = ranking.ship
+    // TODO baseVersion: track %base version here and filter
+    //      out apps on initAllTimeRankings / receiveUpdate.
+    //      Assuming for now we only care about %zuse
+    const baseVersionResponse = await scryBaseVersion();
+    const localBaseVersion = baseVersionResponse;
 
-        thisApp.version = scryAppVersion(ship, desk)
+    let validApps = [];
 
-        if (thisApp.version === baseVersion) {
-          thisApp.rank = allTimeRankings.length + 1
-          thisApp.name = desk
-          thisApp.publisher = ship
-          thisApp.score = scryAppScore(ship, desk)
-          thisApp.docket = scryAppDocket(ship, desk)
+    await Promise.all(rankings.map(async (ranking, index) => {
+      if (validApps.length < chartLimit) {
+        let thisApp = {};
+        const desk = ranking.desk;
+        const ship = ranking.ship;
 
-          setAllTimeRankings(prevApps => [...prevApps, thisApp])
+        thisApp.version = await scryAppVersion(ship, desk);
+
+        if (thisApp.version <= localBaseVersion) {
+          thisApp.rank = index + 1;
+          thisApp.name = desk;
+          thisApp.publisher = ship;
+          thisApp.score = await scryAppScore(ship, desk);
+          thisApp.docket = await scryAppDocket(ship, desk);
+
+          validApps.push(thisApp);
         }
       }
-    })
+    }));
+
+    setAllTimeRankings(validApps);
   }
 
   function receiveUiUpdate() {}

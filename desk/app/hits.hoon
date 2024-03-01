@@ -512,6 +512,13 @@
   ?+  path
     (on-peek:def path)
   ::
+      [%x %base-version ~]
+    ::
+    ::  kelvin version of our %base desk
+    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/base/noun)
+    ::  .^(json %gx /=hits=/~sampel/hits/base/json)
+    ``[%hits-version !>((some (scry-kelvin our.bowl %base now.bowl)))]
+  ::
       [%x %rankings ~]
     ::
     ::  initial rankings, used to popular frontend state

@@ -6,21 +6,31 @@ function scryHits(path) {
 }
 
 export async function scryAppDocket(ship, desk) {
-  return await scryHits(`/${ship}/${desk}/docket`)
+  const response = await scryHits(`/${ship}/${desk}/docket`)
+  return response.docket
 }
 
 export async function scryAppInstalls(ship, desk) {
-  return await scryHits(`/${ship}/${desk}/installs`)
+  const response = await scryHits(`/${ship}/${desk}/installs`)
+  return response.installs
 }
 
 export async function scryAppScore(ship, desk) {
-  return await scryHits(`/${ship}/${desk}/score`)
+  const response = await scryHits(`/${ship}/${desk}/score`)
+  return response.score
 }
 
 export async function scryAppVersion(ship, desk) {
-  return await scryHits(`/${ship}/${desk}/version`)
+  const response = await scryHits(`/${ship}/${desk}/version`)
+  return response.version
+}
+
+export async function scryBaseVersion() {
+  const response = await scryHits(`/base-version`)
+  return response.version
 }
 
 export async function scryRankings() {
-  return await scryHits('/rankings')
+  const response = await scryHits('/rankings')
+  return response.rankings
 }
