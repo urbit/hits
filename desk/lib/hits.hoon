@@ -19,6 +19,12 @@
   ::  XX assumes we only care about %zuse compat for now
   ::     should get this squared away before release
   ::
+  ::  XX starting to think this is not quite right: instead
+  ::     of storing the lowest kelvin and returning that
+  ::     on scry, we should return the whole list of %zuse
+  ::     versions which the dev has explicitly declared
+  ::     the app to be compatible with
+  ::
   ::  return lowest kelvin number
   ::  in the app's sys.kelvin
   %-  tail
