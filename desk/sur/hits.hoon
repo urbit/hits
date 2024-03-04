@@ -43,14 +43,15 @@
 ::
 +$  docket-0
   $+  docket-0-hits
+  $~  [%1 '' '' 0x0 [%site /] ~ [0 0 0] '' '']
   $:  %1
       title=@t
       info=@t
       color=@ux
       =href
-      image=(unit cord)
+      image=(unit @t)
       =version
-      website=cord
-      license=cord
+      website=@t
+      license=@t
   ==
 --

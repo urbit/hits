@@ -101,19 +101,22 @@
       rankings
     |=  =app
     ^-  card
-    :*  %give
-        %fact
-        ~
-        %ui-update
-        !>  ^-  ui-update
-        :*  %app-update
-            app
-            (~(got by scores) app)
-            (~(got by versions) app)
-            (~(got by installs) app)
-            (~(got by dockets) app)
-        ==
-    ==
+      :*  %give
+          %fact
+          ~
+          %ui-update
+          !>  ^-  ui-update
+          :*  %app-update
+              app
+              (~(got by scores) app)
+              (~(got by versions) app)
+              (~(got by installs) app)
+              ?~  (~(get by dockets) app)
+                *docket-0
+              (~(got by dockets) app)
+          ==
+      ==
+
   ::
       [%~.~ %gossip %source ~]
     ::
@@ -240,27 +243,6 @@
                       [%da now.bowl]
                       /desk/docket-0
                   ==
-              ==
-              :*  %give
-                  %fact
-                  ~[/ui-updates]
-                  %ui-update
-                  !>  ^-  ui-update
-                  [%score-update [app.hit new-score]]
-              ==
-              :*  %give
-                  %fact
-                  ~[/ui-updates]
-                  %ui-update
-                  !>  ^-  ui-update
-                  [%installs-update [app.hit (~(got by new-installs) app.hit)]]
-              ==
-              :*  %give
-                  %fact
-                  ~[/ui-updates]
-                  %ui-update
-                  !>  ^-  ui-update
-                  [%version-update [app.hit new-version]]
               ==
           ==
         ::
@@ -477,22 +459,62 @@
         (on-arvo:def `wire`pole sign-arvo)
     ::
         [%khan %arow *]
+      =/  =app  [`@p`(slav %p ship.pole) desk.pole]
       ?.  -.p.sign-arvo
-        ((slog (crip "hits: failed to read docket file from {<desk.pole>}") ~) `this)
+        %-  %+  slog
+              %-  crip
+              "hits: failed to read docket file from {<desk.pole>}"
+            ~
+        :_  this
+        :~  :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                :*  %score-update
+                    app
+                    (~(got by scores) app)
+                ==
+            ==
+            :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                :*  %version-update
+                    app
+                    (~(got by versions) app)
+                ==
+            ==
+            :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                :*  %installs-update
+                    app
+                    (~(got by installs) app)
+                ==
+            ==
+        ==
       :-  :~  :*  %give
                   %fact
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  :-  %docket-update
-                  :-  [`@p`(slav %p ship.pole) desk.pole]
-                  (docket-0 (tail (tail +.p.sign-arvo)))
+                  :*  %app-update
+                      app
+                      (~(got by scores) app)
+                      (~(got by versions) app)
+                      (~(got by installs) app)
+                      (docket-0 (tail (tail +.p.sign-arvo)))
+                  ==
               ==
           ==
       %=  this
         dockets  %-  %~  put  by
                    dockets
-                 :-  [`@p`(slav %p ship.pole) desk.pole]
+                 :-  app
                  (docket-0 (tail (tail +.p.sign-arvo)))
       ==
     ==
@@ -503,11 +525,12 @@
         (on-arvo:def `wire`pole sign-arvo)
     ::
         [%clay %writ *]
+      =/  =app  [`@p`(slav %p ship.pole) desk.pole]
       :_  this
       :~  %+  invent:gossip
             %update-docket
-          !>  ^-  app
-          [`@p`(slav %p ship.pole) desk.pole]
+          !>  ^+  app
+          app
           :*  %pass
               /docket/read/[ship.pole]/[desk.pole]
               %arvo
