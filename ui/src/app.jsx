@@ -8,7 +8,7 @@ import { subscribeToUiUpdates } from './api/subscriptions.js';
 export function App() {
   const [listView, setListView] = useState('allTime')
   const {
-    allTimeApps,
+    allTimeRankings,
     receiveUiUpdate
   } = useHitsHelper()
 
@@ -22,8 +22,8 @@ export function App() {
 
   // TODO remove, this is just for testing
   useEffect(() => {
-    console.log('new allTimeApps: ', allTimeApps)
-  }, [allTimeApps])
+    console.log('new allTimeRankings: ', allTimeRankings)
+  }, [allTimeRankings])
 
   return (
     <div className='app-container bg-background'>
