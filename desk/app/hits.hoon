@@ -106,7 +106,7 @@
         ~
         %ui-update
         !>  ^-  ui-update
-        :*  %app-requested
+        :*  %app-update
             app
             (~(got by scores) app)
             (~(got by versions) app)
@@ -246,21 +246,21 @@
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  [%score-updated [app.hit new-score]]
+                  [%score-update [app.hit new-score]]
               ==
               :*  %give
                   %fact
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  [%installs-updated [app.hit (~(got by new-installs) app.hit)]]
+                  [%installs-update [app.hit (~(got by new-installs) app.hit)]]
               ==
               :*  %give
                   %fact
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  [%version-updated [app.hit new-version]]
+                  [%version-update [app.hit new-version]]
               ==
           ==
         ::
@@ -311,14 +311,14 @@
                 ~[/ui-updates]
                 %ui-update
                 !>  ^-  ui-update
-                [%score-updated [app.hit new-score]]
+                [%score-update [app.hit new-score]]
             ==
             :*  %give
                 %fact
                 ~[/ui-updates]
                 %ui-update
                 !>  ^-  ui-update
-                [%installs-updated [app.hit (~(got by new-installs) app.hit)]]
+                [%installs-update [app.hit (~(got by new-installs) app.hit)]]
             ==
         ==
       ==  ::  end of mark branches
@@ -484,7 +484,7 @@
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  :-  %docket-updated
+                  :-  %docket-update
                   :-  [`@p`(slav %p ship.pole) desk.pole]
                   (docket-0 (tail (tail +.p.sign-arvo)))
               ==

@@ -9,25 +9,25 @@
   ++  noun  upd
   ++  json
     ?-  -.upd
-        %score-updated
+        %score-update
       %-  pairs:enjs:format
-      :~  ['updateTag' [%s 'score-updated']]
+      :~  ['updateTag' [%s 'score-update']]
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
           ['score' [%n (scot %ud score.upd)]]
       ==
     ::
-        %version-updated
+        %version-update
       %-  pairs:enjs:format
-      :~  ['updateTag' [%s 'version-updated']]
+      :~  ['updateTag' [%s 'version-update']]
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
           ['version' [%n (scot %ud kelvin.upd)]]
       ==
     ::
-        %installs-updated
+        %installs-update
       %-  pairs:enjs:format
-      :~  ['updateTag' [%s 'installs-updated']]
+      :~  ['updateTag' [%s 'installs-update']]
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
           :-  'installs'
@@ -37,10 +37,10 @@
           |=(=time (time:enjs:format time))
       ==
     ::
-        %docket-updated
+        %docket-update
       =,  docket.upd
       %-  pairs:enjs:format
-      :~  ['updateTag' [%s 'docket-updated']]
+      :~  ['updateTag' [%s 'docket-update']]
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
           :-  'docket'
@@ -58,9 +58,9 @@
           ==
       ==
     ::
-        %app-requested
+        %app-update
       %-  pairs:enjs:format
-      :~  ['updateTag' [%s 'app-requested']]
+      :~  ['updateTag' [%s 'app-update']]
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
           ['score' ~]

@@ -8,11 +8,11 @@
 ::
 +$  ui-update
   $+  ui-update-hits
-  $%  [%score-updated =app =score]
-      [%version-updated =app =kelvin]
-      [%docket-updated =app docket=docket-0]
-      [%installs-updated =app =installs]
-      $:  %app-requested
+  $%  [%score-update =app =score]
+      [%version-update =app =kelvin]
+      [%docket-update =app docket=docket-0]
+      [%installs-update =app =installs]
+      $:  %app-update
           =app
           =score
           =kelvin

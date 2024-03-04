@@ -18,7 +18,7 @@ export default function useHitsHelper() {
 
   function receiveUiUpdate(uiUpdate) {
     switch (uiUpdate.updateTag) {
-      case 'score-updated':
+      case 'score-update':
         // TODO remove console log
         console.log('uiUpdate tag: ', uiUpdate.updateTag)
         setAllTimeRankings(prevRankings => {
@@ -36,7 +36,7 @@ export default function useHitsHelper() {
         })
         break
 
-      case 'version-updated':
+      case 'version-update':
         // TODO remove console log
         console.log('uiUpdate tag: ', uiUpdate.updateTag)
         setAllTimeRankings(prevRankings => {
@@ -53,7 +53,7 @@ export default function useHitsHelper() {
         })
         break
 
-      case 'installs-updated':
+      case 'installs-update':
         // TODO remove console log
         console.log('uiUpdate tag: ', uiUpdate.updateTag)
         setAllTimeRankings(prevRankings => {
@@ -70,7 +70,7 @@ export default function useHitsHelper() {
         })
         break
 
-      case 'docket-updated':
+      case 'docket-update':
         // TODO remove console log
         console.log('uiUpdate tag: ', uiUpdate.updateTag)
         setAllTimeRankings(prevRankings => {
@@ -87,7 +87,7 @@ export default function useHitsHelper() {
         })
         break
 
-      case 'app-requested':
+      case 'app-update':
         // TODO remove console log
         console.log('uiUpdate tag: ', uiUpdate.updateTag)
         if (allTimeRankings.length < chartLimit) {
