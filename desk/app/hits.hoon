@@ -542,66 +542,6 @@
     ::  .^((unit @ud) %gx /=hits=/~sampel/hits/base/noun)
     ::  .^(json %gx /=hits=/~sampel/hits/base/json)
     ``[%hits-version !>((some (scry-kelvin our.bowl %base now.bowl)))]
-  ::
-      [%x %rankings ~]
-    ::
-    ::  initial rankings, used to popular frontend state
-    ::  .^((list (pair ship desk)) %gx /=hits=/rankings/noun)
-    ::  .^(json %gx /=hits=/rankings/json)
-    ``[%hits-rankings !>(rankings)]
-  ::
-  ::  XX reformat paths to be e.g. /score/~sampel/hits?
-  ::     more readable in that you know what you're
-  ::     looking at faster
-  ::
-  ::  XX reformat to do !> before conditional logic
-      [%x ship desk %score ~]
-    ::
-    ::  app's score
-    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/score/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/score/json)
-    =/  =app    [(slav %p i.t.path) i.t.t.path]
-    ?~  (~(get by scores) app)
-      ``[%hits-score !>(~)]
-    ``[%hits-score !>((~(get by scores) app))]
-  ::
-      [%x ship desk %version ~]
-    ::
-    ::  app's current %zuse kelvin version
-    ::  compatibility (e.g. 412, 411)
-    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/version/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/version/json)
-    =/  =app  [(slav %p i.t.path) i.t.t.path]
-    ?~  (~(get by versions) app)
-      ``[%hits-version !>(~)]
-    ``[%hits-version !>((~(get by versions) app))]
-  ::
-      [%x ship desk %docket ~]
-    ::
-    ::  app's docket info
-    ::  .^((unit noun) %gx /=hits=/~sampel/hits/docket/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/docket/json)
-    =/  =app  [(slav %p i.t.path) i.t.t.path]
-    ?~  (~(get by dockets) app)
-      ``[%hits-docket !>(~)]
-    ``[%hits-docket !>((~(get by dockets) app))]
-  ::
-      [%x ship desk %installs @ud ~]
-    ::
-    ::  dates of app's most recent n installs
-    ::  .^((list @da) %gx /=hits=/~sampel/hits/installs/25/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/installs/25/json)
-    =*  limit  i.t.t.t.t.path
-    =/  =app  [(slav %p i.t.path) i.t.t.path]
-    %-  some
-    %-  some
-    :-  %hits-installs
-    !>  ^-  (list time)
-    ?~  (~(get by installs) app)
-      ~
-    %+  scag
-      limit
-    (~(got by installs) app)
   ==
 ::
 ++  on-fail   on-fail:def
