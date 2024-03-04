@@ -20,7 +20,7 @@ export default function useHitsHelper() {
     switch (uiUpdate.updateTag) {
       case 'score-update':
         // TODO remove console log
-        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        console.log('score-update for ', uiUpdate.desk)
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
@@ -38,7 +38,7 @@ export default function useHitsHelper() {
 
       case 'version-update':
         // TODO remove console log
-        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        console.log('version-update for ', uiUpdate.desk)
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
@@ -55,7 +55,7 @@ export default function useHitsHelper() {
 
       case 'installs-update':
         // TODO remove console log
-        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        console.log('installs-update for ', uiUpdate.desk)
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
@@ -72,7 +72,7 @@ export default function useHitsHelper() {
 
       case 'docket-update':
         // TODO remove console log
-        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        console.log('docket-update for ', uiUpdate.desk)
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
@@ -89,7 +89,7 @@ export default function useHitsHelper() {
 
       case 'app-update':
         // TODO remove console log
-        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        console.log('app-update for ', uiUpdate.desk)
         if (allTimeRankings.length < chartLimit) {
           // const baseVersionResponse = await scryBaseVersion()
           // const localBaseVersion = baseVersionResponse
