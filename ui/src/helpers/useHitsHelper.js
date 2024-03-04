@@ -34,6 +34,7 @@ export default function useHitsHelper() {
           // const baseVersionResponse = await scryBaseVersion();
           // const localBaseVersion = baseVersionResponse;
 
+          // TODO remove hard-coded %base version
           if (uiUpdate.version <= 412) {
             setAllTimeApps(prevApps => {
               // TODO remove this appIndex check, shouldn't
