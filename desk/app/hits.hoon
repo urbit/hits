@@ -95,7 +95,25 @@
     ::  will update the chart live on the user device
     ::  XX removed this check for vite, should uncomment
     ::  ?>  =(our.bowl src.bowl)
-    `this
+    ::  `this
+    :_  this
+    %+  turn
+      rankings
+    |=  =app
+    ^-  card
+    :*  %give
+        %fact
+        ~
+        %ui-update
+        !>  ^-  ui-update
+        :*  %app-requested
+            app
+            (~(got by scores) app)
+            (~(got by versions) app)
+            (~(got by installs) app)
+            (~(got by dockets) app)
+        ==
+    ==
   ::
       [%~.~ %gossip %source ~]
     ::

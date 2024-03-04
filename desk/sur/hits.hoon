@@ -3,6 +3,7 @@
 +$  kelvin     @ud
 +$  score      @ud
 +$  src        ship
++$  installs   (list time)
 +$  app        [=ship =desk]
 ::
 +$  ui-update
@@ -10,7 +11,14 @@
   $%  [%score-updated =app =score]
       [%version-updated =app =kelvin]
       [%docket-updated =app docket=docket-0]
-      [%installs-updated =app installs=(list time)]
+      [%installs-updated =app =installs]
+      $:  %app-requested
+          =app
+          =score
+          =kelvin
+          =installs
+          docket=docket-0
+      ==
   ==
 ::
 +$  version

@@ -1,51 +1,69 @@
 import { useState } from 'react'
-import {
-  scryAppDocket,
-  scryAppScore,
-  scryAppVersion,
-  scryBaseVersion
-} from '../api/scries'
 
 export default function useHitsHelper() {
   const [allTimeApps, setAllTimeApps] = useState([])
 
   const chartLimit = 40
 
-  async function initAllTimeApps(response) {
-    let rankings = await response;
+  function receiveUiUpdate(uiUpdate) {
+    switch (uiUpdate.updateTag) {
+      case 'score-updated':
+        // TODO remove console log
+        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        break;
 
-    // TODO baseVersion: track %base version here and filter
-    //      out apps on initAllTimeApps / receiveUpdate.
-    //      Assuming for now we only care about %zuse
-    const baseVersionResponse = await scryBaseVersion();
-    const localBaseVersion = baseVersionResponse;
+      case 'version-updated':
+        // TODO remove console log
+        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        break;
 
-    let validApps = [];
+      case 'installs-updated':
+        // TODO remove console log
+        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        break;
 
-    await Promise.all(rankings.map(async (ranking, index) => {
-      if (validApps.length < chartLimit) {
-        let thisApp = {};
-        const desk = ranking.desk;
-        const ship = ranking.ship;
+      case 'docket-updated':
+        // TODO remove console log
+        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        break;
 
-        thisApp.version = await scryAppVersion(ship, desk);
+      case 'app-requested':
+        // TODO remove console log
+        console.log('uiUpdate tag: ', uiUpdate.updateTag)
+        if (allTimeApps.length < chartLimit) {
+          // const baseVersionResponse = await scryBaseVersion();
+          // const localBaseVersion = baseVersionResponse;
 
-        if (thisApp.version <= localBaseVersion) {
-          thisApp.rank = index + 1;
-          thisApp.name = desk;
-          thisApp.publisher = ship;
-          thisApp.score = await scryAppScore(ship, desk);
-          thisApp.docket = await scryAppDocket(ship, desk);
+          if (uiUpdate.version <= 412) {
+            setAllTimeApps(prevApps => {
+              // TODO remove this appIndex check, shouldn't
+              //      need to check for duplicates
+              const appIndex = prevApps.findIndex(app => {
+                return app.name === uiUpdate.desk
+              });
 
-          validApps.push(thisApp);
+              if (appIndex === -1) {
+                return [...prevApps, {
+                  name: uiUpdate.desk,
+                  publisher: uiUpdate.ship,
+                  rank: prevApps.length + 1,
+                  score: uiUpdate.score,
+                  version: uiUpdate.version,
+                  installs: uiUpdate.installs,
+                  docket: uiUpdate.docket,
+                }];
+              }
+
+              return prevApps;
+            });
+          }
         }
-      }
-    }));
+        break;
 
-    setAllTimeApps(validApps);
+      default:
+        console.log('Unknown uiUpdate: ', uiUpdate);
+      }
   }
 
-  function receiveUiUpdate() {}
-
-  return { allTimeApps, initAllTimeApps, receiveUiUpdate }
+  return { allTimeApps, receiveUiUpdate }
 }

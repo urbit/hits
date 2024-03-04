@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import useHitsHelper from './helpers/useHitsHelper.js'
 import Header from './components/Header'
 import AppTable from './components/AppTable'
-import { scryRankings } from './api/scries.js';
 import { subscribeToUiUpdates } from './api/subscriptions.js';
 
 // TODO check we have %pals installed, display a warning if not
@@ -10,13 +9,11 @@ export function App() {
   const [listView, setListView] = useState('allTime')
   const {
     allTimeApps,
-    initAllTimeApps,
     receiveUiUpdate
   } = useHitsHelper()
 
   useEffect(() => {
     async function init() {
-      await initAllTimeApps(scryRankings())
       await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate))
     }
 
