@@ -30,12 +30,6 @@
   ==
 ::
 +$  card  $+(card card:agent:gall)
-::
-::  max. number of installs
-::  to track for each app
-::  XX arguably remove this: cheap to store @das, can
-::     let frontend dev decide what algorithm they want
-++  date-limit  25
 --
 ::
 =|  state-0
@@ -196,8 +190,6 @@
           =/  new-installs
             %-  ~(put by installs)
             :-  app.hit
-            %+  scag
-              date-limit
             %+  sort
               :-  time.hit
               %-  ~(gut by installs)
