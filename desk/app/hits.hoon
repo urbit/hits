@@ -105,8 +105,7 @@
               (~(got by scores) app)
               (~(got by versions) app)
               (~(got by installs) app)
-              ::  XX has by dockets
-              ?~  (~(get by dockets) app)
+              ?.  (~(has by dockets) app)
                 *docket-0
               (~(got by dockets) app)
           ==
@@ -454,6 +453,12 @@
               "hits: failed to read docket file from {<desk.pole>}"
             ~
         :_  this
+        ::  if we fail to read the docket file, we send
+        ::  these updates to the frontend. if app already
+        ::  exists on the frontend, ui will be updated.
+        ::  if app doesn't already exist on the frontend,
+        ::  we won't add it until we get a valid docket
+        ::
         :~  :*  %give
                 %fact
                 ~[/ui-updates]
@@ -490,6 +495,10 @@
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
+                  ::  XX why not a %docket-update?
+                  ::     if not here, where should the
+                  ::     %docket-update be sent? what
+                  ::     about when we get %update-docket?
                   :*  %app-update
                       app
                       (~(got by scores) app)
