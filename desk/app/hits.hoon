@@ -256,21 +256,16 @@
           ::  from the sorted list of their install datetimes; this
           ::  should quickly move them down the 'trending' feed
           ::
-          ::  XX could this be better?
-          ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
-            ::  if app has >1 installs,
-            ::  remove the most recent
-            %-  ~(put by installs)
-            :-  app.hit
-            (tail (sort (~(got by installs) app.hit) gth))
-          ::  if not, check app exists
-          ?~  (~(get by installs) app.hit)
-            ::  if app doesn't exist,
-            ::  return installs
+          ?.  (~(has by installs) app.hit)
             installs
-          ::  if app does exist and has
-          ::  exactly 1 install, remove app
-          (~(del by installs) app.hit)
+          ?:  =(1 (lent (~(got by installs) app.hit)))
+            (~(del by installs) app.hit)
+          %-  ~(put by installs)
+          :-  app.hit
+          %-  tail
+          %+  sort
+            (~(got by installs) app.hit)
+          gth
         ::
         :_  %=  this
               dockets   new-dockets
