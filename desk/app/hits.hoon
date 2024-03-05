@@ -111,6 +111,7 @@
               (~(got by scores) app)
               (~(got by versions) app)
               (~(got by installs) app)
+              ::  XX has by dockets
               ?~  (~(get by dockets) app)
                 *docket-0
               (~(got by dockets) app)

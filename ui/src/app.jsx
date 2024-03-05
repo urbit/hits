@@ -9,7 +9,8 @@ export function App() {
   const [listView, setListView] = useState('allTime')
   const {
     allTimeRankings,
-    receiveUiUpdate
+    receiveUiUpdate,
+    trendingApps
   } = useHitsHelper()
 
   useEffect(() => {
@@ -20,10 +21,14 @@ export function App() {
     init();
   }, []);
 
-  // TODO remove, this is just for testing
+  // TODO remove useEffects, they're just for testing
   useEffect(() => {
     console.log('new allTimeRankings: ', allTimeRankings)
   }, [allTimeRankings])
+
+  useEffect(() => {
+    console.log('new trendingApps: ', trendingApps)
+  }, [trendingApps])
 
   return (
     <div className='app-container bg-background'>
