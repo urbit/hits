@@ -194,7 +194,7 @@
               :-  time.hit
               %-  ~(gut by installs)
               :-  app.hit
-              ~[now.bowl]
+              ~
             |=  [a=time b=time]
             ^-  ?
             (gth a b)
