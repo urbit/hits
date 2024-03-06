@@ -83,6 +83,18 @@ tr {
   border: 1px solid var(--color-main)
 }
 
+th.app-header {
+  border-right: none;
+}
+
+th.info-header {
+  border: none;
+}
+
+td.app-info {
+  border: none;
+}
+
 .app-button {
   text-align: center;
   vertical-align: middle;

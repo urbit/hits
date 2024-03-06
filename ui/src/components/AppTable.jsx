@@ -14,7 +14,8 @@ export default function AppTable({ apps }) {
       <thead>
         <th>#</th>
         <th>ICON</th>
-        <th>INFO</th>
+        <th className='app-header'>APP</th>
+        <th className='info-header'>INFO</th>
         <th>DOWNLOAD</th>
       </thead>
       <tbody>
@@ -45,6 +46,9 @@ export default function AppTable({ apps }) {
                 {/* TODO enforce sentence case */}
                 {app.docket.info}
               </span>
+            </td>
+            <td className='app-info'>
+              metadata
             </td>
             <td className='app-button'>
               <button >GET</button>
