@@ -55,16 +55,23 @@ export default function AppTable({ apps }) {
               />
               }
             </td>
-            <td className='app-info'>
+            <td className='app-name-desc'>
               <span className='app-title'>
                 {app.name.toUpperCase()}
               </span>
+              &nbsp;
               <span className='app-description'>
                 {normalizeAppDescription(app.docket.info)}
               </span>
             </td>
             <td className='app-info'>
-              metadata
+              <span className='info-publisher'>{app.publisher}</span><br></br>
+              {/* TODO make this clickable */}
+              <span className='info-website'>{app.docket.website}</span><br></br>
+              <span className="info-additional">
+                {/* TODO add real desk hash */}
+                <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license})</span>
+              </span>
             </td>
             <td className='app-button'>
               <button >GET</button>

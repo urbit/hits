@@ -91,8 +91,17 @@ th.info-header {
   border: none;
 }
 
+td.app-name-desc {
+  border: none;
+  font-size: 16px;
+  vertical-align: top;
+}
+
 td.app-info {
   border: none;
+  text-align: right;
+  vertical-align: top;
+  font-size: 16px;
 }
 
 .app-button {
@@ -110,4 +119,13 @@ table button {
   border-radius: 50px;
   cursor: pointer;
   display: inline-block;
+}
+
+span.info-publisher {
+  white-space: nowrap;
+}
+
+span.info-website {
+  color: var(--color-linkText);
+  white-space: nowrap;
 }
