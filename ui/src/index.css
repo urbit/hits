@@ -1,10 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @font-face {
   font-family: 'Urbit Sans';
   src: url('https://media.urbit.org/fonts/UrbitSans/UrbitSansVFWeb-Regular.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+}
+
+:root {
+  --color-background: #1E1414;
+  --color-main: #FACDB9;
+  --color-subduedText: #645050;
+  --color-linkText: #549EF5;
+  --urbit-sans: 'Urbit Sans', sans-serif;
+}
+
+html {
+  background-color: var(--color-background);
+}
+
+.app-container {
+  width: 90vw;
+}
+
+.app-title {
+  font-family: var(--urbit-sans);
+  font-feature-settings: 'ss03' 1;
+  color: var(--color-main);
+}
+
+.app-description {
+  font-family: var(--urbit-sans);
+  color: var(--color-background);
+}
+
+.header-text {
+  font-family: var(--urbit-sans);
+  color: var(--color-main);
+}
+
+.hits-title {
+  font-family: var(--urbit-sans);
+  color: var(--color-main);
 }

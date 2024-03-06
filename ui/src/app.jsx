@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import useHitsHelper from './helpers/useHitsHelper.js'
-import Header from './components/Header'
 import AppTable from './components/AppTable'
 import { subscribeToUiUpdates } from './api/subscriptions.js';
 
@@ -21,7 +20,7 @@ export function App() {
     init();
   }, []);
 
-  // TODO remove useEffects, they're just for testing
+  // TODO remove these two useEffects, they're just for testing
   useEffect(() => {
     console.log('new allTimeRankings: ', allTimeRankings)
   }, [allTimeRankings])
@@ -31,12 +30,17 @@ export function App() {
   }, [trendingApps])
 
   return (
-    <div className='app-container bg-background'>
-    <Header />
-    <div className='m-3'>
-      <h1 className='font-sans text-main'>%hits</h1>
-    </div>
-    <AppTable />
-    </div>
+      <div className='app-container'>
+      <div id='header'>
+        <span className='header-text'>March 6, 2024</span>
+        <span className='header-text'>All Time</span>
+        <span className='header-text'>Trending</span>
+        <span className='header-text'>?</span>
+      </div>
+      <div id='title-container'>
+        <h1 className='hits-title'>%HITS</h1>
+      </div>
+      <AppTable />
+      </div>
   );
 }
