@@ -19,6 +19,7 @@ html {
 
 .app-container {
   width: 90vw;
+  margin: auto;
 }
 
 .app-title {
@@ -30,6 +31,13 @@ html {
 .app-description {
   font-family: var(--urbit-sans);
   color: var(--color-background);
+}
+
+.header {
+  border: 0px;
+  border-bottom: 1px;
+  border-color: var(--color-main);
+  border-style: solid;
 }
 
 .header-text {

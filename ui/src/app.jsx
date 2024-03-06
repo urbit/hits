@@ -31,7 +31,7 @@ export function App() {
 
   return (
       <div className='app-container'>
-      <div id='header'>
+      <div className='header'>
         <span className='header-text'>March 6, 2024</span>
         <span className='header-text'>All Time</span>
         <span className='header-text'>Trending</span>
