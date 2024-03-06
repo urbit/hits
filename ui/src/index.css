@@ -125,6 +125,12 @@ span.info-publisher {
   white-space: nowrap;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
 span.info-website {
   color: var(--color-linkText);
   white-space: nowrap;

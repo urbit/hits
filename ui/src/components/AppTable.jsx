@@ -67,14 +67,16 @@ export default function AppTable({ apps }) {
             <td className='app-info'>
               <span className='info-publisher'>{app.publisher}</span><br></br>
               {/* TODO make this clickable */}
-              <span className='info-website'>{app.docket.website}</span><br></br>
+              <span className='info-website'>
+                <a href={app.docket.website} target='_blank'>{app.docket.website}</a>
+                </span><br></br>
               <span className="info-additional">
                 {/* TODO add real desk hash */}
                 <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license})</span>
               </span>
             </td>
             <td className='app-button'>
-              <button >GET</button>
+              <button>GET</button>
             </td>
           </tr>
         ))}
