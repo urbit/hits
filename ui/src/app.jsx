@@ -40,7 +40,11 @@ export function App() {
       <div id='title-container'>
         <h1 className='hits-title'>%HITS</h1>
       </div>
-      <AppTable />
+      <AppTable apps={
+        listView === 'allTime'
+        ? allTimeRankings
+        : trendingApps
+      } />
       </div>
   );
 }

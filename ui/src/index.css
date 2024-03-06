@@ -19,6 +19,7 @@ html {
 
 .app-container {
   width: 90vw;
+  max-width: 1000px;
   margin: auto;
 }
 
@@ -30,7 +31,7 @@ html {
 
 .app-description {
   font-family: var(--urbit-sans);
-  color: var(--color-background);
+  color: var(--color-subduedText);
 }
 
 .header {
@@ -48,4 +49,37 @@ html {
 .hits-title {
   font-family: var(--urbit-sans);
   color: var(--color-main);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-main);
+  font-family: var(--urbit-sans);
+}
+
+th {
+  text-align: left;
+  color: var(--color-main);
+  border: 1px solid var(--color-main);
+}
+
+td {
+  color: var(--color-main);
+  border: 1px solid var(--color-main)
+}
+
+td img {
+  width: 100%;
+  max-width: 50px;
+  height: auto;
+}
+
+tr {
+  border: 1px solid var(--color-main)
+}
+
+table button {
+  background-color: var(--color-main);
+  color: var(--color-background);
 }
