@@ -69,9 +69,13 @@ td {
   border: 1px solid var(--color-main)
 }
 
+.app-icon {
+  width: 100px;
+  height: 100px;
+}
+
 td img {
   width: 100%;
-  max-width: 50px;
   height: auto;
 }
 
@@ -79,7 +83,19 @@ tr {
   border: 1px solid var(--color-main)
 }
 
+.app-button {
+  text-align: center;
+  vertical-align: middle;
+}
+
 table button {
   background-color: var(--color-main);
   color: var(--color-background);
+  font-family: var(--urbit-sans);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-block;
 }
