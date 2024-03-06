@@ -12,11 +12,11 @@ export default function AppTable({ apps }) {
   return (
     <table>
       <thead>
-        <th>#</th>
-        <th>ICON</th>
+        <th className='index-header'>#</th>
+        <th className='icon-header'>ICON</th>
         <th className='app-header'>APP</th>
         <th className='info-header'>INFO</th>
-        <th>DOWNLOAD</th>
+        <th className='download-header'>DOWNLOAD</th>
       </thead>
       <tbody>
         {apps.map((app, index) => (
@@ -44,6 +44,7 @@ export default function AppTable({ apps }) {
               </span>
               <span className='app-description'>
                 {/* TODO enforce sentence case */}
+                {/* TODO enforce character limit */}
                 {app.docket.info}
               </span>
             </td>
