@@ -1,12 +1,29 @@
 export default function AppTable({ apps }) {
   console.log('AppTable apps: ', apps)
 
-  function normalizeUrbitColor(color) {
+  function normalizeAppColor(color) {
     // TODO is this necessary?
     // if (color.startsWith('#')) {
     //   return color;
     // }
     return `#${color.slice(2).replace('.', '').toUpperCase()}`;
+  }
+
+  function normalizeAppDescription(info) {
+    let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
+
+    if (
+      newDesc[newDesc.length -1] !== '.'
+      && newDesc[newDesc.length -1] !== '…'
+      ) {
+      newDesc = `${newDesc}.`
+    }
+
+    if (newDesc.length > 256) {
+      newDesc = `${newDesc.substring(0, 256)}…`
+    }
+
+    return newDesc
   }
 
   return (
@@ -28,7 +45,7 @@ export default function AppTable({ apps }) {
               className='app-icon'
               style={
                 app.docket.color &&
-                { backgroundColor: `${normalizeUrbitColor(app.docket.color)}` }
+                { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
               }
             >
               {app.docket.image &&
@@ -43,9 +60,7 @@ export default function AppTable({ apps }) {
                 {app.name.toUpperCase()}
               </span>
               <span className='app-description'>
-                {/* TODO enforce sentence case */}
-                {/* TODO enforce character limit */}
-                {app.docket.info}
+                {normalizeAppDescription(app.docket.info)}
               </span>
             </td>
             <td className='app-info'>
