@@ -1,5 +1,4 @@
 export default function AppTable({ apps }) {
-  console.log('AppTable apps: ', apps)
 
   function normalizeAppColor(color) {
     return `#${color.slice(2).replace('.', '').toUpperCase()}`;

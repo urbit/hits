@@ -3,7 +3,6 @@ import useHitsHelper from './helpers/useHitsHelper.js'
 import AppTable from './components/AppTable'
 import { subscribeToUiUpdates } from './api/subscriptions.js';
 
-// TODO check we have %pals installed, display a warning if not
 export function App() {
   const [listView, setListView] = useState('allTime')
   const {
@@ -20,7 +19,6 @@ export function App() {
     init();
   }, []);
 
-  // TODO remove these two useEffects, they're just for testing
   useEffect(() => {
     console.log('new allTimeRankings: ', allTimeRankings)
   }, [allTimeRankings])
@@ -33,8 +31,8 @@ export function App() {
       <div className='app-container'>
       <div className='header'>
         <span className='header-text'>March 6, 2024</span>
-        <span className='header-text'>All Time</span>
-        <span className='header-text'>Trending</span>
+        <span className='header-text' onClick={() => setListView('allTime')}>All Time</span>
+        <span className='header-text' onClick={() => setListView('trending')}>Trending</span>
         <span className='header-text'>?</span>
       </div>
       <div id='title-container'>
