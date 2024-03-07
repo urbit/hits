@@ -22,9 +22,15 @@ export default function AppTable({ apps }) {
     let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
 
     if (
-      newDesc[newDesc.length -1] !== '.'
-      && newDesc[newDesc.length -1] !== '…'
-      // TODO handle other punctuation
+      newDesc[newDesc.length - 1] !== '.' &&
+      newDesc[newDesc.length - 1] !== '…' &&
+      newDesc[newDesc.length - 1] !== '!' &&
+      newDesc[newDesc.length - 1] !== '?' &&
+      newDesc[newDesc.length - 1] !== ')' &&
+      newDesc[newDesc.length - 1] !== ']' &&
+      newDesc[newDesc.length - 1] !== '}' &&
+      newDesc[newDesc.length - 1] !== '\'' &&
+      newDesc[newDesc.length - 1] !== '\"'
       ) {
       newDesc = `${newDesc}.`
     }
