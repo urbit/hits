@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useHitsHelper from './helpers/useHitsHelper.js'
 import AppTable from './components/AppTable'
 import { subscribeToUiUpdates } from './api/subscriptions.js';
+import hitsTitle from './assets/hits.svg'
 
 export function App() {
   const [listView, setListView] = useState('allTime')
@@ -35,8 +36,8 @@ export function App() {
         <span className='header-text' onClick={() => setListView('trending')}>Trending</span>
         <span className='header-text'>?</span>
       </div>
-      <div id='title-container'>
-        <h1 className='hits-title'>%HITS</h1>
+      <div className='title-container'>
+        <img src={hitsTitle} alt="%hits title" />
       </div>
       <AppTable apps={
         listView === 'allTime'

@@ -20,7 +20,26 @@ html {
 .app-container {
   width: 90vw;
   max-width: 1000px;
+  min-width: 600px;
   margin: auto;
+  overflow: hidden;
+}
+
+div.title-container {
+  width: 100%;
+  max-width: 1000px;
+  min-width: 600px;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+div.title-container img {
+  width: 100%;
+  min-width: 600px;
+  height: auto;
 }
 
 .app-title {
