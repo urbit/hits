@@ -96,12 +96,20 @@ td.app-icon img {
   display: block;
 }
 
+th.index-header {
+  text-align: center;
+}
+
 th.app-header {
   border-right: none;
 }
 
 th.info-header {
   border: none;
+}
+
+td.app-index {
+  text-align: center;
 }
 
 td.app-name-desc {
