@@ -2,10 +2,6 @@ export default function AppTable({ apps }) {
   console.log('AppTable apps: ', apps)
 
   function normalizeAppColor(color) {
-    // TODO is this necessary?
-    // if (color.startsWith('#')) {
-    //   return color;
-    // }
     return `#${color.slice(2).replace('.', '').toUpperCase()}`;
   }
 
@@ -15,6 +11,7 @@ export default function AppTable({ apps }) {
     if (
       newDesc[newDesc.length -1] !== '.'
       && newDesc[newDesc.length -1] !== '…'
+      // TODO handle other punctuation
       ) {
       newDesc = `${newDesc}.`
     }
@@ -24,6 +21,10 @@ export default function AppTable({ apps }) {
     }
 
     return newDesc
+  }
+
+  function handleGetButtonClick(name, publisher) {
+    window.open(`${window.location.origin}/apps/landscape/search/${publisher}/apps/${publisher}/${name}`, '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -48,6 +49,8 @@ export default function AppTable({ apps }) {
                 { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
               }
             >
+              {/* TODO Should be app name in docket */}
+              {/* TODO All name and app.name should be desk and app.desk */}
               {app.docket.image &&
               <img
               src={app.docket.image}
@@ -57,6 +60,7 @@ export default function AppTable({ apps }) {
             </td>
             <td className='app-name-desc'>
               <span className='app-title'>
+                {/* TODO Should be app name in docket */}
                 {app.name.toUpperCase()}
               </span>
               &nbsp;
@@ -66,7 +70,6 @@ export default function AppTable({ apps }) {
             </td>
             <td className='app-info'>
               <span className='info-publisher'>{app.publisher}</span><br></br>
-              {/* TODO make this clickable */}
               <span className='info-website'>
                 <a href={app.docket.website} target='_blank'>{app.docket.website}</a>
                 </span><br></br>
@@ -76,7 +79,7 @@ export default function AppTable({ apps }) {
               </span>
             </td>
             <td className='app-button'>
-              <button>GET</button>
+              <button onClick={() => handleGetButtonClick(app.name, app.publisher)}>GET</button>
             </td>
           </tr>
         ))}
