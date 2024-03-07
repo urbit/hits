@@ -49,19 +49,18 @@ export default function AppTable({ apps }) {
                 { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
               }
             >
-              {/* TODO Should be app name in docket */}
               {/* TODO All name and app.name should be desk and app.desk */}
               {app.docket.image &&
               <img
               src={app.docket.image}
-              alt={`${app.name} app icon`}
+              alt={`${app.docket.title} app icon`}
               />
               }
             </td>
             <td className='app-name-desc'>
               <span className='app-title'>
                 {/* TODO Should be app name in docket */}
-                {app.name.toUpperCase()}
+                {app.docket.title.toUpperCase()}
               </span>
               &nbsp;
               <span className='app-description'>
