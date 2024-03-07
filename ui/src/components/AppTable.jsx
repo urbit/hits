@@ -74,7 +74,7 @@ export default function AppTable({ apps }) {
                 </span><br></br>
               <span className="info-additional">
                 {/* TODO add real desk hash */}
-                <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license})</span>
+                <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license.toUpperCase()})</span>
               </span>
             </td>
             <td className='app-button'>
