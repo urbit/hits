@@ -28,7 +28,9 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   position: sticky;
   top: 0px;
   background-color: var(--color-background);
@@ -87,6 +89,12 @@ div.title-container img {
 .header-text {
   font-family: var(--urbit-sans);
   color: var(--color-main);
+}
+
+.help-icon {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
 }
 
 .hits-title {
