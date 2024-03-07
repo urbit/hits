@@ -23,6 +23,28 @@ export default function AppTable({ apps }) {
     return newDesc
   }
 
+  function normalizeWebsite(url) {
+    let newUrl = url
+
+    if (newUrl.startsWith('https://')) {
+      newUrl = newUrl.substring(8)
+    }
+
+    if (newUrl.startsWith('http://')) {
+      newUrl = newUrl.substring(7)
+    }
+
+    if (newUrl.startsWith('www.')) {
+      newUrl = newUrl.substring(4)
+    }
+
+    if (newUrl[newUrl.length - 1] === '/') {
+      newUrl = newUrl.substring(0, newUrl.length - 1)
+    }
+
+    return newUrl
+  }
+
   function handleGetButtonClick(name, publisher) {
     window.open(`${window.location.origin}/apps/landscape/search/${publisher}/apps/${publisher}/${name}`, '_blank', 'noopener,noreferrer')
   }
@@ -70,7 +92,7 @@ export default function AppTable({ apps }) {
             <td className='app-info'>
               <span className='info-publisher'>{app.publisher}</span><br></br>
               <span className='info-website'>
-                <a href={app.docket.website} target='_blank'>{app.docket.website}</a>
+                <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
                 </span><br></br>
               <span className="info-additional">
                 {/* TODO add real desk hash */}
