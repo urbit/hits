@@ -103,10 +103,14 @@ export default function AppTable({ apps }) {
                 <span className='app-title'>
                   {app.docket.title.toUpperCase()}
                 </span>
-                <br></br>
-                <span className='app-description'>
-                  {normalizeAppDescription(app.docket.info)}
-                </span>
+                {normalizeAppDescription(app.docket.info) &&
+                  <>
+                    <br></br>
+                    <span className='app-description'>
+                      {normalizeAppDescription(app.docket.info)}
+                    </span>
+                  </>
+                }
               </div>
             </td>
             <td className='app-info'>
