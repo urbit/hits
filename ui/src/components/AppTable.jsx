@@ -33,7 +33,7 @@ export default function AppTable({ apps }) {
         <th className='index-header'>#</th>
         <th className='icon-header'>ICON</th>
         <th className='app-header'>APP</th>
-        <th className='info-header'>INFO</th>
+        <th className='info-header'></th>
         <th className='download-header'>DOWNLOAD</th>
       </thead>
       <tbody>
