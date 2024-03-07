@@ -99,7 +99,6 @@ export default function AppTable({ apps }) {
             <td className='app-name-desc'>
               <div className="text-wrapper">
                 <span className='app-title'>
-                  {/* TODO Should be app name in docket */}
                   {app.docket.title.toUpperCase()}
                 </span>
                 &nbsp;
@@ -110,13 +109,35 @@ export default function AppTable({ apps }) {
             </td>
             <td className='app-info'>
               <div className="text-wrapper">
-                <span className='info-publisher'>{app.publisher}</span><br></br>
-                <span className='info-website'>
-                  <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
-                  </span><br></br>
+                {app.publisher &&
+                  <>
+                  <span className='info-publisher'>{app.publisher}</span>
+                  <br></br>
+                  </>
+                }
+                {normalizeWebsite(app.docket.website) &&
+                  <>
+                  <span className='info-website'>
+                    <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
+                  </span>
+                  <br></br>
+                  </>
+                }
                 <span className="info-additional">
                   {/* TODO add real desk hash */}
-                  <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license.toUpperCase()})</span>
+                  {app.docket.version &&
+                    <>
+                      <span>{`v${app.docket.version}`}</span>
+                      &nbsp;
+                    </>
+                  }
+                  {/* TODO get real desk hash */}
+                  <span>398ub</span>
+                  &nbsp;
+                  {app.docket.license &&
+                  <>
+                  <span>({app.docket.license.toUpperCase()})</span>
+                  </>}
                 </span>
               </div>
             </td>
