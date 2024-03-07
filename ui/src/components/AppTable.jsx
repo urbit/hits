@@ -1,10 +1,24 @@
 export default function AppTable({ apps }) {
 
   function normalizeAppColor(color) {
-    return `#${color.slice(2).replace('.', '').toUpperCase()}`;
+    if (color === '0x0') {
+      return '#FACDB9'
+    }
+
+    let hexColor = `#${color.slice(2).replace('.', '').toUpperCase()}`;
+
+    if (hexColor.length === 6) {
+      return '#FACDB9'
+    }
+
+    return hexColor
   }
 
   function normalizeAppDescription(info) {
+    if (info === '') {
+      return ''
+    }
+
     let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
 
     if (
@@ -35,6 +49,10 @@ export default function AppTable({ apps }) {
 
     if (newUrl.startsWith('www.')) {
       newUrl = newUrl.substring(4)
+    }
+
+    if (newUrl.startsWith('web+urbitgraph://group/')) {
+      newUrl = ''
     }
 
     if (newUrl[newUrl.length - 1] === '/') {
