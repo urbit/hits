@@ -79,24 +79,28 @@ export default function AppTable({ apps }) {
               }
             </td>
             <td className='app-name-desc'>
-              <span className='app-title'>
-                {/* TODO Should be app name in docket */}
-                {app.docket.title.toUpperCase()}
-              </span>
-              &nbsp;
-              <span className='app-description'>
-                {normalizeAppDescription(app.docket.info)}
-              </span>
+              <div className="text-wrapper">
+                <span className='app-title'>
+                  {/* TODO Should be app name in docket */}
+                  {app.docket.title.toUpperCase()}
+                </span>
+                &nbsp;
+                <span className='app-description'>
+                  {normalizeAppDescription(app.docket.info)}
+                </span>
+              </div>
             </td>
             <td className='app-info'>
-              <span className='info-publisher'>{app.publisher}</span><br></br>
-              <span className='info-website'>
-                <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
-                </span><br></br>
-              <span className="info-additional">
-                {/* TODO add real desk hash */}
-                <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license.toUpperCase()})</span>
-              </span>
+              <div className="text-wrapper">
+                <span className='info-publisher'>{app.publisher}</span><br></br>
+                <span className='info-website'>
+                  <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
+                  </span><br></br>
+                <span className="info-additional">
+                  {/* TODO add real desk hash */}
+                  <span>{`v${app.docket.version}`}</span>&nbsp;<span>398ub</span>&nbsp;<span>({app.docket.license.toUpperCase()})</span>
+                </span>
+              </div>
             </td>
             <td className='app-button'>
               <button onClick={() => handleGetButtonClick(app.name, app.publisher)}>GET</button>

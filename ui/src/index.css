@@ -64,23 +64,32 @@ th {
   border: 1px solid var(--color-main);
 }
 
+tr {
+  border: 1px solid var(--color-main);
+  display: table-row;
+}
+
 td {
   color: var(--color-main);
-  border: 1px solid var(--color-main)
+  border: 1px solid var(--color-main);
+  display: table-cell;
 }
 
-.app-icon {
-  width: 100px;
-  height: 100px;
+td .text-wrapper {
+  max-height: 120px;
+  overflow: hidden;
 }
 
-td img {
+td.app-icon {
+  width: 120px;
+  height: 120px;
+  padding: 0px;
+}
+
+td.app-icon img {
   width: 100%;
   height: auto;
-}
-
-tr {
-  border: 1px solid var(--color-main)
+  display: block;
 }
 
 th.app-header {
@@ -104,7 +113,7 @@ td.app-info {
   font-size: 16px;
 }
 
-.app-button {
+td.app-button {
   text-align: center;
   vertical-align: middle;
 }
