@@ -22,7 +22,31 @@ html {
   max-width: 1000px;
   min-width: 600px;
   margin: auto;
-  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  position: sticky;
+  top: 0px;
+  background-color: var(--color-background);
+}
+
+.header span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.links-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.links-wrapper span {
+  cursor: pointer;
 }
 
 div.title-container {
@@ -68,6 +92,10 @@ div.title-container img {
 .hits-title {
   font-family: var(--urbit-sans);
   color: var(--color-main);
+}
+
+.inactive-link {
+  color: var(--color-subduedText);
 }
 
 table {

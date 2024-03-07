@@ -28,12 +28,22 @@ export function App() {
     console.log('new trendingApps: ', trendingApps)
   }, [trendingApps])
 
+  function handleMostInstalledClick() {
+    setListView('allTime')
+  }
+
+  function handleTrendingAppsClick() {
+    setListView('trendingApps')
+  }
+
   return (
       <div className='app-container'>
       <div className='header'>
         <span className='header-text'>March 6, 2024</span>
-        <span className='header-text' onClick={() => setListView('allTime')}>All Time</span>
-        <span className='header-text' onClick={() => setListView('trending')}>Trending</span>
+        <span className="links-wrapper">
+          <span id='most-installed' className={`header-text ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>Most Installed</span>
+          <span id='trending-apps' className={`header-text ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>Trending Apps</span>
+        </span>
         <span className='header-text'>?</span>
       </div>
       <div className='title-container'>
