@@ -35,11 +35,7 @@ export default function AppTable({ apps }) {
       newDesc = `${newDesc}.`
     }
 
-    if (newDesc.length > 256) {
-      newDesc = `${newDesc.substring(0, 256)}…`
-    }
-
-    return newDesc
+    return newDesc.match(/\w.*?[.!?](?:\s|$|\n)/)
   }
 
   function normalizeWebsite(url) {
@@ -107,7 +103,7 @@ export default function AppTable({ apps }) {
                 <span className='app-title'>
                   {app.docket.title.toUpperCase()}
                 </span>
-                &nbsp;
+                <br></br>
                 <span className='app-description'>
                   {normalizeAppDescription(app.docket.info)}
                 </span>
