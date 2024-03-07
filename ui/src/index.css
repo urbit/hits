@@ -19,7 +19,7 @@ html {
 
 .app-container {
   width: 90vw;
-  max-width: 1000px;
+  max-width: 800px;
   min-width: 600px;
   margin: auto;
 }
@@ -53,7 +53,7 @@ html {
 
 div.title-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 800px;
   min-width: 600px;
   height: 100%;
   margin: 0px;
@@ -165,6 +165,7 @@ th.info-header {
 
 td.app-index {
   text-align: center;
+  font-size: 24px;
 }
 
 td.app-name-desc {
