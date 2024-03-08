@@ -25,6 +25,7 @@ html {
 }
 
 .header {
+  position: relative; /* Add this line */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -35,6 +36,7 @@ html {
   top: 0px;
   background-color: var(--color-background);
 }
+
 
 .header span {
   font-size: 16px;
@@ -49,6 +51,33 @@ html {
 
 .links-wrapper span {
   cursor: pointer;
+}
+
+.help-window {
+  position: absolute;
+  top: 30px;
+  right: 0px;
+  transform-origin: top right;
+  transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+  transform: scale(0);
+  opacity: 0;
+  background-color: var(--color-main);
+  color: var(--color-background);
+  font-size: 16px;
+  font-family: var(--urbit-sans);
+  padding: 5px;
+  width: 200px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.help-window.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.help-window a {
+  color: var(--color-linkText);
 }
 
 div.title-container {

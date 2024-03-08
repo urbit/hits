@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useHitsHelper from './helpers/useHitsHelper.js'
 import AppTable from './components/AppTable'
 import { subscribeToUiUpdates } from './api/subscriptions.js';
@@ -6,48 +6,68 @@ import hitsTitle from './assets/hits.svg'
 import helpIcon from './assets/help.svg'
 
 export function App() {
-  const [listView, setListView] = useState('allTime')
+  const [listView, setListView] = useState('allTime');
+  const [isHelpVisible, setIsHelpVisible] = useState(false);
+  const helpIconRef = useRef(null);
+  const helpWindowRef = useRef(null);
   const {
     allTimeRankings,
     receiveUiUpdate,
     trendingApps
-  } = useHitsHelper()
+  } = useHitsHelper();
 
-  const todaysDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  const todaysDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   useEffect(() => {
     async function init() {
-      await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate))
+      await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate));
     }
 
     init();
   }, []);
 
   useEffect(() => {
-    console.log('new allTimeRankings: ', allTimeRankings)
-  }, [allTimeRankings])
+    console.log('new allTimeRankings: ', allTimeRankings);
+  }, [allTimeRankings]);
 
   useEffect(() => {
-    console.log('new trendingApps: ', trendingApps)
-  }, [trendingApps])
+    console.log('new trendingApps: ', trendingApps);
+  }, [trendingApps]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (helpWindowRef.current && !helpWindowRef.current.contains(event.target) &&
+          helpIconRef.current && !helpIconRef.current.contains(event.target)) {
+        setIsHelpVisible(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   function handleMostInstalledClick() {
-    setListView('allTime')
+    setListView('allTime');
   }
 
   function handleTrendingAppsClick() {
-    setListView('trendingApps')
+    setListView('trendingApps');
   }
 
   return (
-      <div className='app-container'>
+    <div className='app-container'>
       <div className='header'>
         <span className='header-text'>{todaysDate}</span>
         <span className="links-wrapper">
           <span id='most-installed' className={`header-text ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>Most Installed</span>
           <span id='trending-apps' className={`header-text ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>Trending Apps</span>
         </span>
-        <img className='help-icon' src={helpIcon} alt="help icon" />
+        <img ref={helpIconRef} className='help-icon' src={helpIcon} alt="help icon" onClick={() => setIsHelpVisible(!isHelpVisible)} />
+        <div ref={helpWindowRef} className={`help-window ${isHelpVisible ? 'visible' : ''}`}>
+          <p>Hits is compiled from a local sample of app installs among your neighbors.</p>
+          <p>That includes everyone listed in your <a className='link-text' href={`${window.location.origin}/apps/landscape/search/~paldev/apps/~paldev/pals`} target='_blank' rel='noopener noreferrer'>%pals</a> app, and everyone in their %pals apps. These aren't definitive rankings for the whole Urbit network.</p>
+          <p>Trending apps are determined by the frequency of installs your Hits app knows about.</p>
+        </div>
       </div>
       <div className='title-container'>
         <img src={hitsTitle} alt="%hits title" />
@@ -57,6 +77,6 @@ export function App() {
         ? allTimeRankings
         : trendingApps
       } />
-      </div>
+    </div>
   );
 }
