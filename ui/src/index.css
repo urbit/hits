@@ -137,34 +137,30 @@ div.title-container img {
 
 .table-wrapper {
   overflow: hidden;
-  border-radius: 8px; /* Adjust the border-radius value as needed */
-  border: 1px solid var(--color-main); /* Apply the table's border style to the wrapper */
+  border-radius: 8px;
+  border: 1px solid var(--color-main);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  /* border: 1px solid var(--color-main); */
   font-family: var(--urbit-sans);
 }
 
 th {
   text-align: left;
   color: var(--color-main);
-  /* border: 1px solid var(--color-main); */
   border-bottom: 1px solid var(--color-main);
   padding: 5px;
 }
 
 tr {
-  /* border: 1px solid var(--color-main); */
   border-bottom: 1px solid var(--color-main);
   display: table-row;
 }
 
 td {
   color: var(--color-main);
-  /* border: 1px solid var(--color-main); */
   display: table-cell;
   box-sizing: border-box;
   padding: 5px;
@@ -204,7 +200,7 @@ th.icon-header {
 }
 
 th.app-header {
-  border-right: none;
+  border-right: 1px solid var(--color-main);
 }
 
 th.info-header {
@@ -220,14 +216,7 @@ td.app-index {
 td.app-name-desc {
   border: none;
   font-size: 16px;
-  vertical-align: top;
-}
-
-td.app-info {
-  border: none;
-  text-align: right;
-  vertical-align: top;
-  font-size: 16px;
+  vertical-align: middle;
 }
 
 td.app-button {
