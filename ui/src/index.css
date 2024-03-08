@@ -208,6 +208,10 @@ th.info-header {
   border-bottom: 1px solid var(--color-main);
 }
 
+th.download-header {
+  text-align: center;
+}
+
 td.app-index {
   text-align: center;
   font-size: 24px;
