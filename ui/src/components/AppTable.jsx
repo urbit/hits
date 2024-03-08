@@ -69,90 +69,92 @@ export default function AppTable({ apps }) {
   }
 
   return (
-    <table>
-      <thead>
-        <th className='index-header'>#</th>
-        <th className='icon-header'>ICON</th>
-        <th className='app-header'>APP</th>
-        <th className='info-header'></th>
-        <th className='download-header'>DOWNLOAD</th>
-      </thead>
-      <tbody>
-        {apps.map((app, index) => (
-          <tr key={index + 1}>
-            <td className='app-index'>
-              {index + 1}
-            </td>
-            <td
-              className='app-icon'
-              style={
-                app.docket.color &&
-                { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
-              }
-            >
-              {/* TODO All name and app.name should be desk and app.desk */}
-              {app.docket.image &&
-              <img
-              src={app.docket.image}
-              alt={`${app.docket.title} app icon`}
-              />
-              }
-            </td>
-            <td className='app-name-desc'>
-              <div className="text-wrapper">
-                <span className='app-title'>
-                  {app.docket.title.toUpperCase()}
-                </span>
-                {normalizeAppDescription(app.docket.info) &&
-                  <>
-                    <br></br>
-                    <span className='app-description'>
-                      {normalizeAppDescription(app.docket.info)}
-                    </span>
-                  </>
+    <div className="table-wrapper">
+      <table>
+        <thead>
+          <th className='index-header'>#</th>
+          <th className='icon-header'>ICON</th>
+          <th className='app-header'>APP</th>
+          <th className='info-header'></th>
+          <th className='download-header'>DOWNLOAD</th>
+        </thead>
+        <tbody>
+          {apps.map((app, index) => (
+            <tr key={index + 1}>
+              <td className='app-index'>
+                {index + 1}
+              </td>
+              <td
+                className='app-icon'
+                style={
+                  app.docket.color &&
+                  { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
                 }
-              </div>
-            </td>
-            <td className='app-info'>
-              <div className="text-wrapper">
-                {app.publisher &&
-                  <>
-                  <span className='info-publisher'>{app.publisher}</span>
-                  <br></br>
-                  </>
+              >
+                {/* TODO All name and app.name should be desk and app.desk */}
+                {app.docket.image &&
+                <img
+                src={app.docket.image}
+                alt={`${app.docket.title} app icon`}
+                />
                 }
-                {normalizeWebsite(app.docket.website) &&
-                  <>
-                  <span className='info-website'>
-                    <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
+              </td>
+              <td className='app-name-desc'>
+                <div className="text-wrapper">
+                  <span className='app-title'>
+                    {app.docket.title.toUpperCase()}
                   </span>
-                  <br></br>
-                  </>
-                }
-                <span className="info-additional">
-                  {/* TODO add real desk hash */}
-                  {app.docket.version &&
+                  {normalizeAppDescription(app.docket.info) &&
                     <>
-                      <span>{`v${app.docket.version}`}</span>
-                      &nbsp;
+                      <br></br>
+                      <span className='app-description'>
+                        {normalizeAppDescription(app.docket.info)}
+                      </span>
                     </>
                   }
-                  {/* TODO get real desk hash */}
-                  <span>398ub</span>
-                  &nbsp;
-                  {app.docket.license &&
-                  <>
-                  <span>({app.docket.license.toUpperCase()})</span>
-                  </>}
-                </span>
-              </div>
-            </td>
-            <td className='app-button'>
-              <button onClick={() => handleGetButtonClick(app.name, app.publisher)}>GET</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+                </div>
+              </td>
+              <td className='app-info'>
+                <div className="text-wrapper">
+                  {app.publisher &&
+                    <>
+                    <span className='info-publisher'>{app.publisher}</span>
+                    <br></br>
+                    </>
+                  }
+                  {normalizeWebsite(app.docket.website) &&
+                    <>
+                    <span className='info-website'>
+                      <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
+                    </span>
+                    <br></br>
+                    </>
+                  }
+                  <span className="info-additional">
+                    {/* TODO add real desk hash */}
+                    {app.docket.version &&
+                      <>
+                        <span>{`v${app.docket.version}`}</span>
+                        &nbsp;
+                      </>
+                    }
+                    {/* TODO get real desk hash */}
+                    <span>398ub</span>
+                    &nbsp;
+                    {app.docket.license &&
+                    <>
+                    <span>({app.docket.license.toUpperCase()})</span>
+                    </>}
+                  </span>
+                </div>
+              </td>
+              <td className='app-button'>
+                <button onClick={() => handleGetButtonClick(app.name, app.publisher)}>GET</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }

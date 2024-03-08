@@ -135,31 +135,43 @@ div.title-container img {
   color: var(--color-subduedText);
 }
 
+.table-wrapper {
+  overflow: hidden;
+  border-radius: 8px; /* Adjust the border-radius value as needed */
+  border: 1px solid var(--color-main); /* Apply the table's border style to the wrapper */
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--color-main);
+  /* border: 1px solid var(--color-main); */
   font-family: var(--urbit-sans);
 }
 
 th {
   text-align: left;
   color: var(--color-main);
-  border: 1px solid var(--color-main);
+  /* border: 1px solid var(--color-main); */
+  border-bottom: 1px solid var(--color-main);
   padding: 5px;
 }
 
 tr {
-  border: 1px solid var(--color-main);
+  /* border: 1px solid var(--color-main); */
+  border-bottom: 1px solid var(--color-main);
   display: table-row;
 }
 
 td {
   color: var(--color-main);
-  border: 1px solid var(--color-main);
+  /* border: 1px solid var(--color-main); */
   display: table-cell;
   box-sizing: border-box;
   padding: 5px;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
 }
 
 td .text-wrapper {
@@ -172,16 +184,23 @@ td.app-icon {
   min-width: 110px;
   height: 110px;
   padding: 0px;
+  border-left: 1px solid var(--color-main);
+  border-right: 1px solid var(--color-main);
 }
 
 td.app-icon img {
-  width: 100%;
-  height: 100%;
+  width: 110px;
+  height: 110px;
   display: block;
 }
 
 th.index-header {
   text-align: center;
+  border-right: 1px solid var(--color-main);
+}
+
+th.icon-header {
+  border-right: 1px solid var(--color-main);
 }
 
 th.app-header {
@@ -189,7 +208,8 @@ th.app-header {
 }
 
 th.info-header {
-  border: none;
+  border-right: 1px solid var(--color-main);
+  border-bottom: 1px solid var(--color-main);
 }
 
 td.app-index {
@@ -213,6 +233,7 @@ td.app-info {
 td.app-button {
   text-align: center;
   vertical-align: middle;
+  border-left: 1px solid var(--color-main);
 }
 
 table button {
