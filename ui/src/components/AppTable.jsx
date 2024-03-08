@@ -38,6 +38,10 @@ export default function AppTable({ apps }) {
     return newDesc.match(/\w.*?[.!?](?:\s|$|\n)/)
   }
 
+  function normalizeLicense(license) {
+    return `(${license.toUpperCase()})`
+  }
+
   function normalizeWebsite(url) {
     let newUrl = url
 
@@ -139,7 +143,7 @@ export default function AppTable({ apps }) {
                     &nbsp;
                     {app.docket.license &&
                     <>
-                    <span>({app.docket.license.toUpperCase()})</span>
+                    <span>{normalizeLicense(app.docket.license)}</span>
                     </>}
                   </span>
                 </div>
