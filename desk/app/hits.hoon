@@ -544,21 +544,7 @@
     ==
   ==  ::  end of wire branches
 ::
-++  on-peek
-  |=  =path
-  ^-  (unit (unit cage))
-  ~&  >  "hits: received scry request at {<path>}"
-  ?+  path
-    (on-peek:def path)
-  ::
-      [%x %base-version ~]
-    ::
-    ::  kelvin version of our %base desk
-    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/base/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/base/json)
-    ``[%hits-version !>((some (scry-kelvin our.bowl %base now.bowl)))]
-  ==
-::
+++  on-peek   on-peek:def
 ++  on-fail   on-fail:def
 ++  on-leave  on-leave:def
 --
