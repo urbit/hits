@@ -87,6 +87,7 @@ export default function AppTable({ apps }) {
           <th className='index-header'>#</th>
           <th className='icon-header'>ICON</th>
           <th className='app-header'>APP</th>
+          <th className="info-header"></th>
           <th className='download-header'>DOWNLOAD</th>
         </thead>
         <tbody>
@@ -121,9 +122,12 @@ export default function AppTable({ apps }) {
                       </span>
                     </>
                   }
+                </div>
+              </td>
+              <td className="app-info">
+                <div className="text-wrapper">
                   {app.publisher &&
                     <>
-                    <br></br>
                     <span className='info-publisher'>{app.publisher}</span>
                     <br></br>
                     </>

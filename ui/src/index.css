@@ -172,7 +172,8 @@ tbody tr:last-child {
 }
 
 td .text-wrapper {
-  max-height: 100px;
+  height: 60px;
+  margin-top: 15px;
   overflow: hidden;
 }
 
@@ -200,10 +201,6 @@ th.icon-header {
   border-right: 1px solid var(--color-main);
 }
 
-th.app-header {
-  border-right: 1px solid var(--color-main);
-}
-
 th.info-header {
   border-right: 1px solid var(--color-main);
   border-bottom: 1px solid var(--color-main);
@@ -221,7 +218,15 @@ td.app-index {
 td.app-name-desc {
   border: none;
   font-size: 16px;
-  vertical-align: middle;
+  vertical-align: top;
+}
+
+td.app-name-desc .app-title {
+  white-space: nowrap;
+}
+
+td.app-info {
+  vertical-align: top;
 }
 
 td.app-button {
