@@ -7,6 +7,7 @@ export default function AppTable({ apps }) {
 
     let hexColor = `#${color.slice(2).replace('.', '').toUpperCase()}`;
 
+    // TODO should be length !== 7
     if (hexColor.length === 6) {
       return '#FACDB9'
     }
@@ -98,7 +99,6 @@ export default function AppTable({ apps }) {
               <td
                 className='app-icon'
                 style={
-                  app.docket.color &&
                   { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
                 }
               >
