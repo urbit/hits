@@ -50,4 +50,14 @@
   |=  [a=[@tas @ud] b=[@tas @ud]]
   ^-  ?
   (lth +.a +.b)
+::
+++  skip-desk
+  |=  =desk
+  ^-  ?
+  ?|  =(desk %base)
+      =(desk %hits)
+      =(desk %kids)
+      =(desk %garden)
+      =(desk %landscape)
+  ==
 --

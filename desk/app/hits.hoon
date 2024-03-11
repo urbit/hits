@@ -326,10 +326,7 @@
           .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
         |=  [=desk [@tas (set [@tas @ud])]]
         ^-  ?
-        ?|  =(desk %hits)
-            =(desk %kids)
-            =(desk %landscape)
-        ==
+        (skip-desk desk)
       =/  sources
         %-  malt
         %+  skip
@@ -347,9 +344,7 @@
           .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
         |=  [=desk [ship desk]]
         ^-  ?
-        ?|  =(desk %hits)
-            =(desk %landscape)
-        ==
+        (skip-desk desk)
       =/  new-local=_local
         %+  roll
           ~(tap by desks)
