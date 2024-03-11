@@ -38,6 +38,14 @@ export default function AppTable({ apps }) {
     return newDesc.match(/\w.*?[.!?](?:\s|$|\n)/)
   }
 
+  function normalizeIconPath(path) {
+    if (!path.startsWith('http')) {
+      return ''
+    }
+
+    return path
+  }
+
   function normalizeLicense(license) {
     return `(${license.toUpperCase()})`
   }
@@ -94,10 +102,9 @@ export default function AppTable({ apps }) {
                   { backgroundColor: `${normalizeAppColor(app.docket.color)}` }
                 }
               >
-                {/* TODO All name and app.name should be desk and app.desk */}
-                {app.docket.image &&
+                {normalizeIconPath(app.docket.image) &&
                 <img
-                src={app.docket.image}
+                src={normalizeIconPath(app.docket.image)}
                 alt={`${app.docket.title} app icon`}
                 />
                 }
