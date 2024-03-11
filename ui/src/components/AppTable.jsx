@@ -137,16 +137,12 @@ export default function AppTable({ apps }) {
                     </>
                   }
                   <span className="info-additional">
-                    {/* TODO add real desk hash */}
                     {app.docket.version &&
                       <>
                         <span>{`v${app.docket.version}`}</span>
                         &nbsp;
                       </>
                     }
-                    {/* TODO get real desk hash */}
-                    <span>398ub</span>
-                    &nbsp;
                     {app.docket.license &&
                     <>
                     <span>{normalizeLicense(app.docket.license)}</span>
