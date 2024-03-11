@@ -26,7 +26,7 @@ html {
 }
 
 .header {
-  position: relative; /* Add this line */
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
