@@ -7,8 +7,7 @@ export default function AppTable({ apps }) {
 
     let hexColor = `#${color.slice(2).replace('.', '').toUpperCase()}`;
 
-    // TODO should be length !== 7
-    if (hexColor.length === 6) {
+    if (hexColor.length !== 7) {
       return '#FACDB9'
     }
 
