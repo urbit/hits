@@ -184,6 +184,10 @@ export default function useHitsHelper() {
         // TODO remove console log
         console.log('app-update for ', uiUpdate.desk)
 
+        if (!uiUpdate.docket.title) {
+          return
+        }
+
         setTrendingApps(prevApps => {
           // TODO remove this appIndex check, shouldn't
           //      need to check for duplicates
