@@ -112,7 +112,7 @@ export default function AppTable({ apps }) {
               <td className='app-name-desc'>
                 <div className="text-wrapper">
                   <span className='app-title'>
-                    {app.docket.title.toUpperCase()}
+                    {app.docket.title ? app.docket.title.toUpperCase() : `%${app.desk.toUpperCase()}`}
                   </span>
                   {normalizeAppDescription(app.docket.info) &&
                     <>
@@ -156,7 +156,7 @@ export default function AppTable({ apps }) {
                 </div>
               </td>
               <td className='app-button'>
-                <button onClick={() => handleGetButtonClick(app.name, app.publisher)}>GET</button>
+                <button onClick={() => handleGetButtonClick(app.desk, app.publisher)}>GET</button>
               </td>
             </tr>
           ))}

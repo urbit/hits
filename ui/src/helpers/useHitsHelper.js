@@ -62,7 +62,7 @@ export default function useHitsHelper() {
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
               ) {
               return { ...ranking, score: uiUpdate.score }
@@ -76,7 +76,7 @@ export default function useHitsHelper() {
         setTrendingApps(prevApps => {
           const newTrendingApps = prevApps.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, score: uiUpdate.score }
@@ -94,7 +94,7 @@ export default function useHitsHelper() {
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, version: uiUpdate.version }
@@ -107,7 +107,7 @@ export default function useHitsHelper() {
         setTrendingApps(prevApps => {
           const newTrendingApps = prevApps.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, version: uiUpdate.version }
@@ -125,7 +125,7 @@ export default function useHitsHelper() {
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, installs: uiUpdate.installs }
@@ -138,7 +138,7 @@ export default function useHitsHelper() {
         setTrendingApps(prevApps => {
           const newTrendingApps = prevApps.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, installs: uiUpdate.installs }
@@ -156,7 +156,7 @@ export default function useHitsHelper() {
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, docket: uiUpdate.docket }
@@ -169,7 +169,7 @@ export default function useHitsHelper() {
         setTrendingApps(prevApps => {
           const newTrendingApps = prevApps.map(ranking => {
             if (
-              ranking.name === uiUpdate.desk
+              ranking.desk === uiUpdate.desk
               && ranking.publisher === uiUpdate.ship
             ) {
               return { ...ranking, docket: uiUpdate.docket }
@@ -188,12 +188,12 @@ export default function useHitsHelper() {
           // TODO remove this appIndex check, shouldn't
           //      need to check for duplicates
           const appIndex = prevApps.findIndex(app => {
-            return app.name === uiUpdate.desk
+            return app.desk === uiUpdate.desk
           })
 
           if (appIndex === -1) {
             return sortTrendingApps([...prevApps, {
-              name: uiUpdate.desk,
+              desk: uiUpdate.desk,
               publisher: uiUpdate.ship,
               score: uiUpdate.score,
               version: uiUpdate.version,
@@ -215,12 +215,12 @@ export default function useHitsHelper() {
               // TODO remove this appIndex check, shouldn't
               //      need to check for duplicates
               const appIndex = prevApps.findIndex(app => {
-                return app.name === uiUpdate.desk
+                return app.desk === uiUpdate.desk
               })
 
               if (appIndex === -1) {
                 return [...prevApps, {
-                  name: uiUpdate.desk,
+                  desk: uiUpdate.desk,
                   publisher: uiUpdate.ship,
                   rank: prevApps.length + 1,
                   score: uiUpdate.score,
