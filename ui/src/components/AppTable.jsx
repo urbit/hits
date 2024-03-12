@@ -60,6 +60,10 @@ function normalizePublisher(ship) {
 function normalizeWebsite(url) {
   let newUrl = url
 
+  if (newUrl.startsWith('web+urbitgraph://group/')) {
+    return ''
+  }
+
   if (newUrl.startsWith('https://')) {
     newUrl = newUrl.substring(8)
   }
@@ -70,10 +74,6 @@ function normalizeWebsite(url) {
 
   if (newUrl.startsWith('www.')) {
     newUrl = newUrl.substring(4)
-  }
-
-  if (newUrl.startsWith('web+urbitgraph://group/')) {
-    newUrl = ''
   }
 
   if (newUrl[newUrl.length - 1] === '/') {
