@@ -88,9 +88,15 @@
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device
     ?>  =(our.bowl src.bowl)
+    =/  base-version
+      (scry-kelvin our.bowl %base now.bowl)
     :_  this
     %+  turn
-      rankings
+      %+  skip
+        rankings
+      |=  =app
+      ^-  ?
+      (gth (~(got by versions) app) base-version)
     |=  =app
     ^-  card
       :*  %give

@@ -210,8 +210,6 @@ export default function useHitsHelper() {
         })
 
         if (allTimeRankings.length < chartLimit) {
-          // if app version is <= base desk version
-          if (uiUpdate.version <= 412) {
             setAllTimeRankings(prevApps => {
               // TODO remove this appIndex check, shouldn't
               //      need to check for duplicates
@@ -233,7 +231,6 @@ export default function useHitsHelper() {
                 return prevApps
               }
             })
-          }
         }
         break
 
