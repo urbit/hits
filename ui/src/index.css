@@ -21,7 +21,6 @@ html {
 .app-container {
   width: 90vw;
   max-width: 800px;
-  min-width: 600px;
   margin: auto;
 }
 
@@ -84,7 +83,6 @@ html {
 div.title-container {
   width: 100%;
   max-width: 800px;
-  min-width: 600px;
   height: 100%;
   margin: 0px;
   padding: 0px;
@@ -94,7 +92,6 @@ div.title-container {
 
 div.title-container img {
   width: 100%;
-  min-width: 600px;
   height: auto;
 }
 
@@ -175,6 +172,7 @@ td .text-wrapper {
   height: 60px;
   margin-top: 15px;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 td.app-icon {
@@ -198,16 +196,17 @@ th.index-header {
 }
 
 th.icon-header {
+  text-align: left;
   border-right: 1px solid var(--color-main);
 }
 
 th.info-header {
-  border-right: 1px solid var(--color-main);
   border-bottom: 1px solid var(--color-main);
 }
 
 th.download-header {
   text-align: center;
+  border-left: 1px solid var(--color-main);
 }
 
 td.app-index {
@@ -260,4 +259,85 @@ a {
 span.info-website {
   color: var(--color-linkText);
   white-space: nowrap;
+}
+
+@media only screen and (max-width: 600px) {
+  .help-window {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    transform-origin: top right;
+    transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+    transform: scale(0);
+    opacity: 0;
+    background-color: var(--color-main);
+    color: var(--color-background);
+    font-size: 14px;
+    font-family: var(--urbit-sans);
+    padding: 5px;
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+  }
+
+  .header span {
+    font-size: 14px;
+  }
+
+  th.icon-header {
+    text-align: center;
+  }
+
+  td.app-index {
+    font-size: 21px;
+  }
+
+  td.app-icon {
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+  }
+
+  td.app-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  td.app-name-desc {
+    border: none;
+    font-size: 14px;
+    vertical-align: top;
+  }
+
+  td .text-wrapper {
+    height: 50px;
+    margin-top: 0px;
+  }
+
+  span.info-additional {
+    display: none;
+  }
+
+  table button {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  th.icon-header {
+    display: none;
+  }
+
+  td.app-icon {
+    display: none;
+  }
+
+  td.app-index {
+    border-right: 1px solid var(--color-main);
+  }
+
+  td .text-wrapper {
+    height: 100%;
+    max-height: none;
+  }
 }

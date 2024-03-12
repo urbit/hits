@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 function normalizeAppColor(color) {
   if (color === '0x0') {
     return '#FACDB9'
@@ -79,6 +81,26 @@ function handleGetButtonClick(name, publisher) {
 }
 
 export default function AppTable({ apps }) {
+  const widthCutoff = 700
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    let timeout = 0
+    const handleResize = () => {
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        setScreenWidth(window.innerWidth)
+      }, 100)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      clearTimeout(timeout)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <div className="table-wrapper">
       <table>
@@ -86,7 +108,7 @@ export default function AppTable({ apps }) {
           <th className='index-header'>#</th>
           <th className='icon-header'>ICON</th>
           <th className='app-header'>APP</th>
-          <th className="info-header"></th>
+          {screenWidth >= widthCutoff && <th className="info-header"></th>}
           <th className='download-header'>DOWNLOAD</th>
         </thead>
         <tbody>
@@ -108,51 +130,91 @@ export default function AppTable({ apps }) {
                 />
                 }
               </td>
-              <td className='app-name-desc'>
-                <div className="text-wrapper">
-                  <span className='app-title'>
-                    {app.docket.title.toUpperCase()}
-                  </span>
-                  {normalizeAppDescription(app.docket.info) &&
-                    <>
-                      &nbsp;
-                      <span className='app-description'>
-                        {normalizeAppDescription(app.docket.info)}
-                      </span>
-                    </>
-                  }
-                </div>
-              </td>
-              <td className="app-info">
-                <div className="text-wrapper">
-                  {app.publisher &&
-                    <>
-                    <span className='info-publisher'>{app.publisher}</span>
-                    <br></br>
-                    </>
-                  }
-                  {normalizeWebsite(app.docket.website) &&
-                    <>
-                    <span className='info-website'>
-                      <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
-                    </span>
-                    <br></br>
-                    </>
-                  }
-                  <span className="info-additional">
-                    {app.docket.version &&
-                      <>
-                        <span>{`v${app.docket.version}`}</span>
-                        &nbsp;
-                      </>
-                    }
-                    {app.docket.license &&
-                    <>
-                    <span>{normalizeLicense(app.docket.license)}</span>
-                    </>}
-                  </span>
-                </div>
-              </td>
+              {screenWidth >= widthCutoff
+                // desktop screens
+                ? <>
+                    <td className='app-name-desc'>
+                      <div className="text-wrapper">
+                        <span className='app-title'>
+                          {app.docket.title.toUpperCase()}
+                        </span>
+                        {normalizeAppDescription(app.docket.info) &&
+                          <>
+                            &nbsp;
+                            <span className='app-description'>
+                              {normalizeAppDescription(app.docket.info)}
+                            </span>
+                          </>
+                        }
+                      </div>
+                    </td>
+                    <td className="app-info">
+                      <div className="text-wrapper">
+                        {app.publisher &&
+                          <>
+                          <span className='info-publisher'>{app.publisher}</span>
+                          </>
+                        }
+                        {normalizeWebsite(app.docket.website) &&
+                          <>
+                          <br></br>
+                          <span className='info-website'>
+                            <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
+                          </span>
+                          </>
+                        }
+                        <span className="info-additional">
+                          {app.docket.version &&
+                            <>
+                              <br></br>
+                              <span>{`v${app.docket.version}`}</span>
+                            </>
+                          }
+                          {app.docket.license &&
+                          <>
+                          <span>{normalizeLicense(app.docket.license)}</span>
+                          </>}
+                        </span>
+                      </div>
+                    </td>
+                  </>
+                // tablet + mobile screens
+                : <>
+                    <td className='app-name-desc'>
+                      <div className="text-wrapper">
+                        <span className='app-title'>
+                          {app.docket.title.toUpperCase()}
+                        </span>
+                        {normalizeAppDescription(app.docket.info) &&
+                          <>
+                            &nbsp;
+                            <span className='app-description'>
+                              {normalizeAppDescription(app.docket.info)}
+                            </span>
+                          </>
+                        }
+                        {app.publisher &&
+                          <>
+                          <br></br>
+                          <span className='info-publisher'>{app.publisher}</span>
+                          </>
+                        }
+                        <span className="info-additional">
+                          {app.docket.version &&
+                            <>
+                              <span>{` · v${app.docket.version}`}</span>
+                            </>
+                          }
+                          {app.docket.license &&
+                          <>
+                          &nbsp;
+                          <span>{normalizeLicense(app.docket.license)}</span>
+                          </>}
+                        </span>
+                      </div>
+                    </td>
+                  </>
+              }
               <td className='app-button'>
                 <button onClick={() => handleGetButtonClick(app.desk, app.publisher)}>GET</button>
               </td>
