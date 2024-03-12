@@ -1,85 +1,84 @@
+function normalizeAppColor(color) {
+  if (color === '0x0') {
+    return '#FACDB9'
+  }
+
+  let hexColor = `#${color.slice(2).replace('.', '').toUpperCase()}`;
+
+  if (hexColor.length !== 7) {
+    return '#FACDB9'
+  }
+
+  return hexColor
+}
+
+function normalizeAppDescription(info) {
+  if (info === '') {
+    return ''
+  }
+
+  let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
+
+  if (
+    newDesc[newDesc.length - 1] !== '.' &&
+    newDesc[newDesc.length - 1] !== '…' &&
+    newDesc[newDesc.length - 1] !== '!' &&
+    newDesc[newDesc.length - 1] !== '?' &&
+    newDesc[newDesc.length - 1] !== ')' &&
+    newDesc[newDesc.length - 1] !== ']' &&
+    newDesc[newDesc.length - 1] !== '}' &&
+    newDesc[newDesc.length - 1] !== '\'' &&
+    newDesc[newDesc.length - 1] !== '\"'
+    ) {
+    newDesc = `${newDesc}.`
+  }
+
+  return newDesc.match(/\w.*?[.!?](?:\s|$|\n)/)
+}
+
+function normalizeIconPath(path) {
+  if (!path.startsWith('http')) {
+    return ''
+  }
+
+  return path
+}
+
+function normalizeLicense(license) {
+  return `(${license.toUpperCase()})`
+}
+
+function normalizeWebsite(url) {
+  let newUrl = url
+
+  if (newUrl.startsWith('https://')) {
+    newUrl = newUrl.substring(8)
+  }
+
+  if (newUrl.startsWith('http://')) {
+    newUrl = newUrl.substring(7)
+  }
+
+  if (newUrl.startsWith('www.')) {
+    newUrl = newUrl.substring(4)
+  }
+
+  if (newUrl.startsWith('web+urbitgraph://group/')) {
+    newUrl = ''
+  }
+
+  if (newUrl[newUrl.length - 1] === '/') {
+    newUrl = newUrl.substring(0, newUrl.length - 1)
+  }
+
+  return newUrl
+}
+
+function handleGetButtonClick(name, publisher) {
+  window.open(`${window.location.origin}/apps/landscape/search/${publisher}/apps/${publisher}/${name}`, '_blank', 'noopener,noreferrer')
+}
+
 export default function AppTable({ apps }) {
-
-  function normalizeAppColor(color) {
-    if (color === '0x0') {
-      return '#FACDB9'
-    }
-
-    let hexColor = `#${color.slice(2).replace('.', '').toUpperCase()}`;
-
-    if (hexColor.length !== 7) {
-      return '#FACDB9'
-    }
-
-    return hexColor
-  }
-
-  function normalizeAppDescription(info) {
-    if (info === '') {
-      return ''
-    }
-
-    let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
-
-    if (
-      newDesc[newDesc.length - 1] !== '.' &&
-      newDesc[newDesc.length - 1] !== '…' &&
-      newDesc[newDesc.length - 1] !== '!' &&
-      newDesc[newDesc.length - 1] !== '?' &&
-      newDesc[newDesc.length - 1] !== ')' &&
-      newDesc[newDesc.length - 1] !== ']' &&
-      newDesc[newDesc.length - 1] !== '}' &&
-      newDesc[newDesc.length - 1] !== '\'' &&
-      newDesc[newDesc.length - 1] !== '\"'
-      ) {
-      newDesc = `${newDesc}.`
-    }
-
-    return newDesc.match(/\w.*?[.!?](?:\s|$|\n)/)
-  }
-
-  function normalizeIconPath(path) {
-    if (!path.startsWith('http')) {
-      return ''
-    }
-
-    return path
-  }
-
-  function normalizeLicense(license) {
-    return `(${license.toUpperCase()})`
-  }
-
-  function normalizeWebsite(url) {
-    let newUrl = url
-
-    if (newUrl.startsWith('https://')) {
-      newUrl = newUrl.substring(8)
-    }
-
-    if (newUrl.startsWith('http://')) {
-      newUrl = newUrl.substring(7)
-    }
-
-    if (newUrl.startsWith('www.')) {
-      newUrl = newUrl.substring(4)
-    }
-
-    if (newUrl.startsWith('web+urbitgraph://group/')) {
-      newUrl = ''
-    }
-
-    if (newUrl[newUrl.length - 1] === '/') {
-      newUrl = newUrl.substring(0, newUrl.length - 1)
-    }
-
-    return newUrl
-  }
-
-  function handleGetButtonClick(name, publisher) {
-    window.open(`${window.location.origin}/apps/landscape/search/${publisher}/apps/${publisher}/${name}`, '_blank', 'noopener,noreferrer')
-  }
-
   return (
     <div className="table-wrapper">
       <table>
