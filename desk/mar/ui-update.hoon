@@ -63,11 +63,8 @@
       :~  ['updateTag' [%s 'app-update']]
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
-          ['score' ~]
           ['score' (numb:enjs:format score.upd)]
-          ['version' ~]
           ['version' (numb:enjs:format kelvin.upd)]
-          ::  ['docket' ~]
           :-  'installs'
           :-  %a
           %+  turn
