@@ -180,7 +180,7 @@ td.app-icon {
   min-width: 110px;
   height: 110px;
   padding: 0px;
-  border-left: 1px solid var(--color-main);
+  border-left: none;
   border-right: 1px solid var(--color-main);
 }
 
@@ -212,6 +212,7 @@ th.download-header {
 td.app-index {
   text-align: center;
   font-size: 24px;
+  border-right: 1px solid var(--color-main);
 }
 
 td.app-name-desc {
@@ -261,7 +262,7 @@ span.info-website {
   white-space: nowrap;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   .help-window {
     position: absolute;
     top: 30px;
@@ -272,7 +273,7 @@ span.info-website {
     opacity: 0;
     background-color: var(--color-main);
     color: var(--color-background);
-    font-size: 14px;
+    font-size: 16px;
     font-family: var(--urbit-sans);
     padding: 5px;
     width: 200px;
@@ -281,63 +282,57 @@ span.info-website {
   }
 
   .header span {
-    font-size: 14px;
+    font-size: 16px;
   }
 
-  th.icon-header {
-    text-align: center;
-  }
-
-  td.app-index {
-    font-size: 21px;
-  }
-
-  td.app-icon {
-    width: 60px;
-    min-width: 60px;
-    height: 60px;
-  }
-
-  td.app-icon img {
-    width: 60px;
-    height: 60px;
+  th.info-header {
+    display: none;
   }
 
   td.app-name-desc {
     border: none;
-    font-size: 14px;
+    font-size: 16px;
     vertical-align: top;
   }
 
-  td .text-wrapper {
-    height: 50px;
-    margin-top: 0px;
-  }
-
-  span.info-additional {
-    display: none;
-  }
-
   table button {
-    font-size: 14px;
+    font-size: 16px;
   }
-}
 
-@media only screen and (max-width: 400px) {
   th.icon-header {
     display: none;
   }
 
   td.app-icon {
     display: none;
-  }
-
-  td.app-index {
-    border-right: 1px solid var(--color-main);
   }
 
   td .text-wrapper {
     height: 100%;
     max-height: none;
+    margin: auto;
+    overflow: visible;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .help-window {
+    font-size: 12px;
+  }
+
+  .header span {
+    font-size: 12px;
+  }
+
+  td.app-index {
+    font-size: 18px;
+  }
+
+  td.app-name-desc {
+    font-size: 12px;
+  }
+
+  table button {
+    font-size: 12px;
   }
 }

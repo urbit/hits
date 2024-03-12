@@ -108,7 +108,7 @@ export default function AppTable({ apps }) {
           <th className='index-header'>#</th>
           <th className='icon-header'>ICON</th>
           <th className='app-header'>APP</th>
-          {screenWidth >= widthCutoff && <th className="info-header"></th>}
+          <th className="info-header"></th>
           <th className='download-header'>DOWNLOAD</th>
         </thead>
         <tbody>
@@ -130,7 +130,7 @@ export default function AppTable({ apps }) {
                 />
                 }
               </td>
-              {screenWidth >= widthCutoff
+              {screenWidth > widthCutoff
                 // desktop screens
                 ? <>
                     <td className='app-name-desc'>
@@ -172,6 +172,7 @@ export default function AppTable({ apps }) {
                           }
                           {app.docket.license &&
                           <>
+                          &nbsp;
                           <span>{normalizeLicense(app.docket.license)}</span>
                           </>}
                         </span>
@@ -199,10 +200,19 @@ export default function AppTable({ apps }) {
                           <span className='info-publisher'>{app.publisher}</span>
                           </>
                         }
+                        {normalizeWebsite(app.docket.website) &&
+                          <>
+                          <br></br>
+                          <span className='info-website'>
+                            <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
+                          </span>
+                          </>
+                        }
                         <span className="info-additional">
                           {app.docket.version &&
                             <>
-                              <span>{` · v${app.docket.version}`}</span>
+                              <br></br>
+                              <span>{`v${app.docket.version}`}</span>
                             </>
                           }
                           {app.docket.license &&
