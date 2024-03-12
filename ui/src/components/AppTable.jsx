@@ -85,18 +85,13 @@ export default function AppTable({ apps }) {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
 
   useEffect(() => {
-    let timeout = 0
     const handleResize = () => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        setScreenWidth(window.innerWidth)
-      }, 100)
+      setScreenWidth(window.innerWidth)
     }
 
     window.addEventListener('resize', handleResize)
 
     return () => {
-      clearTimeout(timeout)
       window.removeEventListener('resize', handleResize)
     }
   }, [])
