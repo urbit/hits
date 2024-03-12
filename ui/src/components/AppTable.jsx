@@ -50,6 +50,13 @@ function normalizeLicense(license) {
   return `(${license.toUpperCase()})`
 }
 
+function normalizePublisher(ship) {
+  if (ship.length > 28) {
+    return `${ship.substring(0, 7)}_${ship.substring(51)}`
+  }
+  return ship
+}
+
 function normalizeWebsite(url) {
   let newUrl = url
 
@@ -147,7 +154,7 @@ export default function AppTable({ apps }) {
                       <div className="text-wrapper">
                         {app.publisher &&
                           <>
-                          <span className='info-publisher'>{app.publisher}</span>
+                          <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
                           </>
                         }
                         {normalizeWebsite(app.docket.website) &&
@@ -192,7 +199,7 @@ export default function AppTable({ apps }) {
                         {app.publisher &&
                           <>
                           <br></br>
-                          <span className='info-publisher'>{app.publisher}</span>
+                          <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
                           </>
                         }
                         {normalizeWebsite(app.docket.website) &&
