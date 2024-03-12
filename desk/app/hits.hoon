@@ -87,9 +87,7 @@
     ::
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device
-    ::  XX removed this check for vite, should uncomment
-    ::  ?>  =(our.bowl src.bowl)
-    ::  `this
+    ?>  =(our.bowl src.bowl)
     :_  this
     %+  turn
       rankings
