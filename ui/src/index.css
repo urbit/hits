@@ -97,6 +97,8 @@ div.title-container img {
 
 .app-title {
   font-family: var(--urbit-sans);
+  font-weight: 600;
+  font-variation-settings: 'xtab' 500;
   color: var(--color-main);
 }
 
