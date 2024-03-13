@@ -309,7 +309,7 @@ span.info-website {
   }
 }
 
-@media only screen and (max-width: 374px) {
+@media only screen and (max-width: 375px) {
   .help-window {
     font-size: 12px;
   }

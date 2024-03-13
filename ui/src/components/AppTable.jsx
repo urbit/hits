@@ -196,26 +196,26 @@ export default function AppTable({ apps }) {
                           <>
                           <br></br>
                           <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
+                          <br></br>
                           </>
                         }
                         {normalizeWebsite(app.docket.website) &&
                           <>
-                          &nbsp;&nbsp;
                           <span className='info-website'>
                             <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
                           </span>
+                          &nbsp;&nbsp;
                           </>
                         }
                         <span className="info-additional">
                           {app.docket.version &&
                             <>
-                              &nbsp;&nbsp;
                               <span>{`v${app.docket.version}`}</span>
+                              &nbsp;&nbsp;
                             </>
                           }
                           {app.docket.license &&
                           <>
-                          &nbsp;
                           <span>{normalizeLicense(app.docket.license)}</span>
                           </>}
                         </span>
