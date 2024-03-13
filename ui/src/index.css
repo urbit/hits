@@ -30,8 +30,8 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 0px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   position: sticky;
   top: 0px;
   background-color: var(--color-background);
@@ -68,7 +68,7 @@ html {
   color: var(--color-background);
   font-size: 16px;
   font-family: var(--urbit-sans);
-  padding: 5px;
+  padding: 10px;
   width: 200px;
   height: auto;
   border-radius: 5px;
@@ -148,7 +148,7 @@ th {
   font-weight: 600;
   color: var(--color-main);
   border-bottom: 1px solid var(--color-main);
-  padding: 5px;
+  padding: 10px;
 }
 
 tr {
@@ -160,7 +160,7 @@ td {
   color: var(--color-main);
   display: table-cell;
   box-sizing: border-box;
-  padding: 5px;
+  padding: 10px;
 }
 
 tbody tr:last-child {
@@ -274,7 +274,7 @@ span.info-website {
     color: var(--color-background);
     font-size: 16px;
     font-family: var(--urbit-sans);
-    padding: 5px;
+    padding: 10px;
     width: 200px;
     height: auto;
     border-radius: 5px;
