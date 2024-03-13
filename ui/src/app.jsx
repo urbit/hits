@@ -36,6 +36,18 @@ export function App() {
   }, [trendingApps]);
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (isHelpVisible) {
+        setIsHelpVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isHelpVisible]);
+
+  useEffect(() => {
     function handleClickOutside(event) {
       if (helpWindowRef.current && !helpWindowRef.current.contains(event.target) &&
           helpIconRef.current && !helpIconRef.current.contains(event.target)) {
