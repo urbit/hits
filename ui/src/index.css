@@ -168,6 +168,7 @@ tbody tr:last-child {
 }
 
 td .text-wrapper {
+  max-height: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

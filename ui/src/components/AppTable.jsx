@@ -35,7 +35,7 @@ function normalizeAppDescription(info) {
     newDesc = `${newDesc}.`
   }
 
-  return newDesc.match(/\w.*?[.!?](?:\s|$|\n)/)
+  return newDesc.match(/(.*?[.!?])(\s+.*?[.!?])?/)[0]
 }
 
 function normalizeIconPath(path) {
