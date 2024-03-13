@@ -97,7 +97,6 @@ div.title-container img {
 
 .app-title {
   font-family: var(--urbit-sans);
-  font-feature-settings: 'ss03' 1;
   color: var(--color-main);
 }
 
