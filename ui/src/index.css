@@ -200,6 +200,7 @@ th.icon-header {
 }
 
 th.info-header {
+  padding-left: 0px;
   border-bottom: 1px solid var(--color-main);
 }
 
@@ -225,6 +226,7 @@ td.app-name-desc .app-title {
 }
 
 td.app-info {
+  padding-left: 0px;
   vertical-align: top;
 }
 
