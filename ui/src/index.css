@@ -265,21 +265,7 @@ span.info-website {
 
 @media only screen and (max-width: 700px) {
   .help-window {
-    position: absolute;
-    top: 30px;
-    right: 0px;
-    transform-origin: top right;
-    transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
-    transform: scale(0);
-    opacity: 0;
-    background-color: var(--color-main);
-    color: var(--color-background);
     font-size: 16px;
-    font-family: var(--urbit-sans);
-    padding: 10px;
-    width: 200px;
-    height: auto;
-    border-radius: 5px;
   }
 
   .header span {
