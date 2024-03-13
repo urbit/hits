@@ -59,8 +59,8 @@ export function App() {
       <div className='header'>
         <span className='header-text'>{todaysDate}</span>
         <span className="links-wrapper">
-          <span id='most-installed' className={`header-text ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>Most Installed</span>
-          <span id='trending-apps' className={`header-text ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>Trending Apps</span>
+          <span id='most-installed' className={`header-text ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>All-Time</span>
+          <span id='trending-apps' className={`header-text ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>Trending</span>
         </span>
         <img ref={helpIconRef} className='help-icon' src={helpIcon} alt="help icon" onClick={() => setIsHelpVisible(!isHelpVisible)} />
         <div ref={helpWindowRef} className={`help-window ${isHelpVisible ? 'visible' : ''}`}>
