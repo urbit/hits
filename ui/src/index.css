@@ -240,9 +240,10 @@ table button {
   color: var(--color-background);
   font-family: var(--urbit-sans);
   border: none;
-  padding: 10px 20px;
+  height: 60px;
+  width: 60px;
   font-size: 16px;
-  border-radius: 50px;
+  border-radius: 8px;
   cursor: pointer;
   display: inline-block;
 }
