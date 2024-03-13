@@ -26,6 +26,7 @@ export function App() {
     init();
   }, []);
 
+  // TODO remove testing logs
   useEffect(() => {
     console.log('new allTimeRankings: ', allTimeRankings);
   }, [allTimeRankings]);

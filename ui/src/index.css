@@ -58,7 +58,7 @@ html {
 
 .help-window {
   position: absolute;
-  top: 30px;
+  top: 40px;
   right: 0px;
   transform-origin: top right;
   transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
@@ -69,7 +69,7 @@ html {
   font-size: 16px;
   font-family: var(--urbit-sans);
   padding: 10px;
-  width: 200px;
+  width: 300px;
   height: auto;
   border-radius: 5px;
 }
@@ -297,6 +297,7 @@ span.info-website {
 
 @media only screen and (max-width: 375px) {
   .help-window {
+    width: 200px;
     font-size: 12px;
   }
 
