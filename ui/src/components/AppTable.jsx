@@ -105,9 +105,9 @@ export default function AppTable({ apps }) {
         <thead>
           <th className='index-header'>#</th>
           <th className='icon-header'>ICON</th>
-          <th className='app-header'>APP</th>
+          <th className='app-header'>APPLICATION</th>
           <th className="info-header">DETAILS</th>
-          <th className='download-header'>DOWNLOAD</th>
+          <th className='download-header'>INSTALL</th>
         </thead>
         <tbody>
           {apps.map((app, index) => (
