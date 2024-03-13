@@ -76,11 +76,7 @@ function normalizeWebsite(url) {
     newUrl = newUrl.substring(4)
   }
 
-  if (newUrl[newUrl.length - 1] === '/') {
-    newUrl = newUrl.substring(0, newUrl.length - 1)
-  }
-
-  return newUrl
+  return newUrl.match(/^[^\/]+/)
 }
 
 function handleGetButtonClick(name, publisher) {
