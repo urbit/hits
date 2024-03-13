@@ -200,7 +200,7 @@ export default function AppTable({ apps }) {
                         }
                         {normalizeWebsite(app.docket.website) &&
                           <>
-                          <br></br>
+                          &nbsp;&nbsp;
                           <span className='info-website'>
                             <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
                           </span>
@@ -209,7 +209,7 @@ export default function AppTable({ apps }) {
                         <span className="info-additional">
                           {app.docket.version &&
                             <>
-                              <br></br>
+                              &nbsp;&nbsp;
                               <span>{`v${app.docket.version}`}</span>
                             </>
                           }

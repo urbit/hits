@@ -307,13 +307,6 @@ span.info-website {
   td.app-icon {
     display: none;
   }
-
-  td .text-wrapper {
-    height: 100%;
-    max-height: none;
-    margin: auto;
-    overflow: visible;
-  }
 }
 
 @media only screen and (max-width: 374px) {
