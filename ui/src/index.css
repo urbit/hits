@@ -35,8 +35,11 @@ html {
   position: sticky;
   top: 0px;
   background-color: var(--color-background);
+  border: 0px;
+  border-bottom: 1px;
+  border-color: var(--color-main);
+  border-style: solid;
 }
-
 
 .header span {
   font-size: 16px;
@@ -105,13 +108,6 @@ div.title-container img {
 .app-description {
   font-family: var(--urbit-sans);
   color: var(--color-subduedText);
-}
-
-.header {
-  border: 0px;
-  border-bottom: 1px;
-  border-color: var(--color-main);
-  border-style: solid;
 }
 
 .header-text {
