@@ -26,15 +26,6 @@ export function App() {
     init();
   }, []);
 
-  // TODO remove testing logs
-  useEffect(() => {
-    console.log('new allTimeRankings: ', allTimeRankings);
-  }, [allTimeRankings]);
-
-  useEffect(() => {
-    console.log('new trendingApps: ', trendingApps);
-  }, [trendingApps]);
-
   useEffect(() => {
     const handleScroll = () => {
       if (isHelpVisible) {
