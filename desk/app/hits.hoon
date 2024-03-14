@@ -22,8 +22,7 @@
 ::
 ::  hit: message sent between ships on each app (un)install
 +$  hit
-  $:  =src        ::  source of this message
-      =time       ::  when this message was generated
+  $:  =time       ::  when this message was generated
       =app        ::  app's publisher and name
       =kelvin     ::  app's kelvin compatibility
       =installed  ::  installed or uninstalled?
@@ -129,8 +128,7 @@
         ~
         :-  %hit
         !>  ^-  hit
-        :*  our.bowl
-            now.bowl
+        :*  now.bowl
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
@@ -418,8 +416,7 @@
         %+  invent:gossip
           %hit
         !>  ^-  hit
-        :*  our.bowl
-            now.bowl
+        :*  now.bowl
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
@@ -432,8 +429,7 @@
       %+  invent:gossip
         %hit
       !>  ^-  hit
-      :*  our.bowl
-          now.bowl
+      :*  now.bowl
           [ship desk]
           (scry-kelvin our.bowl desk now.bowl)
           %.n
