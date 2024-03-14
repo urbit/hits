@@ -37,7 +37,7 @@
 ::
 ::  /lib/gossip.hoon config
 %-  %+  agent:gossip
-      [2 %anybody %anybody |]
+      [2 %targets %anybody |]
     %-  %~  put  by
       %-  %~  put  by
         *(map mark $-(* vase))
