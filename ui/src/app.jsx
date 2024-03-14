@@ -69,7 +69,7 @@ export function App() {
         <img ref={helpIconRef} className='help-icon' src={helpIcon} alt="help icon" onClick={() => setIsHelpVisible(!isHelpVisible)} />
         <div ref={helpWindowRef} className={`help-window ${isHelpVisible ? 'visible' : ''}`}>
           <p>Hits is compiled from a local sample of app installs among your neighbors.</p>
-          <p>That includes everyone listed in your <a className='link-text' href={`${window.location.origin}/apps/landscape/search/~paldev/apps/~paldev/pals`} target='_blank' rel='noopener noreferrer'>%pals</a> app, and everyone in their %pals apps. These aren't definitive rankings for the whole Urbit network.</p>
+          <p>That sample includes everyone you've added in the <a className='link-text' href={`${window.location.origin}/apps/landscape/search/~paldev/apps/~paldev/pals`} target='_blank' rel='noopener noreferrer'>%pals</a> app, and everyone they've added as a pal. These aren't definitive rankings for the whole Urbit network.</p>
           <p>Trending apps are determined by the frequency of installs your Hits app knows about.</p>
         </div>
       </div>
