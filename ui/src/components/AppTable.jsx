@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { installApp } from '../api/pokes.js'
 
 function normalizeAppColor(color) {
   if (color === '0x0') {
@@ -80,7 +81,7 @@ function normalizeWebsite(url) {
 }
 
 function handleGetButtonClick(name, publisher) {
-  window.open(`${window.location.origin}/apps/landscape/search/${publisher}/apps/${publisher}/${name}`, '_blank', 'noopener,noreferrer')
+  installApp(publisher, name)
 }
 
 export default function AppTable({ apps }) {
