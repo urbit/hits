@@ -173,6 +173,7 @@ td .text-wrapper {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 120%;
 }
 
 td.app-icon {
