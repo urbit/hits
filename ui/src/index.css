@@ -18,6 +18,11 @@ html {
   background-color: var(--color-background);
 }
 
+body {
+  margin: 0px;
+  padding-bottom: 10px;
+}
+
 .app-container {
   width: 90vw;
   max-width: 800px;
