@@ -302,6 +302,9 @@ span.info-additional {
 
   td.app-name-desc .text-wrapper {
     height: 20px;
+    line-height: 18px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
 
   table button {
