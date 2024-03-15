@@ -169,24 +169,23 @@ tbody tr:last-child {
 
 td .text-wrapper {
   display: block;
-  max-height: 60px;
+  height: 40px;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 td.app-icon {
-  width: 80px;
-  min-width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   padding: 0px;
   border-left: none;
   border-right: 1px solid var(--color-main);
 }
 
 td.app-icon img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   display: block;
 }
 
@@ -249,7 +248,7 @@ table button {
   font-family: var(--urbit-sans);
   border: none;
   padding: 0px;
-  height: 60px;
+  height: 40px;
   width: 60px;
   font-size: 16px;
   border-radius: 8px;
