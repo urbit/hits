@@ -152,26 +152,26 @@ export default function AppTable({ apps }) {
                         {app.publisher &&
                           <>
                           <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
+                          <br></br>
                           </>
                         }
                         {normalizeWebsite(app.docket.website) &&
                           <>
-                          <br></br>
                           <span className='info-website'>
                             <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
                           </span>
+                          &nbsp;
                           </>
                         }
                         <span className="info-additional">
                           {app.docket.version &&
                             <>
-                              <br></br>
-                              <span>{`v${app.docket.version}`}</span>
+                              <span>{`${app.docket.version}`}</span>
+                              &nbsp;
                             </>
                           }
                           {app.docket.license &&
                           <>
-                          &nbsp;
                           <span>{normalizeLicense(app.docket.license)}</span>
                           </>}
                         </span>
@@ -205,14 +205,14 @@ export default function AppTable({ apps }) {
                           <span className='info-website'>
                             <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
                           </span>
-                          &nbsp;&nbsp;
+                          &nbsp;
                           </>
                         }
                         <span className="info-additional">
                           {app.docket.version &&
                             <>
-                              <span>{`v${app.docket.version}`}</span>
-                              &nbsp;&nbsp;
+                              <span>{`${app.docket.version}`}</span>
+                              &nbsp;
                             </>
                           }
                           {app.docket.license &&
