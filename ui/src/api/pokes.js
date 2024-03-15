@@ -2,6 +2,7 @@ import Urbit from '@urbit/http-api'
 
 function pokeUrbit(app, mark, json) {
   const api = new Urbit('', '', app)
+  api.ship = window.ship
   return api.poke({
     app: app,
     mark: mark,
