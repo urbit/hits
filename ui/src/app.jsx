@@ -62,10 +62,8 @@ export function App() {
     <div className='app-container'>
       <div className='header'>
         <span className='header-text'>{todaysDate.toUpperCase()}</span>
-        <span className="links-wrapper">
-          <span id='most-installed' className={`header-text ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>ALL-TIME</span>
-          <span id='trending-apps' className={`header-text ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>TRENDING</span>
-        </span>
+        <span id='most-installed' className={`header-text header-link ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>ALL-TIME</span>
+        <span id='trending-apps' className={`header-text header-link ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>TRENDING</span>
         <img ref={helpIconRef} className='help-icon' src={helpIcon} alt="help icon" onClick={() => setIsHelpVisible(!isHelpVisible)} />
         <div ref={helpWindowRef} className={`help-window ${isHelpVisible ? 'visible' : ''}`}>
           <p>Hits is compiled from a local sample of app installs among your neighbors.</p>

@@ -52,13 +52,7 @@ body {
   font-variation-settings: 'xtab' 500;
 }
 
-.links-wrapper {
-  display: inline-flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.links-wrapper span {
+span.header-link {
   cursor: pointer;
 }
 
