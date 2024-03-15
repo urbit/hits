@@ -193,11 +193,12 @@ export default function AppTable({ apps }) {
                             </span>
                           </>
                         }
+                      </div>
+                      <div className='text-wrapper'>
                         {app.publisher &&
                           <>
-                          <br></br>
                           <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
-                          <br></br>
+                          &nbsp;{!app.docket.website && !app.docket.version && !app.docket.license ? '' : '/ ' }
                           </>
                         }
                         {normalizeWebsite(app.docket.website) &&

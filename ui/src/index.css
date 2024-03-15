@@ -168,7 +168,9 @@ tbody tr:last-child {
 }
 
 td .text-wrapper {
+  display: block;
   max-height: 60px;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -224,6 +226,12 @@ td.app-name-desc .app-title {
   white-space: nowrap;
 }
 
+td.app-name-desc .app-description {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 td.app-info {
   padding-left: 0px;
   vertical-align: top;
@@ -240,6 +248,7 @@ table button {
   color: var(--color-background);
   font-family: var(--urbit-sans);
   border: none;
+  padding: 0px;
   height: 60px;
   width: 60px;
   font-size: 16px;
@@ -282,7 +291,12 @@ span.info-website {
     vertical-align: top;
   }
 
+  td.app-name-desc .text-wrapper {
+    height: 20px;
+  }
+
   table button {
+    height: 40px;
     font-size: 16px;
   }
 
