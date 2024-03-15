@@ -36,6 +36,12 @@ function normalizeAppDescription(info) {
     newDesc = `${newDesc}.`
   }
 
+  if (window.innerWidth < 700) {
+    // return first sentence
+    return newDesc.match(/^[^.!?]*[.!?](?:\s|$)/)[0]
+  }
+
+  // return first two sentences
   return newDesc.match(/(.*?[.!?])(\s+.*?[.!?])?/)[0]
 }
 
