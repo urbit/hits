@@ -203,30 +203,37 @@ export default function AppTable({ apps }) {
                       <div className='text-wrapper'>
                         {app.publisher &&
                           <>
-                          <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
-                          &nbsp;{!app.docket.website && !app.docket.version && !app.docket.license ? '' : '/ ' }
+                            <span className='info-publisher'>{normalizePublisher(app.publisher)}</span>
+                            {document.innerWidth >= 425 &&
+                              (app.docket.website || app.docket.version || app.docket.license ? ' / ' : '')
+                            }
                           </>
                         }
-                        {normalizeWebsite(app.docket.website) &&
+                        {document.innerWidth >= 425 && (
                           <>
-                          <span className='info-website'>
-                            <a href={app.docket.website} target='_blank'>{normalizeWebsite(app.docket.website)}</a>
-                          </span>
-                          &nbsp;
+                            {normalizeWebsite(app.docket.website) && (
+                              <>
+                                <span className='info-website'>
+                                  <a href={app.docket.website} target='_blank' rel="noopener noreferrer">{normalizeWebsite(app.docket.website)}</a>
+                                </span>
+                                {' '}
+                              </>
+                            )}
+                            <span className="info-additional">
+                              {app.docket.version && (
+                                <>
+                                  <span>{`${app.docket.version}`}</span>
+                                  {' '}
+                                </>
+                              )}
+                              {app.docket.license && (
+                                <>
+                                  <span>{normalizeLicense(app.docket.license)}</span>
+                                </>
+                              )}
+                            </span>
                           </>
-                        }
-                        <span className="info-additional">
-                          {app.docket.version &&
-                            <>
-                              <span>{`${app.docket.version}`}</span>
-                              &nbsp;
-                            </>
-                          }
-                          {app.docket.license &&
-                          <>
-                          <span>{normalizeLicense(app.docket.license)}</span>
-                          </>}
-                        </span>
+                        )}
                       </div>
                     </td>
                   </>
