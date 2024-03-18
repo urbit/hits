@@ -45,6 +45,14 @@ function normalizeAppDescription(info) {
   return newDesc.match(/(.*?[.!?])(\s+.*?[.!?])?/)[0]
 }
 
+function normalizeAppTitle(title) {
+  if (title.length > 30) {
+    return ''
+  }
+
+  return title.toUpperCase()
+}
+
 function normalizeIconPath(path) {
   if (!path.startsWith('http')) {
     return ''
@@ -54,6 +62,10 @@ function normalizeIconPath(path) {
 }
 
 function normalizeLicense(license) {
+  if (license.length > 9) {
+    return ''
+  }
+
   return `(${license.toUpperCase()})`
 }
 
@@ -64,8 +76,20 @@ function normalizePublisher(ship) {
   return ship
 }
 
+function normalizeVersion(version) {
+  if (version.length > 8) {
+    return ''
+  }
+
+  return version
+}
+
 function normalizeWebsite(url) {
   let newUrl = url
+
+  if (newUrl.length >= 30) {
+    return 'website'
+  }
 
   if (newUrl.startsWith('web+urbitgraph://group/')) {
     return ''
@@ -118,6 +142,7 @@ export default function AppTable({ apps }) {
         </thead>
         <tbody>
           {apps.map((app, index) => (
+            // TODO check if normalized app title is truthy
             <tr key={index + 1}>
               <td className='app-index'>
                 {index + 1}
@@ -141,7 +166,7 @@ export default function AppTable({ apps }) {
                     <td className='app-name-desc'>
                       <div className="text-wrapper">
                         <span className='app-title'>
-                          {app.docket.title.toUpperCase()}
+                          {normalizeAppTitle(app.docket.title)}
                         </span>
                         {normalizeAppDescription(app.docket.info) &&
                           <>
@@ -170,13 +195,13 @@ export default function AppTable({ apps }) {
                           </>
                         }
                         <span className="info-additional">
-                          {app.docket.version &&
+                          {normalizeVersion(app.docket.version) &&
                             <>
-                              <span>{`${app.docket.version}`}</span>
+                              <span>{`${normalizeVersion(app.docket.version)}`}</span>
                               &nbsp;
                             </>
                           }
-                          {app.docket.license &&
+                          {normalizeLicense(app.docket.license) &&
                           <>
                           <span>{normalizeLicense(app.docket.license)}</span>
                           </>}
@@ -189,7 +214,7 @@ export default function AppTable({ apps }) {
                     <td className='app-name-desc'>
                       <div className="text-wrapper">
                         <span className='app-title'>
-                          {app.docket.title.toUpperCase()}
+                          {normalizeAppTitle(app.docket.title)}
                         </span>
                         {normalizeAppDescription(app.docket.info) &&
                           <>
@@ -220,13 +245,13 @@ export default function AppTable({ apps }) {
                               </>
                             )}
                             <span className="info-additional">
-                              {app.docket.version && (
+                              {normalizeVersion(app.docket.version) && (
                                 <>
-                                  <span>{`${app.docket.version}`}</span>
+                                  <span>{`${normalizeVersion(app.docket.version)}`}</span>
                                   {' '}
                                 </>
                               )}
-                              {app.docket.license && (
+                              {normalizeLicense(app.docket.license) && (
                                 <>
                                   <span>{normalizeLicense(app.docket.license)}</span>
                                 </>
