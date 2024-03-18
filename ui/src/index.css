@@ -109,7 +109,14 @@ td .text-wrapper {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+td .text-wrapper .app-name-desc {
   color: var(--color-subduedText);
+}
+
+td .text-wrapper .info-additional {
+  color: var(--color-main);
 }
 
 td .app-title {
