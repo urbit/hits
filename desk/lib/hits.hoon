@@ -57,6 +57,7 @@
   ?|  =(desk %base)
       =(desk %hits)
       =(desk %kids)
+      =(desk %talk)
       =(desk %garden)
       =(desk %landscape)
   ==
