@@ -200,15 +200,6 @@
             ^-  ?
             (gth a b)
           ::
-          ::  XX should we |hi new app devs who aren't
-          ::     already discovered peers?
-          ::     - maybe even scry what apps they're
-          ::       publishing now if it helps performance
-          ::       when user clicks through to Landscape
-          ::     - does Landscape cache that list of published
-          ::       apps? could it be outdated if app dev unpublishes
-          ::       an app?
-          ::
           ::  update app info on install, ask for docket
           ::  info from the app's publisher
           :_  %=  this
@@ -448,12 +439,12 @@
               "hits: failed to read docket file from {<desk.pole>}"
             ~
         :_  this
+        ::
         ::  if we fail to read the docket file, we send
         ::  these updates to the frontend. if app already
         ::  exists on the frontend, ui will be updated.
         ::  if app doesn't already exist on the frontend,
         ::  we won't add it until we get a valid docket
-        ::
         :~  :*  %give
                 %fact
                 ~[/ui-updates]
@@ -485,7 +476,23 @@
                 ==
             ==
         ==
-      :-  :~  :*  %give
+      ::
+      ::  if we succesfully read the docket file, we add
+      ::  the publisher to our 'allies' in %treaty to
+      ::  facilitate app downloads from that publisher
+      ::
+      ::  XX check if we have treaty already to prevent
+      ::     'subscribe wire not unique' error
+      ::
+      :-  :~  :*  %pass
+                  ~
+                  %agent
+                  [our.bowl %treaty]
+                  %poke
+                  %ally-update-0
+                  !>([%add ship.app])
+              ==
+              :*  %give
                   %fact
                   ~[/ui-updates]
                   %ui-update
