@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { installApp } from '../api/pokes.js'
+import AppButton from './AppButton.jsx';
 
 function normalizeAppColor(color) {
   if (color === '0x0') {
@@ -117,10 +117,6 @@ function normalizeWebsite(url) {
   }
 
   return newUrl
-}
-
-function handleGetButtonClick(name, publisher) {
-  installApp(publisher, name)
 }
 
 export default function AppTable({ apps }) {
@@ -272,9 +268,11 @@ export default function AppTable({ apps }) {
                     </td>
                   </>
               }
-              <td className='app-button'>
-                <button onClick={() => handleGetButtonClick(app.desk, app.publisher)}>GET</button>
-              </td>
+              <AppButton
+              desk={app.desk}
+              publisher={app.publisher}
+              isInstalled={false}
+              />
             </tr>
           ))}
         </tbody>
