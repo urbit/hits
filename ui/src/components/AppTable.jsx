@@ -87,10 +87,6 @@ function normalizeVersion(version) {
 function normalizeWebsite(url) {
   let newUrl = url
 
-  if (newUrl.length >= 30) {
-    return 'website'
-  }
-
   if (newUrl.startsWith('web+urbitgraph://group/')) {
     return ''
   }
@@ -107,7 +103,13 @@ function normalizeWebsite(url) {
     newUrl = newUrl.substring(4)
   }
 
-  return newUrl.match(/^[^\/]+/)
+  newUrl = newUrl.match(/^[^\/]+/)
+
+  if (newUrl.length >= 30) {
+    return 'website'
+  }
+
+  return newUrl
 }
 
 function handleGetButtonClick(name, publisher) {
