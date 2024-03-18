@@ -50,7 +50,14 @@ function normalizeAppTitle(title) {
     return ''
   }
 
-  return title.toUpperCase()
+  if (title === title.toUpperCase()) {
+    return title;
+  }
+
+  return title
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function normalizeIconPath(path) {
