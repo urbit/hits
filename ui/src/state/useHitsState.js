@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export default function useHitsHelper() {
+export default function useHitsState() {
   const [allTimeRankings, setAllTimeRankings] = useState([])
   const [trendingApps, setTrendingApps] = useState([])
 

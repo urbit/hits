@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import useHitsHelper from './helpers/useHitsHelper.js'
+import useHitsState from './state/useHitsState.js'
 import AppTable from './components/AppTable'
 import { subscribeToUiUpdates } from './api/subscriptions.js';
 import hitsTitle from './assets/hits.svg'
@@ -14,7 +14,7 @@ export function App() {
     allTimeRankings,
     receiveUiUpdate,
     trendingApps
-  } = useHitsHelper();
+  } = useHitsState();
 
   const todaysDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
