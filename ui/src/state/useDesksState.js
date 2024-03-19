@@ -1,8 +1,18 @@
 import { useState, useEffect } from 'react'
+import { scryCharges } from '../api/scries.js'
 
 export default function useDesksState() {
   const [loadingDesks, setLoadingDesks] = useState([])
   const [installedDesks, setInstalledDesks] = useState([])
+
+  useEffect(() => {
+    async function getInstalledDesks() {
+      const initial = await scryCharges()
+      setInstalledDesks(Object.keys(initial))
+    }
+
+    getInstalledDesks()
+  }, [])
 
   useEffect(() => {
     console.log('new installedDesks: ', installedDesks)
