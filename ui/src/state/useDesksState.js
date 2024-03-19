@@ -15,19 +15,23 @@ export default function useDesksState() {
 
       switch (chadTag) {
         case 'glob':
-          setInstalledDesks(prevDesks => [...prevDesks, desk])
+          setInstalledDesks(prevDesks => {
+            return prevDesks.includes(desk)
+                   ? prevDesks
+                   : [...prevDesks, desk]
+          })
           setLoadingDesks(loadingDesks.filter(loadingDesk => {
-            if (loadingDesk != desk) {
-              return loadingDesk
-            }
+            return loadingDesk !== desk
           }))
           break
         case 'site':
-          setInstalledDesks(prevDesks => [...prevDesks, desk])
+          setInstalledDesks(prevDesks => {
+            return prevDesks.includes(desk)
+                   ? prevDesks
+                   : [...prevDesks, desk]
+          })
           setLoadingDesks(loadingDesks.filter(loadingDesk => {
-            if (loadingDesk != desk) {
-              return loadingDesk
-            }
+            return loadingDesk !== desk
           }))
           break
         case 'install':
