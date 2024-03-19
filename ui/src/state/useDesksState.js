@@ -8,6 +8,10 @@ export default function useDesksState() {
     console.log('new installedDesks: ', installedDesks)
   }, [installedDesks])
 
+  useEffect(() => {
+    console.log('new loadingDesks: ', loadingDesks)
+  }, [loadingDesks])
+
   function receiveDesksUpdate(chargesUpdate) {
     if ('add-charge' in chargesUpdate) {
       const { charge, desk } = chargesUpdate['add-charge']
@@ -18,36 +22,47 @@ export default function useDesksState() {
           setInstalledDesks(prevDesks => {
             return prevDesks.includes(desk)
                    ? prevDesks
-                   : [...prevDesks, desk]
-          })
-          setLoadingDesks(loadingDesks.filter(loadingDesk => {
-            return loadingDesk !== desk
-          }))
-          break
+                   : [...prevDesks, desk];
+          });
+          setLoadingDesks(prevDesks => {
+            prevDesks.filter(loadingDesk => {
+              return loadingDesk !== desk
+            })
+          });
+          break;
         case 'site':
           setInstalledDesks(prevDesks => {
             return prevDesks.includes(desk)
                    ? prevDesks
-                   : [...prevDesks, desk]
-          })
-          setLoadingDesks(loadingDesks.filter(loadingDesk => {
-            return loadingDesk !== desk
-          }))
-          break
+                   : [...prevDesks, desk];
+          });
+          setLoadingDesks(prevDesks => {
+            prevDesks.filter(loadingDesk => {
+              return loadingDesk !== desk
+            })
+          });
+          break;
         case 'install':
-          setLoadingDesks(prevDesks => [...prevDesks, desk])
-          break
+          setLoadingDesks(prevDesks => {
+            return prevDesks.includes(desk)
+                   ? prevDesks
+                   : [...prevDesks, desk]
+          });
+          break;
         // TODO start loading spinner but with 'OPEN'
         //      color scheme
         // case 'suspend':
+        //   return;
         //   break
         case 'hung':
-          setLoadingDesks(loadingDesks.filter(loadingDesk => {
-            if (loadingDesk != desk) {
-              return loadingDesk
-            }
-          }))
-          break
+          setLoadingDesks(prevDesks => {
+            return prevDesks.filter(loadingDesk => {
+              return loadingDesk !== desk
+            })
+          });
+          break;
+        default:
+          return;
       }
 
     return;
