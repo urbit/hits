@@ -1,61 +1,64 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react'
 import useHitsState from './state/useHitsState.js'
+import useDesksState from './state/useDesksState.js'
 import AppTable from './components/AppTable'
-import { subscribeToUiUpdates } from './api/subscriptions.js';
+import { subscribeToCharges, subscribeToUiUpdates } from './api/subscriptions.js'
 import hitsTitle from './assets/hits.svg'
 import helpIcon from './assets/help.svg'
 
 export function App() {
-  const [listView, setListView] = useState('allTime');
-  const [isHelpVisible, setIsHelpVisible] = useState(false);
-  const helpIconRef = useRef(null);
-  const helpWindowRef = useRef(null);
+  const [listView, setListView] = useState('allTime')
+  const [isHelpVisible, setIsHelpVisible] = useState(false)
+  const helpIconRef = useRef(null)
+  const helpWindowRef = useRef(null)
   const {
     allTimeRankings,
     receiveUiUpdate,
     trendingApps
-  } = useHitsState();
+  } = useHitsState()
+  const { receiveDesksUpdate } = useDesksState()
 
-  const todaysDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const todaysDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
   useEffect(() => {
     async function init() {
-      await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate));
+      await subscribeToCharges(chargesUpdate => receiveDesksUpdate(chargesUpdate))
+      await subscribeToUiUpdates(uiUpdate => receiveUiUpdate(uiUpdate))
     }
 
-    init();
-  }, []);
+    init()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
       if (isHelpVisible) {
-        setIsHelpVisible(false);
+        setIsHelpVisible(false)
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll)
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHelpVisible]);
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isHelpVisible])
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (helpWindowRef.current && !helpWindowRef.current.contains(event.target) &&
           helpIconRef.current && !helpIconRef.current.contains(event.target)) {
-        setIsHelpVisible(false);
+        setIsHelpVisible(false)
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   function handleMostInstalledClick() {
-    setListView('allTime');
+    setListView('allTime')
   }
 
   function handleTrendingAppsClick() {
-    setListView('trendingApps');
+    setListView('trendingApps')
   }
 
   return (
@@ -80,5 +83,5 @@ export function App() {
         : trendingApps
       } />
     </div>
-  );
+  )
 }
