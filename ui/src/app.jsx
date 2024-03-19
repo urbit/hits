@@ -16,7 +16,11 @@ export function App() {
     receiveUiUpdate,
     trendingApps
   } = useHitsState()
-  const { receiveDesksUpdate } = useDesksState()
+  const {
+    loadingDesks,
+    installedDesks,
+    receiveDesksUpdate
+  } = useDesksState()
 
   const todaysDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
@@ -77,11 +81,15 @@ export function App() {
       <div className='title-container'>
         <img src={hitsTitle} alt="%hits title" />
       </div>
-      <AppTable apps={
+      <AppTable
+      apps={
         listView === 'allTime'
         ? allTimeRankings
         : trendingApps
-      } />
+      }
+      loadingDesks={loadingDesks}
+      installedDesks={installedDesks}
+      />
     </div>
   )
 }

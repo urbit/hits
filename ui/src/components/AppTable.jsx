@@ -119,7 +119,7 @@ function normalizeWebsite(url) {
   return newUrl
 }
 
-export default function AppTable({ apps }) {
+export default function AppTable({ apps, loadingDesks, installedDesks }) {
   const widthCutoff = 700
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
 
@@ -271,7 +271,8 @@ export default function AppTable({ apps }) {
               <AppButton
               desk={app.desk}
               publisher={app.publisher}
-              isInstalled={false}
+              isLoading={loadingDesks.includes(app.desk)}
+              isInstalled={installedDesks.includes(app.desk)}
               />
             </tr>
           ))}

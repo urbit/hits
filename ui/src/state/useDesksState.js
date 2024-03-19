@@ -22,45 +22,45 @@ export default function useDesksState() {
           setInstalledDesks(prevDesks => {
             return prevDesks.includes(desk)
                    ? prevDesks
-                   : [...prevDesks, desk];
-          });
+                   : [...prevDesks, desk]
+          })
           setLoadingDesks(prevDesks => {
-            prevDesks.filter(loadingDesk => {
+            return prevDesks.filter(loadingDesk => {
               return loadingDesk !== desk
             })
-          });
-          break;
+          })
+          break
         case 'site':
           setInstalledDesks(prevDesks => {
             return prevDesks.includes(desk)
                    ? prevDesks
-                   : [...prevDesks, desk];
-          });
+                   : [...prevDesks, desk]
+          })
           setLoadingDesks(prevDesks => {
-            prevDesks.filter(loadingDesk => {
+            return prevDesks.filter(loadingDesk => {
               return loadingDesk !== desk
             })
-          });
-          break;
+          })
+          break
         case 'install':
           setLoadingDesks(prevDesks => {
             return prevDesks.includes(desk)
                    ? prevDesks
                    : [...prevDesks, desk]
-          });
-          break;
+          })
+          break
         // TODO start loading spinner but with 'OPEN'
         //      color scheme
         // case 'suspend':
-        //   return;
+        //   return
         //   break
         case 'hung':
           setLoadingDesks(prevDesks => {
             return prevDesks.filter(loadingDesk => {
               return loadingDesk !== desk
             })
-          });
-          break;
+          })
+          break
         default:
           return;
       }
@@ -69,6 +69,7 @@ export default function useDesksState() {
     }
 
     if ('del-charge' in chargesUpdate) {
+      // TODO add del-charge logic?
       return;
     }
   }
