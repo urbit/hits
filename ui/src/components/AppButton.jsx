@@ -9,7 +9,7 @@ export default function AppButton({ desk, publisher, isLoading, isInstalled }) {
   const buttonText = !isInstalled ? 'GET' : 'OPEN'
 
   return (
-    <td className='app-button'>
+    <td className={`app-button ${isInstalled ? 'open-button' : ''}`}>
       <button
       onClick={() => handleGetButtonClick(desk, publisher)}
       >
