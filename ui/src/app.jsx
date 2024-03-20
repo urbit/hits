@@ -73,8 +73,8 @@ export function App() {
         <span id='trending-apps' className={`header-text header-link ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>TRENDING</span>
         <img ref={helpIconRef} className='help-icon' src={helpIcon} alt="help icon" onClick={() => setIsHelpVisible(!isHelpVisible)} />
         <div ref={helpWindowRef} className={`help-window ${isHelpVisible ? 'visible' : ''}`}>
-          <p>Hits is compiled from a local sample of app installs among your neighbors.</p>
-          <p>That sample includes everyone you've added in the <a className='link-text' href={`${window.location.origin}/apps/landscape/search/~paldev/apps/~paldev/pals`} target='_blank' rel='noopener noreferrer'>%pals</a> app, and everyone they've added as a pal. These aren't definitive rankings for the whole Urbit network.</p>
+          <p>App rankings are compiled from a local sample of installs among your neighbors.</p>
+          <p>That sample includes everyone you've added as a pal in the <a className='link-text' href={`${window.location.origin}/apps/landscape/search/~paldev/apps/~paldev/pals`} target='_blank' rel='noopener noreferrer'>Pals</a> app, and everyone they've added as a pal. These aren't definitive rankings among the whole urbit network.</p>
           <p>Trending apps are determined by the frequency of installs your Hits app knows about.</p>
         </div>
       </div>
