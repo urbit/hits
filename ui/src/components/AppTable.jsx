@@ -69,6 +69,10 @@ function normalizeIconPath(path) {
 }
 
 function normalizeLicense(license) {
+  if (!license) {
+    return ''
+  }
+
   if (license.length > 9) {
     return ''
   }
