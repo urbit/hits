@@ -44,8 +44,7 @@
           ['ship' [%s (scot %p ship.app.upd)]]
           ['desk' [%s (scot %tas desk.app.upd)]]
           :-  'docket'
-          :-  %o
-          %-  molt
+          %-  pairs:enjs:format
           :~  ['title' [%s title]]
               ['info' [%s info]]
               ['color' [%s (scot %ux color)]]
@@ -55,6 +54,33 @@
               :-  'version'
               :-  %s
               (crip "{<major.version>}.{<minor.version>}.{<patch.version>}")
+              :-  'href'
+              =/  href=^href  href
+              %+  frond:enjs:format
+                -.href
+              ?-  -.href
+                  %site
+                [%s (spat path.href)]
+              ::
+                  %glob
+                %-  pairs:enjs:format
+                :~  ['base' [%s base.href]]
+                    :-  'glob-reference'
+                    %-  pairs:enjs:format
+                    :~  ['hash' [%s (scot %uv hash.glob-reference.href)]]
+                        :-  'location'
+                        %+  frond:enjs:format
+                          -.location.glob-reference.href
+                        ?-  -.location.glob-reference.href
+                            %http
+                          [%s url.location.glob-reference.href]
+                        ::
+                            %ames
+                          [%s (scot %p ship.location.glob-reference.href)]
+                        ==
+                    ==
+                ==
+              ==
           ==
       ==
     ::
@@ -71,18 +97,45 @@
             installs.upd
           |=  =time
           (time:enjs:format time)
+          =,  docket.upd
           :-  'docket'
           %-  pairs:enjs:format
-          :~  ['title' [%s title.docket.upd]]
-              ['info' [%s info.docket.upd]]
-              ['color' [%s (scot %ux color.docket.upd)]]
-              ['image' [%s ?~(image.docket.upd '' (need image.docket.upd))]]
-              ['website' [%s website.docket.upd]]
-              ['license' [%s license.docket.upd]]
-              =,  docket.upd
+          :~  ['title' [%s title]]
+              ['info' [%s info]]
+              ['color' [%s (scot %ux color)]]
+              ['image' [%s ?~(image '' (need image))]]
+              ['website' [%s website]]
+              ['license' [%s license]]
               :-  'version'
               :-  %s
               (crip "{<major.version>}.{<minor.version>}.{<patch.version>}")
+              :-  'href'
+              =/  href=^href  href
+              %+  frond:enjs:format
+                -.href
+              ?-  -.href
+                  %site
+                [%s (spat path.href)]
+              ::
+                  %glob
+                %-  pairs:enjs:format
+                :~  ['base' [%s base.href]]
+                    :-  'glob-reference'
+                    %-  pairs:enjs:format
+                    :~  ['hash' [%s (scot %uv hash.glob-reference.href)]]
+                        :-  'location'
+                        %+  frond:enjs:format
+                          -.location.glob-reference.href
+                        ?-  -.location.glob-reference.href
+                            %http
+                          [%s url.location.glob-reference.href]
+                        ::
+                            %ames
+                          [%s (scot %p ship.location.glob-reference.href)]
+                        ==
+                    ==
+                ==
+              ==
           ==
       ==
     ==

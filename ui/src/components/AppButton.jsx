@@ -1,17 +1,25 @@
 import { installApp } from '../api/pokes.js'
 
-export default function AppButton({ desk, publisher, isLoading, isInstalled }) {
-
-  function handleGetButtonClick(desk, publisher) {
-    installApp(publisher, desk)
+function getAppPath(href) {
+  if ('site' in href) {
+    return href.site.substring(1)
   }
+
+  return `apps/${href.glob.base}`
+}
+
+export default function AppButton({ app, isLoading, isInstalled }) {
 
   const buttonText = !isInstalled ? 'GET' : 'OPEN'
 
   return (
     <td className={`app-button ${isInstalled ? 'open-button' : ''}`}>
       <button
-      onClick={() => handleGetButtonClick(desk, publisher)}
+      onClick={
+        isInstalled
+        ? () => window.open(`${window.location.origin}/${getAppPath(app.docket.href)}`, '_blank', 'noopener,noreferrer')
+        : () => installApp(app.publisher, app.desk)
+      }
       >
         {isLoading ? '...' : buttonText}
       </button>

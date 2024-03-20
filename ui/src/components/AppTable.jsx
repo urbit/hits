@@ -269,8 +269,7 @@ export default function AppTable({ apps, loadingDesks, installedDesks }) {
                   </>
               }
               <AppButton
-              desk={app.desk}
-              publisher={app.publisher}
+              app={app}
               isLoading={loadingDesks.includes(app.desk)}
               isInstalled={installedDesks.includes(app.desk)}
               />
