@@ -221,7 +221,7 @@ export default function AppTable({ apps, loadingDesks, installedDesks }) {
                 // tablet + mobile screens
                 : <>
                     <td className='app-name-desc'>
-                      <div className="text-wrapper">
+                    <div className="text-wrapper" style={{ color: '#645050' }}>
                         <span className='app-title'>
                           {normalizeAppTitle(app.docket.title)}
                         </span>
