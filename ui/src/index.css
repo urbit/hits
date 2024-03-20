@@ -265,7 +265,7 @@ table button {
   border: none;
   padding: 0px;
   height: 40px;
-  width: 60px;
+  width: 100%;
   font-size: 16px;
   font-weight: 600;
   border-radius: 8px;
