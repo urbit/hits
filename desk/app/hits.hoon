@@ -177,6 +177,8 @@
       ::
           %hit
         =+  !<(=hit vase)
+        ?:  =(%pawn (clan:title ship.app.hit))
+          `this
         =/  app-score
           (~(gut by scores) app.hit 0)
         ?:  installed.hit
