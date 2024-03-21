@@ -1,6 +1,6 @@
 :~  title+'Hits'
     info+'A leaderboard for app installs.'
-    color+0x9e.9191
+    color+0x1e.1414
     base+'hits'
     version+[0 0 1]
     glob-ames+[~bud 0v0]
