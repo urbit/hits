@@ -378,8 +378,7 @@
             %arvo
             %b
             %wait
-            ::  XX move back to 5m
-            (add now.bowl ~m1)
+            (add now.bowl ~m5)
         ==
         %+  turn
           ~(tap in added)
