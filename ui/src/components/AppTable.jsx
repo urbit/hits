@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react'
 import AppButton from './AppButton.jsx';
 
 function normalizeAppColor(color) {
+  if (!color) {
+    return '$FACDB9'
+  }
+
   if (color === '0x0') {
     return '#FACDB9'
   }
@@ -16,7 +20,7 @@ function normalizeAppColor(color) {
 }
 
 function normalizeAppDescription(info) {
-  if (info === '') {
+  if (!info) {
     return ''
   }
 
@@ -46,6 +50,10 @@ function normalizeAppDescription(info) {
 }
 
 function normalizeAppTitle(title) {
+  if (!title) {
+    return ''
+  }
+
   if (title.length > 30) {
     return ''
   }
@@ -61,6 +69,10 @@ function normalizeAppTitle(title) {
 }
 
 function normalizeIconPath(path) {
+  if (!path) {
+    return ''
+  }
+
   if (!path.startsWith('http')) {
     return ''
   }
@@ -81,6 +93,10 @@ function normalizeLicense(license) {
 }
 
 function normalizePublisher(ship) {
+  if (!ship) {
+    return ''
+  }
+
   if (ship.length > 28) {
     return `${ship.substring(0, 7)}_${ship.substring(51)}`
   }
@@ -88,6 +104,10 @@ function normalizePublisher(ship) {
 }
 
 function normalizeVersion(version) {
+  if (!version) {
+    return ''
+  }
+
   if (version.length > 8) {
     return ''
   }
@@ -96,6 +116,10 @@ function normalizeVersion(version) {
 }
 
 function normalizeWebsite(url) {
+  if (!url) {
+    return ''
+  }
+
   let newUrl = url
 
   if (newUrl.startsWith('web+urbitgraph://group/')) {
