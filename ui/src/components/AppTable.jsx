@@ -97,9 +97,6 @@ function normalizePublisher(ship) {
     return ''
   }
 
-  if (ship.length > 28) {
-    return `${ship.substring(0, 7)}_${ship.substring(51)}`
-  }
   return ship
 }
 
