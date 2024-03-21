@@ -175,7 +175,8 @@ export default function AppTable({ apps, loadingDesks, installedDesks }) {
         </thead>
         <tbody>
           {apps.map((app, index) => (
-            // TODO check if normalized app title is truthy
+            normalizePublisher(app.publisher) &&
+            normalizeAppTitle(app.docket.title) &&
             <tr key={index + 1}>
               <td className='app-index'>
                 {index + 1}
