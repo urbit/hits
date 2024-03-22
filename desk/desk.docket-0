@@ -4,6 +4,6 @@
     base+'hits'
     version+[0 0 1]
     glob-http+['https://storage.googleapis.com/media.urbit.org/apps/hits-v0.1.glob' 0v6.30gpu.k9970.3oh4j.q47c7.a33v9]
-    website+'https://github.com/bonbud-macryg/hits'
+    website+'https://github.com/urbit/hits'
     license+'MIT'
 ==
