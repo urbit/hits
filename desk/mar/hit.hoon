@@ -1,5 +1,5 @@
 /-  *hits
-|_  hit=[=src =time =app =kelvin =installed]
+|_  hit=[=time =app =kelvin =installed]
 ++  grad  %noun
 ++  grow
   |%
@@ -7,6 +7,6 @@
   --
 ++  grab
   |%
-  ++  noun  ,[=src =time =app =kelvin =installed]
+  ++  noun  ,[=time =app =kelvin =installed]
   --
 --

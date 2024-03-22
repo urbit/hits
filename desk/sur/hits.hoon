@@ -3,14 +3,22 @@
 +$  kelvin     @ud
 +$  score      @ud
 +$  src        ship
++$  installs   (list time)
 +$  app        [=ship =desk]
 ::
 +$  ui-update
   $+  ui-update-hits
-  $%  [%score-updated =app =score]
-      [%version-updated =app =kelvin]
-      [%docket-updated =app docket=docket-0]
-      [%installs-updated =app installs=(list time)]
+  $%  [%score-update =app =score]
+      [%version-update =app =kelvin]
+      [%docket-update =app docket=docket-0]
+      [%installs-update =app =installs]
+      $:  %app-update
+          =app
+          =score
+          =kelvin
+          =installs
+          docket=docket-0
+      ==
   ==
 ::
 +$  version
@@ -35,14 +43,15 @@
 ::
 +$  docket-0
   $+  docket-0-hits
+  $~  [%1 '' '' 0x0 [%site /] ~ [0 0 0] '' '']
   $:  %1
       title=@t
       info=@t
       color=@ux
       =href
-      image=(unit cord)
+      image=(unit @t)
       =version
-      website=cord
-      license=cord
+      website=@t
+      license=@t
   ==
 --

@@ -6,31 +6,29 @@
 /$  grab-update-docket  %noun  %update-docket
 ::
 |%
-::
-::  hit: message sent between ships on each app (un)install
-+$  hit
-  $:  =src        ::  source of this message
-      =time       ::  when this message was generated
-      =app        ::  app's publisher and name
-      =kelvin     ::  app's kelvin compatibility
-      =installed  ::  installed or uninstalled?
++$  state-versions
+  $%  state-0
   ==
 ::
 +$  state-0
-  $:  local=(set app)                 ::  our locally-installed apps
+  $:  %0
+      local=(set app)                 ::  our locally-installed apps
       rankings=(list app)             ::  ordered list of most-installed apps
       scores=(map app score)          ::  app scores
       versions=(map app kelvin)       ::  app versions
       installs=(map app (list time))  ::  most recent installs
       dockets=(map app docket-0)      ::  docket info for each app
   ==
-+$  card  $+(card card:agent:gall)
 ::
-::  max. number of installs
-::  to track for each app
-::  XX arguably remove this: cheap to store @das, can
-::     let frontend dev decide what algorithm they want
-++  date-limit  25
+::  hit: message sent between ships on each app (un)install
++$  hit
+  $:  =time       ::  when this message was generated
+      =app        ::  app's publisher and name
+      =kelvin     ::  app's kelvin compatibility
+      =installed  ::  installed or uninstalled?
+  ==
+::
++$  card  $+(card card:agent:gall)
 --
 ::
 =|  state-0
@@ -38,7 +36,7 @@
 ::
 ::  /lib/gossip.hoon config
 %-  %+  agent:gossip
-      [2 %anybody %anybody |]
+      [2 %targets %anybody |]
     %-  %~  put  by
       %-  %~  put  by
         *(map mark $-(* vase))
@@ -67,11 +65,20 @@
 ++  on-save
   !>(state)
 ::
-++  on-load  on-load:def
+++  on-load
+|=  =vase
+  ^-  (quip card _this)
+  =/  saved-state
+    !<(state-versions vase)
+  ?-  -.saved-state
+    %0  [~ this(state saved-state)]
+  ==
+::
 ++  on-poke  on-poke:def
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
+  ~&  >  "hits: received subscription to {<path>}"
   ?+  path
     (on-watch:def path)
   ::
@@ -80,7 +87,33 @@
     ::  frontend listens to our ship for new hits;
     ::  will update the chart live on the user device
     ?>  =(our.bowl src.bowl)
-    `this
+    =/  base-version
+      (scry-kelvin our.bowl %base now.bowl)
+    :_  this
+    %+  turn
+      %+  skip
+        rankings
+      |=  =app
+      ^-  ?
+      (gth (~(got by versions) app) base-version)
+    |=  =app
+    ^-  card
+      :*  %give
+          %fact
+          ~
+          %ui-update
+          !>  ^-  ui-update
+          :*  %app-update
+              app
+              (~(got by scores) app)
+              (~(got by versions) app)
+              (~(got by installs) app)
+              ?.  (~(has by dockets) app)
+                *docket-0
+              (~(got by dockets) app)
+          ==
+      ==
+
   ::
       [%~.~ %gossip %source ~]
     ::
@@ -95,8 +128,7 @@
         ~
         :-  %hit
         !>  ^-  hit
-        :*  our.bowl
-            now.bowl
+        :*  now.bowl
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
@@ -145,6 +177,8 @@
       ::
           %hit
         =+  !<(=hit vase)
+        ?:  =(%pawn (clan:title ship.app.hit))
+          `this
         =/  app-score
           (~(gut by scores) app.hit 0)
         ?:  installed.hit
@@ -159,33 +193,26 @@
           =/  new-installs
             %-  ~(put by installs)
             :-  app.hit
-            %+  scag
-              date-limit
             %+  sort
               :-  time.hit
               %-  ~(gut by installs)
               :-  app.hit
-              ~[now.bowl]
+              ~
             |=  [a=time b=time]
             ^-  ?
             (gth a b)
-          ::
-          ::  XX should we |hi new app devs who aren't
-          ::     already discovered peers?
-          ::     - maybe even scry what apps they're
-          ::       publishing now if it helps performance
-          ::       when user clicks through to Landscape
-          ::     - does Landscape cache that list of published
-          ::       apps? could it be outdated if app dev unpublishes
-          ::       an app?
           ::
           ::  update app info on install, ask for docket
           ::  info from the app's publisher
           :_  %=  this
                 scores    (~(put by scores) [app.hit new-score])
                 versions  (~(put by versions) [app.hit new-version])
-                installs  (~(put by installs) [app.hit (~(got by new-installs) app.hit)])
-                rankings  (rank-apps (~(put by scores) [app.hit new-score]))
+                installs  %-  ~(put by installs)
+                          [app.hit (~(got by new-installs) app.hit)]
+                rankings  %+  rank-apps
+                            (~(put by scores) [app.hit new-score])
+                          %-  ~(put by installs)
+                          [app.hit (~(got by new-installs) app.hit)]
               ==
           :~  :*  %pass
                   /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
@@ -203,27 +230,6 @@
                       [%da now.bowl]
                       /desk/docket-0
                   ==
-              ==
-              :*  %give
-                  %fact
-                  ~[/ui-updates]
-                  %ui-update
-                  !>  ^-  ui-update
-                  [%score-updated [app.hit new-score]]
-              ==
-              :*  %give
-                  %fact
-                  ~[/ui-updates]
-                  %ui-update
-                  !>  ^-  ui-update
-                  [%installs-updated [app.hit (~(got by new-installs) app.hit)]]
-              ==
-              :*  %give
-                  %fact
-                  ~[/ui-updates]
-                  %ui-update
-                  !>  ^-  ui-update
-                  [%version-updated [app.hit new-version]]
               ==
           ==
         ::
@@ -244,42 +250,39 @@
           ::  from the sorted list of their install datetimes; this
           ::  should quickly move them down the 'trending' feed
           ::
-          ::  XX could this be better?
-          ?.  =(1 (lent (~(gut by installs) [app.hit ~[now.bowl]])))
-            ::  if app has >1 installs,
-            ::  remove the most recent
-            %-  ~(put by installs)
-            :-  app.hit
-            (tail (sort (~(got by installs) app.hit) gth))
-          ::  if not, check app exists
-          ?~  (~(get by installs) app.hit)
-            ::  if app doesn't exist,
-            ::  return installs
+          ?.  (~(has by installs) app.hit)
             installs
-          ::  if app does exist and has
-          ::  exactly 1 install, remove app
-          (~(del by installs) app.hit)
+          ?:  =(1 (lent (~(got by installs) app.hit)))
+            (~(del by installs) app.hit)
+          %-  ~(put by installs)
+          :-  app.hit
+          %-  tail
+          %+  sort
+            (~(got by installs) app.hit)
+          gth
         ::
         :_  %=  this
               dockets   new-dockets
               installs  new-installs
               versions  new-versions
               scores    (~(put by scores) [app.hit new-score])
-              rankings  (rank-apps (~(put by scores) [app.hit new-score]))
+              rankings  %+  rank-apps
+                          (~(put by scores) [app.hit new-score])
+                        new-installs
             ==
         :~  :*  %give
                 %fact
                 ~[/ui-updates]
                 %ui-update
                 !>  ^-  ui-update
-                [%score-updated [app.hit new-score]]
+                [%score-update [app.hit new-score]]
             ==
             :*  %give
                 %fact
                 ~[/ui-updates]
                 %ui-update
                 !>  ^-  ui-update
-                [%installs-updated [app.hit (~(got by new-installs) app.hit)]]
+                [%installs-update [app.hit (~(got by new-installs) app.hit)]]
             ==
         ==
       ==  ::  end of mark branches
@@ -318,10 +321,7 @@
           .^(rock:tire:clay %cx /(scot %p our.bowl)//(scot %da now.bowl)/tire)
         |=  [=desk [@tas (set [@tas @ud])]]
         ^-  ?
-        ?|  =(desk %hits)
-            =(desk %kids)
-            =(desk %landscape)
-        ==
+        (skip-desk desk)
       =/  sources
         %-  malt
         %+  skip
@@ -339,9 +339,7 @@
           .^((map desk [ship desk]) %gx /(scot %p our.bowl)/hood/(scot %da now.bowl)/kiln/sources/noun)
         |=  [=desk [ship desk]]
         ^-  ?
-        ?|  =(desk %hits)
-            =(desk %landscape)
-        ==
+        (skip-desk desk)
       =/  new-local=_local
         %+  roll
           ~(tap by desks)
@@ -380,8 +378,7 @@
             %arvo
             %b
             %wait
-            ::  XX move back to 5m
-            (add now.bowl ~m1)
+            (add now.bowl ~m5)
         ==
         %+  turn
           ~(tap in added)
@@ -411,8 +408,7 @@
         %+  invent:gossip
           %hit
         !>  ^-  hit
-        :*  our.bowl
-            now.bowl
+        :*  now.bowl
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
@@ -425,8 +421,7 @@
       %+  invent:gossip
         %hit
       !>  ^-  hit
-      :*  our.bowl
-          now.bowl
+      :*  now.bowl
           [ship desk]
           (scry-kelvin our.bowl desk now.bowl)
           %.n
@@ -438,22 +433,88 @@
         (on-arvo:def `wire`pole sign-arvo)
     ::
         [%khan %arow *]
+      =/  =app  [`@p`(slav %p ship.pole) desk.pole]
       ?.  -.p.sign-arvo
-        ((slog (crip "hits: failed to read docket file from {<desk.pole>}") ~) `this)
-      :-  :~  :*  %give
+        %-  %+  slog
+              %-  crip
+              "hits: failed to read docket file from {<desk.pole>}"
+            ~
+        :_  this
+        ::
+        ::  if we fail to read the docket file, we send
+        ::  these updates to the frontend. if app already
+        ::  exists on the frontend, ui will be updated.
+        ::  if app doesn't already exist on the frontend,
+        ::  we won't add it until we get a valid docket
+        :~  :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                :*  %score-update
+                    app
+                    (~(got by scores) app)
+                ==
+            ==
+            :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                :*  %version-update
+                    app
+                    (~(got by versions) app)
+                ==
+            ==
+            :*  %give
+                %fact
+                ~[/ui-updates]
+                %ui-update
+                !>  ^-  ui-update
+                :*  %installs-update
+                    app
+                    (~(got by installs) app)
+                ==
+            ==
+        ==
+      ::
+      ::  if we succesfully read the docket file, we add
+      ::  the publisher to our 'allies' in %treaty to
+      ::  facilitate app downloads from that publisher
+      ::
+      ::  XX check if we have treaty already to prevent
+      ::     'subscribe wire not unique' error
+      ::
+      :-  :~  :*  %pass
+                  ~
+                  %agent
+                  [our.bowl %treaty]
+                  %poke
+                  %ally-update-0
+                  !>([%add ship.app])
+              ==
+              :*  %give
                   %fact
                   ~[/ui-updates]
                   %ui-update
                   !>  ^-  ui-update
-                  :-  %docket-updated
-                  :-  [`@p`(slav %p ship.pole) desk.pole]
-                  (docket-0 (tail (tail +.p.sign-arvo)))
+                  ::  XX why not a %docket-update?
+                  ::     if not here, where should the
+                  ::     %docket-update be sent? what
+                  ::     about when we get %update-docket?
+                  :*  %app-update
+                      app
+                      (~(got by scores) app)
+                      (~(got by versions) app)
+                      (~(got by installs) app)
+                      (docket-0 (tail (tail +.p.sign-arvo)))
+                  ==
               ==
           ==
       %=  this
         dockets  %-  %~  put  by
                    dockets
-                 :-  [`@p`(slav %p ship.pole) desk.pole]
+                 :-  app
                  (docket-0 (tail (tail +.p.sign-arvo)))
       ==
     ==
@@ -464,11 +525,12 @@
         (on-arvo:def `wire`pole sign-arvo)
     ::
         [%clay %writ *]
+      =/  =app  [`@p`(slav %p ship.pole) desk.pole]
       :_  this
       :~  %+  invent:gossip
             %update-docket
-          !>  ^-  app
-          [`@p`(slav %p ship.pole) desk.pole]
+          !>  ^+  app
+          app
           :*  %pass
               /docket/read/[ship.pole]/[desk.pole]
               %arvo
@@ -490,73 +552,7 @@
     ==
   ==  ::  end of wire branches
 ::
-++  on-peek
-  |=  =path
-  ^-  (unit (unit cage))
-  ?+  path
-    (on-peek:def path)
-  ::
-      [%x %rankings ~]
-    ::
-    ::  initial rankings, used to popular frontend state
-    ::  .^((list (pair ship desk)) %gx /=hits=/rankings/noun)
-    ::  .^(json %gx /=hits=/rankings/json)
-    ``[%hits-rankings !>(rankings)]
-  ::
-  ::  XX reformat paths to be e.g. /score/~sampel/hits?
-  ::     more readable in that you know what you're
-  ::     looking at faster
-  ::
-  ::  XX reformat to do !> before conditional logic
-      [%x ship desk %score ~]
-    ::
-    ::  app's score
-    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/score/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/score/json)
-    =/  =app    [(slav %p i.t.path) i.t.t.path]
-    ?~  (~(get by scores) app)
-      ``[%hits-score !>(~)]
-    ``[%hits-score !>((~(got by scores) app))]
-  ::
-      [%x ship desk %version ~]
-    ::
-    ::  app's current %zuse kelvin version
-    ::  compatibility (e.g. 412, 411)
-    ::  .^((unit @ud) %gx /=hits=/~sampel/hits/version/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/version/json)
-    =/  =app  [(slav %p i.t.path) i.t.t.path]
-    ?~  (~(get by versions) app)
-      ``[%hits-version !>(~)]
-    ``[%hits-version !>((~(got by versions) app))]
-  ::
-      [%x ship desk %docket ~]
-    ::
-    ::  app's docket info
-    ::  .^((unit noun) %gx /=hits=/~sampel/hits/docket/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/docket/json)
-    =/  =app  [(slav %p i.t.path) i.t.t.path]
-    ?~  (~(get by dockets) app)
-      ``[%hits-docket !>(~)]
-    ``[%hits-docket !>((~(got by dockets) app))]
-  ::
-      [%x ship desk %installs @ud ~]
-    ::
-    ::  dates of app's most recent n installs
-    ::  .^((list @da) %gx /=hits=/~sampel/hits/installs/25/noun)
-    ::  .^(json %gx /=hits=/~sampel/hits/installs/25/json)
-    =*  limit  i.t.t.t.t.path
-    =/  =app  [(slav %p i.t.path) i.t.t.path]
-    %-  some
-    %-  some
-    :-  %hits-installs
-    !>  ^-  (list time)
-    ?~  (~(get by installs) app)
-      ~
-    %+  scag
-      limit
-    (~(got by installs) app)
-  ==
-::
+++  on-peek   on-peek:def
 ++  on-fail   on-fail:def
 ++  on-leave  on-leave:def
 --

@@ -1,3 +1,336 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@font-face {
+  font-family: "Urbit Sans";
+  src: url('https://media.urbit.org/fonts/UrbitSans/UrbitSansVFWeb-Regular.woff2')
+       format('woff2');
+  font-weight: 100 700;
+  font-style: normal;
+}
+
+:root {
+  --color-background: #1E1414;
+  --color-main: #FACDB9;
+  --color-subduedText: #645050;
+  --color-linkText: #549EF5;
+  --urbit-sans: 'Urbit Sans', monospace;
+}
+
+html {
+  background-color: var(--color-background);
+}
+
+body {
+  margin: 0px;
+  padding-bottom: 8px;
+}
+
+.app-container {
+  width: 90vw;
+  max-width: 800px;
+  margin: auto;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  position: sticky;
+  top: 0px;
+  background-color: var(--color-background);
+  border: 0px;
+  border-bottom: 1px;
+  border-color: var(--color-main);
+  border-style: solid;
+}
+
+.header span {
+  font-size: 16px;
+  font-weight: 600;
+  font-variation-settings: 'xtab' 500;
+}
+
+span.header-link {
+  cursor: pointer;
+}
+
+.help-window {
+  position: absolute;
+  top: 40px;
+  right: 0px;
+  transform-origin: top right;
+  transition: transform 0.1s ease-in-out, opacity 0.1s ease-in-out;
+  transform: scale(0);
+  opacity: 0;
+  background-color: var(--color-main);
+  color: var(--color-background);
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--urbit-sans);
+  padding: 8px;
+  width: 300px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.help-window.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.help-window a {
+  color: var(--color-linkText);
+}
+
+div.title-container {
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+div.title-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+td .text-wrapper {
+  display: block;
+  height: 40px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 120%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+td .text-wrapper .app-name-desc {
+  color: var(--color-subduedText);
+}
+
+td .text-wrapper .info-additional {
+  color: var(--color-main);
+}
+
+td .app-title {
+  font-family: var(--urbit-sans);
+  color: var(--color-main);
+}
+
+td .app-description {
+  font-family: var(--urbit-sans);
+  color: var(--color-subduedText);
+}
+
+.header-text {
+  font-family: var(--urbit-sans);
+  color: var(--color-main);
+}
+
+.help-icon {
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+}
+
+.hits-title {
+  font-family: var(--urbit-sans);
+  color: var(--color-main);
+}
+
+.inactive-link {
+  color: var(--color-subduedText);
+}
+
+.table-wrapper {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--color-main);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--urbit-sans);
+}
+
+th {
+  text-align: left;
+  font-variation-settings: 'xtab' 500;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-main);
+  border-bottom: 1px solid var(--color-main);
+  padding: 8px;
+}
+
+tr {
+  border-bottom: 1px solid var(--color-main);
+  display: table-row;
+}
+
+td {
+  color: var(--color-main);
+  display: table-cell;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+td.app-icon {
+  width: 60px;
+  height: 60px;
+  padding: 0px;
+  border-left: none;
+  border-right: 1px solid var(--color-main);
+}
+
+td.app-icon img {
+  width: 59px;
+  height: 59px;
+  display: block;
+}
+
+th.index-header {
+  text-align: center;
+  border-right: 1px solid var(--color-main);
+}
+
+th.icon-header {
+  text-align: center;
+  border-right: 1px solid var(--color-main);
+}
+
+th.info-header {
+  padding-left: 0px;
+  border-bottom: 1px solid var(--color-main);
+}
+
+th.download-header {
+  text-align: center;
+  border-left: 1px solid var(--color-main);
+}
+
+td.app-index {
+  text-align: center;
+  font-size: 24px;
+  border-right: 1px solid var(--color-main);
+}
+
+td.app-name-desc {
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  vertical-align: top;
+}
+
+td.app-name-desc .app-title {
+  white-space: nowrap;
+}
+
+td.app-name-desc .app-description {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td.app-info {
+  font-size: 16px;
+  font-weight: 400;
+  padding-left: 0px;
+  vertical-align: top;
+}
+
+td.app-button {
+  text-align: center;
+  vertical-align: middle;
+  border-left: 1px solid var(--color-main);
+}
+
+table button {
+  background-color: var(--color-main);
+  color: var(--color-background);
+  font-family: var(--urbit-sans);
+  border: none;
+  padding: 0px;
+  height: 40px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.open-button button {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-main);
+  color: var(--color-main);
+}
+
+span.info-publisher {
+  white-space: nowrap;
+  color: var(--color-main);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+span.info-website {
+  white-space: nowrap;
+  color: var(--color-linkText);
+}
+
+span.info-additional {
+  color: var(--color-main);
+}
+
+@media only screen and (max-width: 700px) {
+  th.info-header {
+    display: none;
+  }
+
+  td.app-name-desc {
+    border: none;
+    vertical-align: top;
+  }
+
+  td.app-name-desc .text-wrapper {
+    height: 20px;
+    line-height: 18px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  table button {
+    height: 40px;
+  }
+
+  th.icon-header {
+    display: none;
+  }
+
+  td.app-icon {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .help-window {
+    width: 200px;
+  }
+}
