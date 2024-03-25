@@ -3,6 +3,7 @@
 ::  XX get marks in a /mar/hits folder and improve the
 ::     names; something like %hits-install and %hits-refresh
 /$  grab-hit            %noun  %hit
+/$  grab-init           %noun  %hits-init
 /$  grab-update-docket  %noun  %update-docket
 ::
 |%
@@ -39,8 +40,10 @@
       [2 %targets %anybody |]
     %-  %~  put  by
       %-  %~  put  by
-        *(map mark $-(* vase))
-      [%hit |=(n=* !>((grab-hit n)))]
+        %-  %~  put  by
+          *(map mark $-(* vase))
+        [%hit |=(n=* !>((grab-hit n)))]
+      [%hits-init |=(n=* !>((grab-init n)))]
     [%update-docket |=(n=* !>((grab-update-docket n)))]
 ::
 ^-  agent:gall
@@ -120,19 +123,20 @@
     ::  neighbours listen for new hits from us
     ~&  >  "hits: received subscription at /gossip/source"
     :_  this
-    %+  turn
-      ~(tap in local)
-    |=  [=ship =desk]
-    ^-  card
-    :*  %give
-        %fact
-        ~
-        :-  %hit
-        !>  ^-  hit
-        :*  (tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))
-            [ship desk]
-            (scry-kelvin our.bowl desk now.bowl)
-            %.y
+    :~  :*  %give
+            %fact
+            ~
+            :-  %hits-init
+            !>  ^-  (list hit)
+            %+  turn
+              ~(tap in local)
+            |=  [=ship =desk]
+            ^-  hit
+            :*  (tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))
+                [ship desk]
+                (scry-kelvin our.bowl desk now.bowl)
+                %.y
+            ==
         ==
     ==
   ==  ::  end of path branches
@@ -173,6 +177,60 @@
                     [%da now.bowl]
                     /desk/docket-0
                 ==
+            ==
+        ==
+      ::
+          %hits-init
+        =+  !<((list hit) vase)
+        =*  hits  -
+        =/  new-versions
+          %+  roll
+            hits
+          |=  [=hit acc=(map app kelvin)]
+          ^+  acc
+          (~(put by acc) [app.hit kelvin.hit])
+        =/  new-scores
+          %+  roll
+            hits
+          |=  [=hit acc=(map app score)]
+          ^+  acc
+          (~(put by acc) [app.hit +((~(gut by acc) app.hit 0))])
+        =/  new-installs
+          %+  roll
+            hits
+          |=  [=hit acc=(map app (list time))]
+          ^+  acc
+          %-  %~  put  by
+            acc
+          :-  app.hit
+          (sort :-(time.hit (~(gut by acc) app.hit ~)) gth)
+        =/  new-rankings
+          (rank-apps new-scores new-installs)
+        :_  %=  this
+              scores    new-scores
+              installs  new-installs
+              rankings  new-rankings
+              versions  new-versions
+            ==
+        %+  turn
+          hits
+        |=  =hit
+        ^-  card
+        :*  %pass
+            /docket/read/(scot %p ship.app.hit)/(scot %tas desk.app.hit)
+            %arvo
+            %k
+            %fard
+            %base
+            %read
+            %noun
+            !>  ^-  [~ care:clay ship desk case path]
+            :*  ~
+                %q
+                ship.app.hit
+                desk.app.hit
+                [%da now.bowl]
+                /desk/docket-0
             ==
         ==
       ::
