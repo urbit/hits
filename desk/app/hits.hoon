@@ -118,17 +118,19 @@
       [%~.~ %gossip %source ~]
     ::
     ::  neighbours listen for new hits from us
+    ~&  >  "hits: received subscription at /gossip/source"
     :_  this
     %+  turn
       ~(tap in local)
     |=  [=ship =desk]
     ^-  card
+    ~&  >>  "hits: gossipping {<desk>} installed at {<(tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))>}"
     :*  %give
         %fact
         ~
         :-  %hit
         !>  ^-  hit
-        :*  now.bowl
+        :*  (tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
@@ -405,10 +407,11 @@
           ~(tap in added)
         |=  [=ship =desk]
         ^-  card
+        ~&  >>  "hits: added app {<desk>} at {<(tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))>}"
         %+  invent:gossip
           %hit
         !>  ^-  hit
-        :*  now.bowl
+        :*  (tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
