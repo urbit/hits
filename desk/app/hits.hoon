@@ -118,6 +118,7 @@
       [%~.~ %gossip %source ~]
     ::
     ::  neighbours listen for new hits from us
+    ~&  >  "hits: received subscription at /gossip/source"
     :_  this
     %+  turn
       ~(tap in local)
@@ -128,7 +129,7 @@
         ~
         :-  %hit
         !>  ^-  hit
-        :*  now.bowl
+        :*  (tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
@@ -400,7 +401,7 @@
       ::
       ::  cards for our peers
       %+  weld
-        ::  gossip apps we've added
+        ::  gossip new apps we've added
         %+  turn
           ~(tap in added)
         |=  [=ship =desk]
@@ -413,7 +414,7 @@
             (scry-kelvin our.bowl desk now.bowl)
             %.y
         ==
-      ::  gossip apps we've removed
+      ::  gossip apps we've newly removed
       %+  turn
         ~(tap in removed)
       |=  [=ship =desk]
