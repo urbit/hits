@@ -124,7 +124,6 @@
       ~(tap in local)
     |=  [=ship =desk]
     ^-  card
-    ~&  >>  "hits: gossipping {<desk>} installed at {<(tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))>}"
     :*  %give
         %fact
         ~
@@ -402,21 +401,20 @@
       ::
       ::  cards for our peers
       %+  weld
-        ::  gossip apps we've added
+        ::  gossip new apps we've added
         %+  turn
           ~(tap in added)
         |=  [=ship =desk]
         ^-  card
-        ~&  >>  "hits: added app {<desk>} at {<(tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))>}"
         %+  invent:gossip
           %hit
         !>  ^-  hit
-        :*  (tail .^(cass:clay %cw /(scot %p our.bowl)/[desk]/1/noun))
+        :*  now.bowl
             [ship desk]
             (scry-kelvin our.bowl desk now.bowl)
             %.y
         ==
-      ::  gossip apps we've removed
+      ::  gossip apps we've newly removed
       %+  turn
         ~(tap in removed)
       |=  [=ship =desk]
