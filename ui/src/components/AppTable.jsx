@@ -26,27 +26,31 @@ function normalizeAppDescription(info) {
 
   let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
 
+  if (newDesc.endsWith('...')) {
+    newDesc = `${newDesc.substring(0, newDesc.length - 3)}…`
+  }
+
   if (
-    newDesc[newDesc.length - 1] !== '.' &&
-    newDesc[newDesc.length - 1] !== '…' &&
-    newDesc[newDesc.length - 1] !== '!' &&
-    newDesc[newDesc.length - 1] !== '?' &&
-    newDesc[newDesc.length - 1] !== ')' &&
-    newDesc[newDesc.length - 1] !== ']' &&
-    newDesc[newDesc.length - 1] !== '}' &&
-    newDesc[newDesc.length - 1] !== '\'' &&
-    newDesc[newDesc.length - 1] !== '\"'
-    ) {
+    !newDesc.endsWith('.') &&
+    !newDesc.endsWith('…') &&
+    !newDesc.endsWith('!') &&
+    !newDesc.endsWith('?') &&
+    !newDesc.endsWith(')') &&
+    !newDesc.endsWith(']') &&
+    !newDesc.endsWith('}') &&
+    !newDesc.endsWith('\'') &&
+    !newDesc.endsWith('\"')
+  ) {
     newDesc = `${newDesc}.`
   }
 
   if (window.innerWidth < 700) {
     // return first sentence
-    return newDesc.match(/^[^.!?]*[.!?](?:\s|$)/)[0]
+    return newDesc.match(/^[^.!?…]*[.!?…](?:\s|$)/)[0];
   }
 
   // return first two sentences
-  return newDesc.match(/(.*?[.!?])(\s+.*?[.!?])?/)[0]
+  return newDesc.match(/(.*?[.!?…])(\s+.*?[.!?…])?/)[0];
 }
 
 function normalizeAppTitle(title) {
