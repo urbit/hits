@@ -26,10 +26,6 @@ function normalizeAppDescription(info) {
 
   let newDesc = `${info[0].toUpperCase()}${info.substring(1)}`
 
-  if (newDesc.endsWith('...')) {
-    newDesc = `${newDesc.substring(0, newDesc.length - 3)}…`
-  }
-
   if (
     !newDesc.endsWith('.') &&
     !newDesc.endsWith('…') &&
@@ -44,17 +40,15 @@ function normalizeAppDescription(info) {
     newDesc = `${newDesc}.`
   }
 
-  if (!newDesc.endsWith('.')) {
+  if (window.innerWidth < 700) {
+    // return first sentence or nothing
+    newDesc = newDesc.match(/^[^.!?…]*[.!?…](?:\s|$)/)?.[0] ?? ''
     return newDesc
   }
 
-  if (window.innerWidth < 700) {
-    // return first sentence
-    return newDesc.match(/^[^.!?…]*[.!?…](?:\s|$)/)[0];
-  }
-
-  // return first two sentences
-  return newDesc.match(/(.*?[.!?…])(\s+.*?[.!?…])?/)[0];
+  // return first two sentences or nothing
+  newDesc = newDesc.match(/(.*?[.!?…])(\s+.*?[.!?…])?/)?.[0] ?? ''
+  return newDesc
 }
 
 function normalizeAppTitle(title) {
