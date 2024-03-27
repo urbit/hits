@@ -5,7 +5,6 @@ export default function useHitsState() {
   const [trendingApps, setTrendingApps] = useState([])
 
   const chartLimit = 40
-  const installLimit = 25
 
   function sortAllTimeRankings(rankings) {
     return rankings.sort((a, b) => {
@@ -19,225 +18,181 @@ export default function useHitsState() {
   }
 
   function sortTrendingApps(apps) {
-    // get most recent known install datetime for any
-    // app in milliseconds; use this rather than current
-    // datetime so results are deterministic based on the
-    // app's current state
     const mostRecentInstall = apps.reduce((mostRecentInstall, app) => {
       const mostRecentAppInstall = app.installs[0]
-
       return mostRecentInstall > mostRecentAppInstall
              ? mostRecentInstall
              : mostRecentAppInstall
     }, 0)
 
     return apps.sort((a, b) => {
+      const installLimit = 25
       const scoreA = a.installs.slice(0, installLimit).reduce((totalScore, install) => {
-        const timeDiff = new Date(mostRecentInstall) - new Date(install);
+        const timeDiff = new Date(mostRecentInstall) - new Date(install)
         // TODO adjust score decay rate based on testing
         // score decays based on how many 24-hour periods
         // are in the timeDiff
-        const score = Math.exp(-timeDiff / 86400000);
-
-        return totalScore + score;
-      }, 0);
+        const score = Math.exp(-timeDiff / 86400000)
+        return totalScore + score
+      }, 0)
 
       const scoreB = b.installs.slice(0, installLimit).reduce((totalScore, install) => {
-        const timeDiff = new Date(mostRecentInstall) - new Date(install);
-        const score = Math.exp(-timeDiff / 86400000);
+        const timeDiff = new Date(mostRecentInstall) - new Date(install)
+        const score = Math.exp(-timeDiff / 86400000)
+        return totalScore + score
+      }, 0)
 
-        return totalScore + score;
-      }, 0);
-
-      return scoreB - scoreA;
-    });
+      return scoreB - scoreA
+    })
   }
 
   function receiveUiUpdate(uiUpdate) {
     switch (uiUpdate.updateTag) {
       case 'score-update':
-        // TODO remove console log
         console.log('score-update for ', uiUpdate.desk)
 
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-              ) {
+            if (ranking.desk === uiUpdate.desk && ranking.publisher === uiUpdate.ship) {
               return { ...ranking, score: uiUpdate.score }
             }
             return ranking
           })
 
-          return sortAllTimeRankings(newAllTimeRankings)
+          return sortAllTimeRankings(newAllTimeRankings).slice(0, chartLimit)
         })
 
         setTrendingApps(prevApps => {
-          const newTrendingApps = prevApps.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
-              return { ...ranking, score: uiUpdate.score }
+          const newTrendingApps = prevApps.map(app => {
+            if (app.desk === uiUpdate.desk && app.publisher === uiUpdate.ship) {
+              return { ...app, score: uiUpdate.score }
             }
+            return app
           })
 
-          return newTrendingApps
+          return sortTrendingApps(newTrendingApps).slice(0, chartLimit)
         })
         break
 
       case 'version-update':
-        // TODO remove console log
         console.log('version-update for ', uiUpdate.desk)
 
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
+            if (ranking.desk === uiUpdate.desk && ranking.publisher === uiUpdate.ship) {
               return { ...ranking, version: uiUpdate.version }
             }
+            return ranking
           })
 
-          return newAllTimeRankings
+          return sortAllTimeRankings(newAllTimeRankings).slice(0, chartLimit)
         })
 
         setTrendingApps(prevApps => {
-          const newTrendingApps = prevApps.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
-              return { ...ranking, version: uiUpdate.version }
+          const newTrendingApps = prevApps.map(app => {
+            if (app.desk === uiUpdate.desk && app.publisher === uiUpdate.ship) {
+              return { ...app, version: uiUpdate.version }
             }
+            return app
           })
 
-          return newTrendingApps
+          return sortTrendingApps(newTrendingApps).slice(0, chartLimit)
         })
         break
 
       case 'installs-update':
-        // TODO remove console log
         console.log('installs-update for ', uiUpdate.desk)
 
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
+            if (ranking.desk === uiUpdate.desk && ranking.publisher === uiUpdate.ship) {
               return { ...ranking, installs: uiUpdate.installs }
             }
+            return ranking
           })
 
-          return newAllTimeRankings
+          return sortAllTimeRankings(newAllTimeRankings).slice(0, chartLimit)
         })
 
         setTrendingApps(prevApps => {
-          const newTrendingApps = prevApps.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
-              return { ...ranking, installs: uiUpdate.installs }
+          const newTrendingApps = prevApps.map(app => {
+            if (app.desk === uiUpdate.desk && app.publisher === uiUpdate.ship) {
+              return { ...app, installs: uiUpdate.installs }
             }
+            return app
           })
 
-          return sortTrendingApps(newTrendingApps)
+          return sortTrendingApps(newTrendingApps).slice(0, chartLimit)
         })
         break
 
       case 'docket-update':
-        // TODO remove console log
         console.log('docket-update for ', uiUpdate.desk)
 
         setAllTimeRankings(prevRankings => {
           const newAllTimeRankings = prevRankings.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
+            if (ranking.desk === uiUpdate.desk && ranking.publisher === uiUpdate.ship) {
               return { ...ranking, docket: uiUpdate.docket }
             }
+            return ranking
           })
 
-          return newAllTimeRankings
+          return sortAllTimeRankings(newAllTimeRankings).slice(0, chartLimit)
         })
 
         setTrendingApps(prevApps => {
-          const newTrendingApps = prevApps.map(ranking => {
-            if (
-              ranking.desk === uiUpdate.desk
-              && ranking.publisher === uiUpdate.ship
-            ) {
-              return { ...ranking, docket: uiUpdate.docket }
+          const newTrendingApps = prevApps.map(app => {
+            if (app.desk === uiUpdate.desk && app.publisher === uiUpdate.ship) {
+              return { ...app, docket: uiUpdate.docket }
             }
+            return app
           })
 
-          return newTrendingApps
+          return sortTrendingApps(newTrendingApps).slice(0, chartLimit)
         })
         break
 
-      case 'app-update':
-        // TODO remove console log
-        console.log('app-update for ', uiUpdate.desk)
-
-        if (!uiUpdate.docket.title) {
-          return
-        }
-
-        setTrendingApps(prevApps => {
-          // TODO remove this appIndex check, shouldn't
-          //      need to check for duplicates
-          const appIndex = prevApps.findIndex(app => {
-            return app.desk === uiUpdate.desk
-          })
-
-          if (appIndex === -1) {
-            return sortTrendingApps([...prevApps, {
-              desk: uiUpdate.desk,
-              publisher: uiUpdate.ship,
-              score: uiUpdate.score,
-              version: uiUpdate.version,
-              installs: uiUpdate.installs,
-              docket: uiUpdate.docket,
-            }])
-          } else {
-            return prevApps
+        case 'app-update':
+          if (!uiUpdate.docket.title) {
+            return;
           }
-        })
 
-        if (allTimeRankings.length < chartLimit) {
-            setAllTimeRankings(prevApps => {
-              // TODO remove this appIndex check, shouldn't
-              //      need to check for duplicates
-              const appIndex = prevApps.findIndex(app => {
-                return app.desk === uiUpdate.desk
-              })
-
-              if (appIndex === -1) {
-                return [...prevApps, {
+          setTrendingApps(prevApps => {
+            const newApps = prevApps.find(app => app.desk === uiUpdate.desk)
+              ? prevApps
+              : sortTrendingApps([...prevApps, {
                   desk: uiUpdate.desk,
                   publisher: uiUpdate.ship,
-                  rank: prevApps.length + 1,
                   score: uiUpdate.score,
                   version: uiUpdate.version,
                   installs: uiUpdate.installs,
                   docket: uiUpdate.docket,
-                }]
-              } else {
-                return prevApps
-              }
-            })
-        }
-        break
+                }]).slice(0, chartLimit)
 
-      default:
-        console.log('Unknown uiUpdate: ', uiUpdate)
+            return newApps
+          })
+
+          setAllTimeRankings(prevApps => {
+            const newApps = prevApps.find(ranking => ranking.desk === uiUpdate.desk)
+              ? prevApps
+              : [...prevApps, {
+                  desk: uiUpdate.desk,
+                  publisher: uiUpdate.ship,
+                  score: uiUpdate.score,
+                  version: uiUpdate.version,
+                  installs: uiUpdate.installs,
+                  docket: uiUpdate.docket,
+                }].slice(0, chartLimit)
+
+            return newApps
+          })
+
+          break
+
+        default:
+          console.log('Unknown uiUpdate: ', uiUpdate)
       }
-  }
+    }
 
   return { allTimeRankings, receiveUiUpdate, trendingApps }
 }
