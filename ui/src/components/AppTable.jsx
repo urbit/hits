@@ -119,10 +119,6 @@ function normalizeWebsite(url) {
     return ''
   }
 
-  if (url === '~') {
-    return ''
-  }
-
   let newUrl = url
 
   if (newUrl.startsWith('web+urbitgraph://group/')) {
