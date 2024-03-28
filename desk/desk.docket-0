@@ -4,7 +4,7 @@
     image+'https://storage.googleapis.com/media.urbit.org/apps/%25hits-logo.png'
     base+'hits'
     version+[0 0 1]
-    glob-http+['https://storage.googleapis.com/media.urbit.org/apps/%25hits-v0.2.glob' 0v3.qv18c.r37ls.b69o7.e98pk.an1nb]
+    glob-http+['https://storage.googleapis.com/media.urbit.org/apps/hits-v-0-2-2.glob' 0v4.kcuf1.rp81j.65rhc.1j31f.tq8k4]
     website+'https://github.com/urbit/hits'
     license+'MIT'
 ==
