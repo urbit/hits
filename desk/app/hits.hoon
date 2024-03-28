@@ -78,7 +78,6 @@
 ++  on-watch
   |=  =path
   ^-  (quip card _this)
-  ~&  >  "hits: received subscription to {<path>}"
   ?+  path
     (on-watch:def path)
   ::
@@ -118,7 +117,6 @@
       [%~.~ %gossip %source ~]
     ::
     ::  neighbours listen for new hits from us
-    ~&  >  "hits: received subscription at /gossip/source"
     :_  this
     %+  turn
       ~(tap in local)
@@ -154,7 +152,6 @@
         ~|([%unexepected-mark-fact mark wire] !!)
       ::
           %update-docket
-        ~&  >  "hits: got %update-docket message"
         =+  !<(updated-app=app vase)
         :_  this
         :~  :*  %pass
@@ -521,7 +518,6 @@
     ==
   ::
       [%docket %update =ship =desk ~]
-    ~&  >  "/docket/update for {<desk.pole>}"
     ?+    sign-arvo
         (on-arvo:def `wire`pole sign-arvo)
     ::
