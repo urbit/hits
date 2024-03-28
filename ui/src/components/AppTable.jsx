@@ -64,7 +64,13 @@ function normalizeAppTitle(title) {
     return title;
   }
 
-  return title
+  let newTitle = title
+
+  if (newTitle.startsWith('%')) {
+    newTitle = newTitle.substring(1)
+  }
+
+  return newTitle
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
