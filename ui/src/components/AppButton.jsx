@@ -15,7 +15,7 @@ export default function AppButton({ app, isLoading, isInstalled }) {
 
   useEffect(() => {
     if (isLoading) {
-      const ellipsis = ['', '.\u00A0\u00A0', '..\u00A0', '...']
+      const ellipsis = ['.\u00A0\u00A0', '..\u00A0', '...']
       let index = 0
       const interval = setInterval(() => {
         setAnimatedText(ellipsis[index])
