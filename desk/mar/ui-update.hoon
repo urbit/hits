@@ -49,7 +49,7 @@
               ['info' [%s info]]
               ['color' [%s (scot %ux color)]]
               ['image' [%s ?~(image '' (need image))]]
-              ['website' [%s website]]
+              ['website' [%s ?~((de-purl:html website) '' website)]]
               ['license' [%s license]]
               :-  'version'
               :-  %s
@@ -104,7 +104,7 @@
               ['info' [%s info]]
               ['color' [%s (scot %ux color)]]
               ['image' [%s ?~(image '' (need image))]]
-              ['website' [%s website]]
+              ['website' [%s ?~((de-purl:html website) '' website)]]
               ['license' [%s license]]
               :-  'version'
               :-  %s
