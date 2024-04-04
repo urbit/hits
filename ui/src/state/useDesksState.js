@@ -74,14 +74,12 @@ export default function useDesksState() {
         default:
           return;
       }
-
-    return;
     }
 
-    if ('del-charge' in chargesUpdate) {
-      // TODO add del-charge logic?
-      return;
-    }
+    // if ('del-charge' in chargesUpdate) {
+    //   // TODO add del-charge logic?
+    //   return;
+    // }
   }
 
   return {installedDesks, loadingDesks, receiveDesksUpdate}
