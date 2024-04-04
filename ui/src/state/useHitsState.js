@@ -18,14 +18,18 @@ export default function useHitsState() {
   }
 
   function sortTrendingApps(apps) {
-    const mostRecentInstall = apps.reduce((mostRecentInstall, app) => {
+    const filteredApps = apps.filter(app => {
+      return app.score > 2
+    })
+
+    const mostRecentInstall = filteredApps.reduce((mostRecentInstall, app) => {
       const mostRecentAppInstall = app.installs[0]
       return mostRecentInstall > mostRecentAppInstall
              ? mostRecentInstall
              : mostRecentAppInstall
     }, 0)
 
-    return apps.sort((a, b) => {
+    return filteredApps.sort((a, b) => {
       const installLimit = 25
       const scoreA = a.installs.slice(0, installLimit).reduce((totalScore, install) => {
         const timeDiff = new Date(mostRecentInstall) - new Date(install)
