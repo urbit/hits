@@ -7,7 +7,7 @@ import hitsTitle from './assets/hits.svg'
 import helpIcon from './assets/help.svg'
 
 export function App() {
-  const [listView, setListView] = useState('allTime')
+  const [listView, setListView] = useState('trendingApps')
   const [isHelpVisible, setIsHelpVisible] = useState(false)
   const helpIconRef = useRef(null)
   const helpWindowRef = useRef(null)
@@ -76,8 +76,8 @@ export function App() {
     <div className='app-container'>
       <div className='header'>
         <span className='header-text'>{todaysDate.toUpperCase()}</span>
-        <span id='most-installed' className={`header-text header-link ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>ALL-TIME</span>
         <span id='trending-apps' className={`header-text header-link ${listView === 'trendingApps' ? '' : 'inactive-link'}`} onClick={handleTrendingAppsClick}>TRENDING</span>
+        <span id='most-installed' className={`header-text header-link ${listView === 'allTime' ? '' : 'inactive-link'}`} onClick={handleMostInstalledClick}>ALL-TIME</span>
         <img ref={helpIconRef} className='help-icon' src={helpIcon} alt="help icon" onClick={() => setIsHelpVisible(!isHelpVisible)} />
         <div ref={helpWindowRef} className={`help-window ${isHelpVisible ? 'visible' : ''}`}>
           <p>App rankings are compiled from a local sample of installs among your neighbors.</p>
