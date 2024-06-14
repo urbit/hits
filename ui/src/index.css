@@ -90,8 +90,8 @@ div.title-container {
   height: 100%;
   margin: 0px;
   padding: 0px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 div.title-container img {
@@ -226,6 +226,8 @@ td.app-index {
   text-align: center;
   font-size: 24px;
   border-right: 1px solid var(--color-main);
+  width: 59px;
+  height: 59px;
 }
 
 td.app-name-desc {
