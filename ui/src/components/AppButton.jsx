@@ -10,12 +10,12 @@ function getAppPath(href) {
 }
 
 export default function AppButton({ app, isLoading, isInstalled }) {
-  const [animatedText, setAnimatedText] = useState('')
+  const [animatedText, setAnimatedText] = useState('.\u00A0\u00A0')
   const buttonText = !isInstalled ? 'GET' : 'OPEN'
 
   useEffect(() => {
     if (isLoading) {
-      const ellipsis = ['.\u00A0\u00A0', '..\u00A0', '...']
+      const ellipsis = ['..\u00A0', '...', '.\u00A0\u00A0']
       let index = 0
       const interval = setInterval(() => {
         setAnimatedText(ellipsis[index])
