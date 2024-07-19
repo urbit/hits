@@ -94,7 +94,9 @@
         rankings
       |=  =app
       ^-  ?
-      (gth (~(got by versions) app) base-version)
+      ?|  =(desk.app %neo)
+          (gth (~(got by versions) app) base-version)
+      ==
     |=  =app
     ^-  card
       :*  %give
